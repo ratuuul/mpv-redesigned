@@ -159,9 +159,9 @@
     body.innerHTML = DATA.installFlags.map(function (row, index) {
       return (
         '<tr class="border-b border-white/5 align-top transition-colors hover:bg-white/[0.03]">' +
-          '<td class="py-3 pr-4"><code class="mono text-[0.78rem] text-white/90">' + escapeHtml(row.flag) + '</code></td>' +
+          '<td class="py-3 pr-4"><code class="mono text-[0.78rem] text-white/92">' + escapeHtml(row.flag) + '</code></td>' +
           '<td class="py-3 pr-4"><code class="mono text-[0.74rem] text-brand-300">' + escapeHtml(row.switch) + '</code></td>' +
-          '<td class="py-3 text-sm leading-relaxed text-white/55">' + escapeHtml(row.body) + '</td>' +
+          '<td class="py-3 text-sm leading-relaxed text-white/68">' + escapeHtml(row.body) + '</td>' +
         '</tr>'
       );
     }).join('');
@@ -189,11 +189,11 @@
     host.innerHTML = DATA.faq.map(function (item) {
       return (
         '<details class="group border-b border-white/10">' +
-          '<summary class="flex cursor-pointer list-none items-start justify-between gap-4 py-5 text-left text-[0.98rem] font-medium text-white/90 transition-colors hover:text-white">' +
+          '<summary class="flex cursor-pointer list-none items-start justify-between gap-4 py-5 text-left text-[0.98rem] font-medium text-white/92 transition-colors hover:text-white">' +
             '<span>' + escapeHtml(item.q) + '</span>' +
             '<span class="mono shrink-0 text-sm text-brand-400 transition-transform duration-300 group-open:rotate-45">+</span>' +
           '</summary>' +
-          '<p class="pb-5 pr-8 text-sm leading-relaxed text-white/55">' + escapeHtml(item.a) + '</p>' +
+          '<p class="pb-5 pr-8 text-sm leading-relaxed text-white/68">' + escapeHtml(item.a) + '</p>' +
         '</details>'
       );
     }).join('');
@@ -208,9 +208,9 @@
       return (
         '<tr class="border-b border-white/5 align-top transition-colors hover:bg-white/[0.03]">' +
           '<td class="py-3 pr-4"><kbd>' + escapeHtml(row.keys) + '</kbd></td>' +
-          '<td class="py-3 pr-4 text-sm leading-relaxed text-white/70">' + escapeHtml(row.action) + '</td>' +
-          '<td class="hidden py-3 pr-4 text-xs text-white/40 md:table-cell">' + escapeHtml(row.group) + '</td>' +
-          '<td class="mono hidden py-3 text-xs text-white/30 lg:table-cell">' + escapeHtml(row.source) + '</td>' +
+          '<td class="py-3 pr-4 text-sm leading-relaxed text-white/78">' + escapeHtml(row.action) + '</td>' +
+          '<td class="hidden py-3 pr-4 text-xs text-white/52 md:table-cell">' + escapeHtml(row.group) + '</td>' +
+          '<td class="mono hidden py-3 text-xs text-white/45 lg:table-cell">' + escapeHtml(row.source) + '</td>' +
         '</tr>'
       );
     }).join('');
@@ -348,7 +348,7 @@
           dataIndex: 'action',
           key: 'action',
           sorter: function (a1, b1) { return a1.action.localeCompare(b1.action); },
-          render: function (value) { return R.createElement('span', { className: 'text-white/75' }, value); }
+          render: function (value) { return R.createElement('span', { className: 'text-white/82' }, value); }
         },
         {
           title: 'Group',
@@ -356,7 +356,7 @@
           key: 'group',
           width: 150,
           sorter: function (a1, b1) { return a1.group.localeCompare(b1.group); },
-          render: function (value) { return R.createElement('span', { className: 'text-white/45' }, value); }
+          render: function (value) { return R.createElement('span', { className: 'text-white/56' }, value); }
         },
         {
           title: 'Source',
@@ -364,7 +364,7 @@
           key: 'source',
           width: 130,
           sorter: function (a1, b1) { return a1.source.localeCompare(b1.source); },
-          render: function (value) { return R.createElement('span', { className: 'mono text-white/35' }, value); }
+          render: function (value) { return R.createElement('span', { className: 'mono text-white/48' }, value); }
         }
       ];
 
