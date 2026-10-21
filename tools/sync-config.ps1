@@ -287,32 +287,59 @@ while ($true) {
     Write-Host "  kept (repo only): $($kept.Count)" -ForegroundColor DarkGray
     foreach ($k in $kept) { Write-Host "      $k" -ForegroundColor DarkGray }
 
-    # The key binding reference is generated from config/input.conf and from
-    # the scripts that register their own keys. A script change can therefore
-    # make the committed file stale, and CI fails on a stale file. Regenerate
-    # it here so the merged config and the docs always agree.
-    $gen = Join-Path $repoRoot 'tools\gen-keybindings.ps1'
-    if (Test-Path $gen) {
-        $out = & powershell -NoProfile -ExecutionPolicy Bypass -File $gen 2>&1
-        if ($LASTEXITCODE -eq 0) {
-            Write-Host "  regenerated docs/KEYBINDINGS.md" -ForegroundColor Green
-        } else {
-            Write-Warning "Could not regenerate docs/KEYBINDINGS.md: $out"
-        }
-    }
-
     # Did anything change underneath us while we were copying?
+    #
+    # The stamp is taken over both config trees, because people edit the live
+    # config and the repository copy at the same time. The post-processing
+    # below changes the repository copy on purpose, so it runs AFTER this
+    # check - otherwise the tool would keep seeing its own work as movement.
     $stampAfter = Get-LiveStamp
     Start-Sleep -Seconds 5
     $stampFinal = Get-LiveStamp
     if ($stampAfter -eq $stampFinal -and $attempt -lt 3) {
-        Write-Host '  The live config was still moving. Re-running the merge.' -ForegroundColor Yellow
+        Write-Host '  The config was still moving. Re-running the merge.' -ForegroundColor Yellow
         continue
     }
     if ($stampAfter -ne $stampFinal) {
-        Write-Warning 'The live config changed during the copy. The next run will pick it up.'
+        Write-Warning 'The config changed during the copy. The next run will pick it up.'
     }
     break
+}
+
+# ---------------------------------------------------------------------------
+#  2b. Post-processing
+# ---------------------------------------------------------------------------
+if ($Apply) {
+# A UTF-8 byte order mark at the start of a file is invisible to mpv's
+# LuaJIT, but plain Lua 5.1 - and therefore luac5.1 in CI - refuses to
+# parse the file. Strip it so the two agree.
+$bom = [byte[]](0xEF, 0xBB, 0xBF)
+$stripped = 0
+Get-ChildItem -LiteralPath $repoDir -Recurse -File -Force -ErrorAction SilentlyContinue |
+    Where-Object { $_.Extension -in @('.lua', '.conf', '.md') } |
+    ForEach-Object {
+        $bytes = [IO.File]::ReadAllBytes($_.FullName)
+        if ($bytes.Length -ge 3 -and $bytes[0] -eq $bom[0] -and $bytes[1] -eq $bom[1] -and $bytes[2] -eq $bom[2]) {
+            [IO.File]::WriteAllBytes($_.FullName, $bytes[3..($bytes.Length - 1)])
+            Write-Host "  stripped the byte order mark from $($_.FullName.Substring($repoDir.Length))" -ForegroundColor Yellow
+            $stripped++
+        }
+    }
+if ($stripped -eq 0) { Write-Host '  no byte order marks to strip' -ForegroundColor DarkGray }
+
+# The key binding reference is generated from config/input.conf and from the
+# scripts that register their own keys. A script change can therefore make the
+# committed file stale, and CI fails on a stale file. Regenerate it here so
+# the merged config and the docs always agree.
+$gen = Join-Path $repoRoot 'tools\gen-keybindings.ps1'
+if (Test-Path $gen) {
+    $out = & powershell -NoProfile -ExecutionPolicy Bypass -File $gen 2>&1
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host '  regenerated docs/KEYBINDINGS.md' -ForegroundColor Green
+    } else {
+        Write-Warning "Could not regenerate docs/KEYBINDINGS.md: $out"
+    }
+}
 }
 
 # ---------------------------------------------------------------------------
