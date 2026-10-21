@@ -126,14 +126,18 @@ The uosc skin probes its download folder by writing a file into it. If
 downloader refuses to open - and so does the automatic OpenSubtitles lookup
 (`Alt+o`), which uses the same code path.
 
-Create the folder:
+The current build creates the folder itself, so this should not happen. If it
+does, the path is genuinely unwritable - a read-only install, or a config
+directory on a drive the user cannot write to. Check the path in the message
+and create the folder by hand:
 
 ```powershell
 New-Item -ItemType Directory -Force "$env:APPDATA\mpv\subtitles"
 ```
 
-The installer creates it for you. A config directory that was assembled by
-hand, or one deployed with an older installer, will not have it.
+The installer creates it too, so a directory deployed by `install.ps1` always
+has it. A config directory that was assembled by hand, or one deployed with an
+older installer, may not.
 
 ---
 

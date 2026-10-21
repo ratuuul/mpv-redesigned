@@ -940,6 +940,30 @@ function open_subtitle_downloader()
 		local force_destination = options.subtitles_directory:sub(1, 1) == '!'
 		local subtitles_directory = options.subtitles_directory:sub(force_destination and 2 or 1)
 		probe_directory = mp.command_native({'expand-path', subtitles_directory})
+		-- The folder is part of a working install, but a config directory
+		-- that was assembled by hand (or deployed without the installer) does
+		-- not have it. The probe below writes into the folder, so it has to
+		-- exist first - otherwise the downloader refuses to open even though
+		-- nothing is actually wrong with the path.
+		local function is_dir(path)
+			local info = utils.file_info(path)
+			return info ~= nil and info.is_dir == true
+		end
+		if not is_dir(probe_directory) then
+			-- Lua has no mkdir, and mpv has no mkdir command either, so the
+			-- shell is the only way. `mkdir` is a built-in in cmd.exe and a
+			-- normal command elsewhere.
+			local windows = package.config:sub(1, 1) == '\\'
+			local command = windows
+				and ('mkdir "' .. probe_directory .. '" 2>nul')
+				or ('mkdir -p "' .. probe_directory .. '" 2>/dev/null')
+			os.execute(command)
+			if not is_dir(probe_directory) then
+				mp.osd_message('Subtitle download folder could not be created:\n' .. tostring(probe_directory), 6)
+				mp.msg.error('open_subtitle_downloader: could not create subtitles directory: ' .. tostring(probe_directory))
+				return
+			end
+		end
 		local probe = io.open(probe_directory .. '/.uosc_write_test', 'w')
 		if probe then
 			probe:close()
