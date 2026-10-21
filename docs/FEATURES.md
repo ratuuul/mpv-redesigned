@@ -471,19 +471,30 @@ liquid_glass_min_height_portrait=360
 All of these live in one file and are read by one option table, so mpv never
 logs an "unknown key" warning for them.
 
-### Always-visible controls
+### Controls appear on hover
 
-uosc normally hides the control bar and progress bar until the mouse approaches.
-`script-opts/uosc.conf`:
+uosc hides the control bar and the progress bar until the mouse approaches them.
+`script-opts/uosc.conf` leaves both at their default, hover-only behaviour:
 
 ```ini
-controls_persistency=video
-timeline_persistency=video
+controls_persistency=
+timeline_persistency=
 ```
 
 Valid values are `video`, `paused`, `windowed`, `fullscreen`, `idle`, combined
-with spaces. Remove the lines to return to show-on-hover. The top bar, volume
-and speed indicators stay hover-only.
+with spaces. Set one to make that element permanent while it applies. The top
+bar, volume and speed indicators stay hover-only, and the top bar is switched
+off entirely:
+
+```ini
+top_bar=no
+top_bar_controls=no
+top_bar_title=no
+```
+
+The window title, the close button and the maximise button therefore never
+appear; `f` toggles fullscreen and the title bar of the operating system stays
+hidden as well.
 
 ### Control bar extras
 
@@ -573,19 +584,29 @@ pip_margin=24
 ### Idle screen: photo background
 
 `scripts/bg.lua` fetches a photograph and shows it whenever mpv has nothing to
-play, with the cat and its prompt drawn on top. `Ctrl+Shift+K` fetches another
-one.
+play, with a welcome overlay drawn on top. `Ctrl+Shift+K` fetches another one.
 
 ```ini
 enabled=yes
 keywords=nature,landscape,minimal,city,night
-sources=loremflickr,picsum,unsplash
+sources=picsum
 width=1920
 height=1200
 cache_size=20
-initial_delay=1.5
+initial_delay=0.2
 show_prompt=yes
+prompt=Drop a file or link to play
+font=Geist SemiBold
+font_size=80
+font_sub=Inter Medium
+font_size_sub=32
 ```
+
+The photo is scaled to fill the window (`panscan=1.0`), so there are no black
+bars on the sides. The overlay is typeset in Geist SemiBold and Inter Medium —
+both ship in `fonts/` and are loaded by mpv from there, not installed system
+wide — with a hairline outline and a soft drop shadow so it stays readable over
+a bright photograph.
 
 Photos are cached in `cache\bg\`, bounded by `cache_size` (oldest deleted first),
 so going back to the idle screen does not always need the network.
@@ -596,14 +617,42 @@ photo at startup.
 panel this was tuned on. Ask for something near your own screen resolution or
 the photo will be upscaled.
 
-The three sources are public random-photo services, not part of this
-repository. They are tried in order, so one failing source costs about a second
-before the next answers (`loremflickr` returns HTTP errors often enough to be
-noticeable; `picsum` is the reliable one). Set `enabled=no` if you are offline,
-would rather not make those requests, or want the skin's own idle background
-back.
+Only `picsum` is enabled. The script still understands `loremflickr` and
+`unsplash`, but both were dead ends when they were checked: loremflickr answers
+HTTP 500 on every request and the random endpoint of unsplash was retired
+(HTTP 503). Leaving them in the list only cost about 1.3 s per photo, because
+every request had to fail first. Set `enabled=no` if you are offline, would
+rather not make those requests, or want the skin's own idle background back.
 
 **Tune:** `script-opts/bg.conf`.
+
+### Reopen the last media with a double-click
+
+`scripts/lasthit.lua` binds `MBTN_LEFT_DBL`. Double-clicking the window opens
+the last real media that was played and resumes it at the exact position it was
+left at.
+
+The background photograph is not a candidate — the script skips everything that
+lives in `cache/bg/` — so the last video wins over the last photo.
+
+The position comes from mpv's own watch-later store. Two options make that
+reliable:
+
+```ini
+resume-playback=yes
+resume-playback-check-mtime=no
+write-filename-in-watch-later-config=yes
+```
+
+`resume-playback-check-mtime` is off because a remote file has no modification
+time, and the check silently drops the saved position for every HTTP stream.
+`write-filename-in-watch-later-config` records the source path inside the
+watch-later entry, which is what lets the script map a watch-later file back to
+the media it belongs to.
+
+**Tune:** `scripts/lasthit.lua` and `mpv.conf`. The binding is in
+`input.conf`; the skin used to swallow every double click, so the force binding
+that did that was removed from `scripts/uosc/lib/cursor.lua`.
 
 ### Recent files
 
@@ -642,13 +691,20 @@ identically in both skins. See [ARCHITECTURE.md](ARCHITECTURE.md).
 ```ini
 save-position-on-quit=yes
 resume-playback=yes
-resume-playback-check-mtime=yes
+resume-playback-check-mtime=no
+write-filename-in-watch-later-config=yes
 watch-later-options=start,speed,pitch,aid,sid,sub-delay,sub-scale
 save-watch-history=yes
 ```
 
 Only the listed properties are restored. That is deliberate: restoring volume
 and mute state makes a player feel broken when you switch outputs.
+
+`resume-playback-check-mtime=no` is required for remote media: a HTTP stream has
+no modification time, and with the check enabled mpv quietly discards the saved
+position for every one of them. `write-filename-in-watch-later-config=yes`
+writes the source path into the watch-later entry, which is what allows the
+double-click action to find the position again.
 
 `save-watch-history=yes` is not an mpv default; `recentmenu.lua` and
 `select.lua` both use it.

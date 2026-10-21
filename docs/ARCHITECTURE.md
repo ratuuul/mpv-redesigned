@@ -51,9 +51,13 @@ command line  >  --profile=  >  mpv.conf  >  include= (in include order)  >  mpv
 override anything above it. `apply-profile` at runtime applies on top of
 everything.
 
-`--config-dir` also relocates `~~/`, `cache/`, `watch_later/` and
-`screenshots/`, which is what makes the installer's verification run and the
-scratch-directory test possible without touching a real installation.
+`--config-dir` relocates `~~/`, which is what makes the installer's verification
+run and the scratch-directory test possible without touching a real
+installation. It does **not** relocate the runtime state: since mpv 0.37 that
+lives in its own state directory (`%LOCALAPPDATA%\mpv` on Windows,
+`~/.local/state/mpv` on Linux), so `cache/`, `watch_later/` and
+`watch_history.jsonl` stay where they are no matter where the configuration is
+installed.
 
 ## Why the config is split into conf/*.conf
 
@@ -157,6 +161,58 @@ The shim is also where per-action policy lives: how much a wheel notch seeks,
 whether the speed change is clamped, whether the OSD is suppressed because the
 skin is already drawing feedback. That policy has to live in one place or the
 two skins drift apart.
+
+## Why the idle background and the double-click are separate scripts
+
+`bg.lua` and `lasthit.lua` both look at "what was played last", and they still
+belong in two files.
+
+`bg.lua` **writes** the history: every photograph it fetches is loaded through
+`loadfile`, so it ends up in mpv's watch history and in `recent.json` like any
+other file. `lasthit.lua` **reads** the history to find the last real media.
+If they shared a file, the reader would have to know about the writer's own
+entries, and the "is this a background photograph?" rule would live in the same
+place as the resume logic.
+
+Split, the rule is one predicate in one place:
+
+```lua
+local function is_background(path, title)
+    local p = path:gsub('\\', '/'):lower()
+    if p:find('/cache/bg/', 1, true) then return true end
+    if title and tostring(title):lower() == 'background' then return true end
+    return false
+end
+```
+
+The same split keeps the failure modes apart. `bg.lua` needs the network and
+can fail without breaking anything; `lasthit.lua` needs the state directory and
+must never prevent mpv from starting. Two scripts, two failure domains.
+
+## Why the state directory is not the config directory
+
+mpv splits the configuration from the state:
+
+| | Windows | Linux |
+|---|---|---|
+| configuration | `%APPDATA%\mpv` | `~/.config/mpv` |
+| state | `%LOCALAPPDATA%\mpv` | `~/.local/state/mpv` |
+
+The state directory holds `cache/`, `watch_later/` and `watch_history.jsonl` -
+everything that changes on every run. Keeping it out of the configuration
+directory means the configuration can be copied, versioned, reinstalled or
+deleted without touching the resume points or the photo cache.
+
+Two consequences the configuration depends on:
+
+- `lasthit.lua` reads the watch-later store from the **state** directory, not
+  from the configuration directory.
+- `resume-playback-check-mtime=no` is set, because a remote file has no
+  modification time and the check would silently discard the saved position
+  for every HTTP stream.
+
+The installer still carries an old `watch_later/` across from a backup, for
+configurations that were created before mpv made this split.
 
 ## Why d3d11 and not Vulkan
 

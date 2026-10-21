@@ -1,0 +1,93 @@
+name: Bug report
+description: Something in the configuration does not work as documented.
+title: "[bug]: "
+labels: ["bug", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this.
+
+        Please do not paste a log that still contains personal paths. Search the
+        log for your user name before attaching it.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What did you see, and what did you expect instead?
+      placeholder: The skin loads but the control bar never appears, even when the mouse is at the bottom of the window.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: A short list. A file, a key press, a command.
+      placeholder: |
+        1. Start mpv with no file
+        2. Press Alt+s
+        3. The menu does not open
+    validations:
+      required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Windows 11
+        - Windows 10
+        - Linux
+        - macOS
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: mpv-version
+    attributes:
+      label: mpv version
+      description: The output of `mpv --version`.
+      placeholder: "mpv 0.41.0-dev ..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: skin
+    attributes:
+      label: Which skin is active
+      options:
+        - Liquid Glass (the default)
+        - ModernZ
+        - Not sure
+    validations:
+      required: true
+
+  - type: input
+    id: install-method
+    attributes:
+      label: How was the configuration installed
+      placeholder: "install.ps1", "install.sh", "copied by hand"
+    validations:
+      required: false
+
+  - type: textarea
+    id: log
+    attributes:
+      label: Log output
+      description: |
+        Produce it with:
+        `mpv --log-file=mpv.log --msg-level=all=debug`
+        Paste only the lines around the problem.
+      render: text
+    validations:
+      required: false
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+    validations:
+      required: false

@@ -1,0 +1,58 @@
+name: Feature request
+description: Suggest an option, a script or a change to the configuration.
+title: "[feature]: "
+labels: ["enhancement", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A good request explains the problem first and the solution second.
+        "I want to be able to X" is more useful than "add option Y".
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What are you trying to do that the configuration does not support?
+      placeholder: I want the seek bar to show the chapter name while I scrub.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you would like to happen
+      description: Describe the behaviour, not the implementation. If you have a specific option in mind, say so.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part of the configuration
+      options:
+        - Skins and the interface
+        - Video and decoding
+        - Audio
+        - Subtitles
+        - YouTube and streaming
+        - Scripts
+        - Installer and tooling
+        - Documentation
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you considered
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: The feature does not already exist in the documentation
+        - label: I checked the issue tracker for a duplicate

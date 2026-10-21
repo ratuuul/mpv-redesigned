@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Installation problem
+    url: https://github.com/ratuuul/mpv-redesigned/blob/main/docs/INSTALL.md#troubleshooting
+    about: The installation guide answers most first-run questions.
+  - name: A key does not do what the documentation says
+    url: https://github.com/ratuuul/mpv-redesigned/blob/main/docs/KEYBINDINGS.md
+    about: The complete key map, generated from config/input.conf.
+  - name: Report a security problem
+    url: https://github.com/ratuuul/mpv-redesigned/blob/main/SECURITY.md#reporting-a-vulnerability
+    about: Security problems go through a private channel, not the issue tracker.

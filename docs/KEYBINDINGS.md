@@ -153,6 +153,12 @@ draws its own feedback. The keymap does not change when you switch skins.
 |---|---|---|
 | `Ctrl+Shift+K` | Idle photo background (scripts/bg.lua + script-opts/bg.conf). | `script-binding bg/next` |
 
+## Reopen last media
+
+| Key | Action | mpv command |
+|---|---|---|
+| `MBTN_LEFT_DBL` | from the exact position it was left at (scripts/lasthit.lua). | `script-binding lasthit/play` |
+
 ## Registered by the scripts themselves
 
 These keys are registered at load time by the script named here, so they
@@ -176,6 +182,7 @@ are provided by the scripts in `config/scripts/`, not by mpv itself.
 | Binding | Provided by |
 |---|---|
 | `bg/next` | `scripts/bg.lua` |
+| `lasthit/play` | unknown |
 | `quality_menu/audio_formats_toggle` | `scripts/quality-menu.lua` |
 | `quality_menu/reload` | `scripts/quality-menu.lua` |
 | `quality_menu/video_formats_toggle` | `scripts/quality-menu.lua` |
