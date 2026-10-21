@@ -115,6 +115,28 @@ should exist does nothing, check the log for `[e][input]` first.
 
 ---
 
+## The subtitle downloader never opens
+
+```
+[e][uosc] open_subtitle_downloader: subtitles_directory not writable: C:\...\mpv\subtitles
+```
+
+The uosc skin probes its download folder by writing a file into it. If
+`subtitles\` does not exist under the config directory, the probe fails and the
+downloader refuses to open - and so does the automatic OpenSubtitles lookup
+(`Alt+o`), which uses the same code path.
+
+Create the folder:
+
+```powershell
+New-Item -ItemType Directory -Force "$env:APPDATA\mpv\subtitles"
+```
+
+The installer creates it for you. A config directory that was assembled by
+hand, or one deployed with an older installer, will not have it.
+
+---
+
 ## A Lua command does nothing
 
 mpv's command API takes the command and its arguments as **separate** parameters:
