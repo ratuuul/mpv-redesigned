@@ -269,6 +269,8 @@ want downloads elsewhere.
 | `--force` | Replace an existing configuration without asking. |
 | `--config-dir <path>` | Deploy somewhere other than the default (`$MPV_CONFIG_DIR` → `$XDG_CONFIG_HOME/mpv` → `~/.config/mpv`). |
 | `--backup-dir <path>` | Put the timestamped backup in this directory (default: next to the configuration directory). |
+| `--no-backup` | Do not keep a backup. The existing configuration is removed. Destructive. |
+| `--no-history` | Do not carry `watch_later/` and `screenshots/` over from the configuration being replaced. |
 | `--no-yt-dlp` | Skip the yt-dlp download. |
 | `--no-fonts` | Skip installing the fonts. |
 | `--skin <liquidglass\|modernz>` | Activate this skin (default: liquidglass). |
@@ -501,7 +503,7 @@ again.
 - Nothing is installed system-wide; the scripts never use `sudo`.
 - yt-dlp is an unsigned binary from its official upstream; the uosc skin
   bundles `ziggy-windows.exe` (Windows only). See
-  [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for bundled components.
+  [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md) for bundled components.
 - Runtime state (`mpv.log`, `recent.json`, watch history, screenshots, cache)
   is never deployed, so the installer cannot leak a machine's state or
   overwrite your own history on a re-install.

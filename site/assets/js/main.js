@@ -336,10 +336,16 @@
     var a = global.antd;
     var R = global.React;
     var RD = global.ReactDOM;
-    if (!a || !R || !RD || !RD.createRoot) return false;
+    if (!a || !R || !RD || !RD.createRoot) {
+      showOnly($('#bindings-plain'), true);
+      return false;
+    }
 
     var host = $('#bindings-antd');
-    if (!host) return false;
+    if (!host) {
+      showOnly($('#bindings-plain'), true);
+      return false;
+    }
 
     function render() {
       var rows = BindingStore.filtered();
@@ -415,6 +421,7 @@
       swapWhenReady(host, $('#bindings-plain'));
       return true;
     } catch (err) {
+      showOnly($('#bindings-plain'), true);
       return false;
     }
   }
@@ -715,6 +722,7 @@
     initThree();
     mountStatsAnt();
     mountFaqAnt();
+    mountBindingsAnt();
   }
 
   /* -------------------------------------------------- alpine components -- */

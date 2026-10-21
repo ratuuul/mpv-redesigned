@@ -2,6 +2,8 @@
 
 A tuned, single-command [mpv](https://mpv.io) configuration. Liquid Glass control bar, a full-quality `gpu-next` video pipeline, WASAPI audio, designed subtitle typography, and YouTube tooling — a real format picker, subtitles in every language, SponsorBlock, clip cutting, downloads and picture-in-picture. Installs with one command and backs up your existing config first.
 
+**Landing page: https://ratuuul.github.io/mpv-redesigned/**
+
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="License: MIT"></a>
   <a href="https://mpv.io"><img src="https://img.shields.io/badge/mpv-0.41%2B-blue" alt="mpv 0.41+"></a>
@@ -46,11 +48,15 @@ cd mpv-redesigned
 powershell -ExecutionPolicy Bypass -File .\install.ps1
 ```
 
-On Linux (installer arriving from the parallel agent):
+On Linux and macOS, run:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.sh | bash
 ```
+
+The bash installer mirrors the PowerShell one: it backs up what it finds,
+deploys the configuration into `~/.config/mpv`, downloads yt-dlp and checks
+that the configuration parses. Run `bash install.sh --help` for its flags.
 
 What it does:
 
@@ -187,8 +193,9 @@ Annotated tree (paths relative to the repository root):
 ```
 mpv-redesigned/
 ├─ install.ps1              Windows installer — one-click (irm | iex or from a clone)
-├─ install.sh               Linux installer — added in parallel (not yet in the repo)
+├─ install.sh               Linux / macOS installer (bash)
 ├─ uninstall.ps1            Backup-or-delete the installed configuration
+├─ uninstall.sh             Backup-or-delete the installed configuration (bash)
 ├─ config/                  Exactly what lands in %APPDATA%\mpv (Windows) / ~/.config/mpv (Linux)
 │  ├─ mpv.conf              Master file; includes conf/*.conf
 │  ├─ input.conf            One keymap, routed through nav_shim for both skins
@@ -217,14 +224,15 @@ mpv-redesigned/
 │  ├─ fonts/                Geist, Inter, Source Sans 3, Material Icons
 │  ├─ skins/modernz/        Parked alternative skin
 │  ├─ switch-skin.ps1/.cmd  Swap the active skin (Windows)
-│  ├─ switch-skin.sh        Swap the active skin (Linux, added in parallel)
 │  └─ README.md             Config's own reference notes
+├─ scripts/switch-skin.sh   Swap the active skin (Linux / macOS)
 ├─ docs/                    INSTALL, FEATURES, KEYBINDINGS, SKINS, ARCHITECTURE, TROUBLESHOOTING
 ├─ tools/                   gen-keybindings.ps1, sync-config.ps1
 ├─ licenses/                Full licence texts
 ├─ LICENSE                  MIT (original work)
 ├─ THIRD_PARTY_NOTICES.md   Per-component attribution
-└─ site/assets/images/      hero-idle, player-controls, volume-hover, menu-autosubs
+├─ site/                    The GitHub Pages landing page (index.html + assets)
+└─ .github/workflows/       CI: validate, pages
 ```
 
 Shipped scripts and what each does:
@@ -366,7 +374,7 @@ Navigation keys route through `scripts/nav_shim.lua`, so they behave identically
 | | |
 |---|---|
 | Windows | 10 or 11, x86-64; PowerShell 5.1 (built in) or PowerShell 7. Installer target, fully verified. |
-| Linux | X11 / Wayland. The config is cross-platform; `install.sh` and `scripts/switch-skin.sh` are being added in parallel — best-effort until they land. |
+| Linux / macOS | X11 / Wayland. `install.sh` and `scripts/switch-skin.sh` ship with the repository. The configuration is cross-platform; the Linux path is verified by dry runs and syntax checks, not by a full install on Linux hardware. |
 | mpv | 0.41+ (built and tested against mpv 0.41-dev / libplacebo 7.358.0). |
 | yt-dlp | Fetched by the installer into the config directory (official release). |
 | Node.js | Optional, on `PATH` — required for full-quality YouTube (`js-runtimes=node`). Not installed by the installer. |
@@ -394,7 +402,7 @@ Everything else — other GPUs, other mpv builds, Wayland, non-Windows — is be
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute |
 | [SECURITY.md](SECURITY.md) | Security policy and disclosure |
 
-`docs/README.md`, `CONTRIBUTING.md` and `SECURITY.md` are maintained by the docs agent and arrive in parallel — the links point at their intended locations.
+The landing page for this project lives at **https://ratuuul.github.io/mpv-redesigned/** and is built from `site/` by the `pages` workflow on every push to `main`.
 
 ## Privacy & safety
 

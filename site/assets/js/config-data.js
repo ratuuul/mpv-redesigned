@@ -301,6 +301,11 @@
         body: 'Comment-based help for every switch, the default install directory and two worked examples.'
       },
       {
+        flag: '--version',
+        switch: '—',
+        body: 'Print the version and exit.'
+      },
+      {
         flag: '--dry-run',
         switch: '-DryRun',
         body: 'Prints every planned download, backup and copy, then writes nothing at all.'
@@ -311,39 +316,44 @@
         body: 'Deploy over an existing configuration without stopping to ask.'
       },
       {
-        flag: '--backup-dir',
-        switch: 'derived from -InstallDir',
-        body: 'The previous configuration is moved to mpv-backup-timestamp next to the install directory, never deleted.'
+        flag: '--config-dir <path>',
+        switch: '-InstallDir <path>',
+        body: 'Target directory. The configuration home on Linux, the roaming application data on Windows.'
       },
       {
-        flag: '--no-yt-dlp',
-        switch: '-ConfigOnly',
-        body: 'Skip dependency installation entirely: no mpv download, no yt-dlp download, configuration only.'
-      },
-      {
-        flag: '--no-fonts',
-        switch: 'edit the source copy',
-        body: 'Fonts ship inside the configuration tree, so they follow the copy. Remove the fonts folder to leave them out.'
-      },
-      {
-        flag: '--skin',
-        switch: 'switch-skin.ps1 -Skin <name>',
-        body: 'Swap the active skin between Liquid Glass and ModernZ without touching the rest of the configuration.'
-      },
-      {
-        flag: '--install-dir',
-        switch: '-InstallDir',
-        body: 'Target directory. Defaults to the mpv folder in the roaming application data.'
+        flag: '--backup-dir <path>',
+        switch: '—',
+        body: 'Where the timestamped backup goes. Windows always keeps it next to the install directory.'
       },
       {
         flag: '--no-backup',
         switch: '-NoBackup',
-        body: 'Overwrite the existing configuration without moving it aside first.'
+        body: 'Remove the existing configuration instead of moving it aside. Destructive.'
       },
       {
         flag: '--no-history',
         switch: '-NoHistory',
         body: 'Do not carry watch_later and screenshots over from the configuration being replaced.'
+      },
+      {
+        flag: '--no-yt-dlp',
+        switch: '-ConfigOnly',
+        body: 'Skip the yt-dlp download. On Windows -ConfigOnly also skips the mpv download.'
+      },
+      {
+        flag: '--no-fonts',
+        switch: '—',
+        body: 'Skip installing the fonts. On Windows they ship inside the configuration tree and follow the copy.'
+      },
+      {
+        flag: '--skin <name>',
+        switch: 'switch-skin.ps1 -Skin <name>',
+        body: 'Swap the active skin between Liquid Glass and ModernZ without touching the rest of the configuration.'
+      },
+      {
+        flag: '--uninstall',
+        switch: 'uninstall.ps1',
+        body: 'Run the uninstaller instead of the installer. The configuration is moved aside, never deleted.'
       }
     ],
 

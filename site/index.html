@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en" class="scroll-smooth">
 <head>
 <meta charset="utf-8">
@@ -174,11 +174,11 @@
           <article class="glass p-5">
             <div class="flex items-center justify-between gap-3">
               <span class="chip chip-cyan">Linux &middot; bash</span>
-              <button type="button" class="rounded-lg border border-white/12 bg-white/[0.05] px-2.5 py-1 text-[0.7rem] font-semibold text-white/75 transition-colors hover:border-white/25 hover:text-white" data-copy="git clone --depth 1 https://github.com/ratuuul/mpv-redesigned.git ~/.config/mpv">
+              <button type="button" class="rounded-lg border border-white/12 bg-white/[0.05] px-2.5 py-1 text-[0.7rem] font-semibold text-white/75 transition-colors hover:border-white/25 hover:text-white" data-copy="curl -fsSL https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.sh | bash">
                 <span data-copy-label>Copy</span>
               </button>
             </div>
-            <pre class="shell-cmd mt-4">git clone --depth 1 https://github.com/ratuuul/mpv-redesigned.git ~/.config/mpv</pre>
+            <pre class="shell-cmd mt-4">curl -fsSL https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.sh | bash</pre>
           </article>
         </div>
       </div>
@@ -319,9 +319,9 @@
         </div>
 
         <div class="lg:col-span-8">
-          <div data-tab-panel="0" x-show="active === 0" x-transition.opacity.duration.300ms x-cloak>
-            <figure class="frame" id="shot-0">
-              <img src="assets/images/hero-idle.png" alt="The idle welcome screen with a background photograph and the prompt on top" width="1920" height="1200" loading="lazy" decoding="async">
+          <div id="shot-0" data-tab-panel="0" x-show="active === 0" x-transition.opacity.duration.150ms x-cloak>
+            <figure class="frame aspect-[17/10]">
+              <img class="h-full w-full object-contain" src="assets/images/hero-idle.png" alt="The idle welcome screen with a background photograph and the prompt on top" width="1700" height="1000" loading="lazy" decoding="async">
             </figure>
             <p class="mt-5 text-sm leading-relaxed text-white/50">
               Nothing loaded, and it still looks finished. A cached photograph sits behind the window with the
@@ -329,9 +329,9 @@
             </p>
           </div>
 
-          <div data-tab-panel="1" x-show="active === 1" x-transition.opacity.duration.300ms x-cloak>
-            <figure class="frame" id="shot-1">
-              <img src="assets/images/player-controls.png" alt="The Liquid Glass control bar with a translucent timeline over a playing video" width="1920" height="1200" loading="lazy" decoding="async">
+          <div id="shot-1" data-tab-panel="1" x-show="active === 1" x-transition.opacity.duration.150ms x-cloak>
+            <figure class="frame aspect-[17/10]">
+              <img class="h-full w-full object-contain" src="assets/images/player-controls.png" alt="The Liquid Glass control bar with a translucent timeline over a playing video" width="1500" height="900" loading="lazy" decoding="async">
             </figure>
             <p class="mt-5 text-sm leading-relaxed text-white/50">
               The control bar stays on screen while the picture plays: a hairline timeline, a soft translucency,
@@ -339,9 +339,9 @@
             </p>
           </div>
 
-          <div data-tab-panel="2" x-show="active === 2" x-transition.opacity.duration.300ms x-cloak>
-            <figure class="frame" id="shot-2">
-              <img src="assets/images/volume-hover.png" alt="The volume slider shown while the pointer hovers over the speaker icon" width="1920" height="1200" loading="lazy" decoding="async">
+          <div id="shot-2" data-tab-panel="2" x-show="active === 2" x-transition.opacity.duration.150ms x-cloak>
+            <figure class="frame aspect-[17/10]">
+              <img class="h-full w-full object-contain" src="assets/images/volume-hover.png" alt="The volume slider shown while the pointer hovers over the speaker icon" width="1500" height="900" loading="lazy" decoding="async">
             </figure>
             <p class="mt-5 text-sm leading-relaxed text-white/50">
               Centred macOS-style overlays appear where the pointer is, with the volume slider drawn as one
@@ -349,9 +349,9 @@
             </p>
           </div>
 
-          <div data-tab-panel="3" x-show="active === 3" x-transition.opacity.duration.300ms x-cloak>
-            <figure class="frame" id="shot-3">
-              <img src="assets/images/menu-autosubs.png" alt="The menu panel listing the subtitle tracks found by the automatic lookup" width="1920" height="1200" loading="lazy" decoding="async">
+          <div id="shot-3" data-tab-panel="3" x-show="active === 3" x-transition.opacity.duration.150ms x-cloak>
+            <figure class="frame aspect-[17/10]">
+              <img class="h-full w-full object-contain" src="assets/images/menu-autosubs.png" alt="The menu panel listing the subtitle tracks found by the automatic lookup" width="1500" height="900" loading="lazy" decoding="async">
             </figure>
             <p class="mt-5 text-sm leading-relaxed text-white/50">
               The menu panel matches the skin: a rounded sheet, a hairline border and the same type scale as the
@@ -669,6 +669,7 @@ keep-open-pause=yes</pre>
           <button type="button" class="tab-rail flex-1 text-center sm:text-left" data-tab="1" x-on:click="select(1)" :class="{ 'is-active': active === 1 }" role="tab" aria-selected="false" aria-controls="install-1">Linux</button>
         </div>
 
+        <div class="min-h-[26rem]">
         <div class="glass mt-4 p-6" id="install-0" data-tab-panel="0" x-show="active === 0" x-transition.opacity.duration.300ms x-cloak>
           <div class="flex items-center justify-between gap-3">
             <span class="chip">Windows 10 or 11 &middot; PowerShell</span>
@@ -699,15 +700,16 @@ keep-open-pause=yes</pre>
           </div>
           <pre class="shell-cmd mt-4">git clone --depth 1 https://github.com/ratuuul/mpv-redesigned.git ~/.config/mpv</pre>
           <p class="mt-4 text-xs leading-relaxed text-white/40">
-            mpv reads the configuration directory directly, so no installer is needed. Install mpv and yt-dlp
-            with your package manager first.
+            The player reads that directory directly, so there is nothing to install and nothing to run. The
+            configuration is platform neutral; only the one-line installer in the repository is Windows specific.
           </p>
           <ol class="mt-5 flex flex-col gap-3 text-sm text-white/55">
             <li class="flex gap-3"><span class="mono shrink-0 text-neon-cyan">01</span>Install mpv and yt-dlp from the distribution package manager.</li>
-            <li class="flex gap-3"><span class="mono shrink-0 text-neon-cyan">02</span>Clone the repository straight into the configuration directory as shown above.</li>
+            <li class="flex gap-3"><span class="mono shrink-0 text-neon-cyan">02</span>Clone the repository straight into the configuration directory, as shown above.</li>
             <li class="flex gap-3"><span class="mono shrink-0 text-neon-cyan">03</span>Keep the yt-dlp options line in the master file, including the JavaScript runtime hint.</li>
             <li class="flex gap-3"><span class="mono shrink-0 text-neon-cyan">04</span>Start the player with a file, a link, or a folder to play everything in it.</li>
           </ol>
+        </div>
         </div>
       </div>
 

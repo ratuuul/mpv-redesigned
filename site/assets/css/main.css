@@ -30,6 +30,14 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+/* The utility framework may be blocked, so the one class the page relies on
+   for showing and hiding layers is defined here as well. It is deliberately
+   important, because a layer must never stay visible next to its
+   enhanced replacement. */
+.hidden {
+  display: none !important;
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--nav-h) + 1.25rem);

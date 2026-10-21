@@ -46,6 +46,8 @@ DRY_RUN=0
 FORCE=0
 NO_YTDLP=0
 NO_FONTS=0
+NO_BACKUP=0
+NO_HISTORY=0
 CONFIG_DIR_OVERRIDE=''
 BACKUP_DIR_OVERRIDE=''
 SKIN=''
@@ -92,6 +94,10 @@ Options:
                        then \$XDG_CONFIG_HOME/mpv, then ~/.config/mpv).
   --backup-dir <path>  Directory for the timestamped backup (default: next
                        to the configuration directory).
+  --no-backup          Do not keep a backup. The existing configuration is
+                       removed. Destructive.
+  --no-history         Do not carry watch_later and screenshots over from the
+                       configuration being replaced.
   --no-yt-dlp          Skip the yt-dlp download.
   --no-fonts           Skip installing the fonts.
   --skin <skin>        Activate liquidglass or modernz (default: liquidglass).
@@ -394,6 +400,8 @@ parse_args() {
       --force) FORCE=1 ;;
       --no-yt-dlp) NO_YTDLP=1 ;;
       --no-fonts) NO_FONTS=1 ;;
+      --no-backup) NO_BACKUP=1 ;;
+      --no-history) NO_HISTORY=1 ;;
       --config-dir)
         shift
         if [[ $# -eq 0 ]]; then err 'option --config-dir requires a value'; exit 1; fi
@@ -509,9 +517,15 @@ EOF
 
   local backup=''
   if [[ -e "$CONFIG_DIR" ]]; then
-    step 'Backing up the existing configuration'
-    backup="$(backup_config "$CONFIG_DIR")"
-    ok "Backup: ${backup}"
+    if [[ "$NO_BACKUP" -eq 1 ]]; then
+      step 'Backup (skipped: --no-backup)'
+      warn 'The existing configuration is removed with no backup.'
+      action "remove existing configuration" rm -rf -- "$CONFIG_DIR"
+    else
+      step 'Backing up the existing configuration'
+      backup="$(backup_config "$CONFIG_DIR")"
+      ok "Backup: ${backup}"
+    fi
   fi
 
   step 'Deploying the configuration'
@@ -526,6 +540,10 @@ EOF
   if [[ -n "$backup" && -d "$backup" ]]; then
     local keep
     for keep in watch_later screenshots; do
+      if [[ "$NO_HISTORY" -eq 1 ]]; then
+        info "not carrying over ${keep} (--no-history)"
+        continue
+      fi
       if [[ -d "${backup}/${keep}" ]]; then
         info "Carrying over ${keep}"
         action "restore ${keep}" cp -R -- "${backup}/${keep}" "${CONFIG_DIR}/${keep}"
