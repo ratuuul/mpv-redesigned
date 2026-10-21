@@ -1,0 +1,49 @@
+# ---------------------------------------------------------------------------
+#  Runtime state and caches (never commit these)
+# ---------------------------------------------------------------------------
+config/cache/
+config/state/
+config/watch_later/
+config/screenshots/
+config/subs/
+config/subtitles/
+config/temp/
+config/recent.json
+config/mpv.log
+
+# ---------------------------------------------------------------------------
+#  Binaries: the installer fetches these, the repository does not ship them
+# ---------------------------------------------------------------------------
+config/yt-dlp.exe
+config/ffmpeg.exe
+config/ffprobe.exe
+config/mpv.exe
+config/mpv.com
+config/yt-dlp_linux
+config/yt-dlp_macos
+
+# ---------------------------------------------------------------------------
+#  Publication gate
+# ---------------------------------------------------------------------------
+# Created while the configuration is still being edited on the authoring
+# machine. While present, this tree must not be published.
+.HOLD
+
+# ---------------------------------------------------------------------------
+#  Backups and scratch files
+# ---------------------------------------------------------------------------
+*-backup-*/
+*.bak
+*.orig
+*.rej
+*.log
+*.part
+*.tmp
+~$*
+
+# ---------------------------------------------------------------------------
+#  OS noise
+# ---------------------------------------------------------------------------
+Thumbs.db
+desktop.ini
+.DS_Store

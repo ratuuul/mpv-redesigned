@@ -1,0 +1,31 @@
+# Normalise line endings: the config is consumed by Windows tools, the Lua
+# and GLSL sources are read by mpv on any platform.
+* text=auto
+
+*.ps1   text eol=crlf
+*.cmd   text eol=crlf
+*.bat   text eol=crlf
+*.conf  text eol=crlf
+*.md    text eol=lf
+*.lua   text eol=lf
+*.glsl  text eol=lf
+*.hook  text eol=lf
+*.json  text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+
+# Binary assets
+*.exe   binary
+*.dll   binary
+*.ttf   binary
+*.otf   binary
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.wav   binary
+*.ico   binary
+*.7z    binary
+*.zip   binary
+
+# SVG stays text so diffs are readable
+*.svg   text eol=lf

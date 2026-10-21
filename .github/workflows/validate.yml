@@ -1,0 +1,121 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  powershell:
+    name: PowerShell syntax
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Parse every .ps1
+        shell: pwsh
+        run: |
+          $failed = $false
+          $files = Get-ChildItem -Recurse -File -Filter *.ps1 |
+                   Where-Object { $_.FullName -notmatch '[\\/]\.git[\\/]' }
+          foreach ($f in $files) {
+              $tokens = $null
+              $errors = $null
+              [System.Management.Automation.Language.Parser]::ParseFile(
+                  $f.FullName, [ref]$tokens, [ref]$errors) | Out-Null
+              if ($errors.Count -gt 0) {
+                  $failed = $true
+                  Write-Host "::error file=$($f.FullName)::$($errors.Count) parse error(s)"
+                  foreach ($e in $errors) {
+                      Write-Host "  line $($e.Extent.StartLineNumber): $($e.Message)"
+                  }
+              } else {
+                  Write-Host "ok   $($f.FullName)"
+              }
+          }
+          # Emit a real annotation so the failure points at a line.
+          if ($failed) { exit 1 }
+
+      - name: docs/KEYBINDINGS.md matches input.conf
+        shell: pwsh
+        run: ./tools/gen-keybindings.ps1 -Check
+
+  lua:
+    name: Lua syntax
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install lua5.1
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lua5.1
+
+      - name: luac -p every .lua
+        run: |
+          set -euo pipefail
+          LUAC="$(command -v luac5.1 || command -v luac)"
+          echo "using $LUAC ($($LUAC -v 2>&1 | head -n1))"
+          fail=0
+          count=0
+          while IFS= read -r -d '' f; do
+            count=$((count + 1))
+            if ! out=$("$LUAC" -p "$f" 2>&1); then
+              echo "::error file=$f::$out"
+              fail=1
+            fi
+          done < <(find . -name '*.lua' -not -path './.git/*' -print0)
+          echo "checked $count Lua files"
+          exit $fail
+
+  binaries:
+    name: No committed binaries
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Guard against shipped executables
+        run: |
+          set -euo pipefail
+
+          # The one binary this repository ships on purpose: uosc's
+          # OpenSubtitles helper. Everything else is downloaded by the
+          # installer at install time.
+          allowed='config/scripts/uosc/bin/ziggy-windows.exe'
+
+          fail=0
+
+          # 1. Any executable/downloaded player binary by name.
+          while IFS= read -r f; do
+            case "$f" in
+              "$allowed") echo "ok    $f (vendored by the uosc skin)"; continue ;;
+            esac
+            echo "::error file=$f::executable is committed; the installer fetches it"
+            fail=1
+          done < <(git ls-files | grep -Ei '(^|/)(yt-dlp|ytdl|ffmpeg|ffprobe|mpv)(\.exe|\.com|_linux|_macos)?$' || true)
+
+          # 2. Any .exe/.dll/.msi outside the allowlist.
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            case "$f" in
+              "$allowed") continue ;;
+            esac
+            echo "::error file=$f::unexpected binary"
+            fail=1
+          done < <(git ls-files | grep -Ei '\.(exe|dll|msi|so|dylib)$' || true)
+
+          # 3. Anything over 15 MB (GitHub warns at 50 MB; keep the clone light).
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            size=$(stat -c%s "$f")
+            if [ "$size" -gt 15728640 ]; then
+              echo "::error file=$f::file is $((size / 1048576)) MB, over the 15 MB limit"
+              fail=1
+            fi
+          done < <(git ls-files)
+
+          exit $fail
