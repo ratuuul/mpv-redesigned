@@ -8,6 +8,7 @@
 *.sh    text eol=lf
 *.conf  text eol=crlf
 *.md    text eol=lf
+*.txt   text eol=lf
 *.lua   text eol=lf
 *.glsl  text eol=lf
 *.hook  text eol=lf

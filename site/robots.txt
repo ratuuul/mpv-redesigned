@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# mpv-redesigned
+# https://github.com/ratuuul/mpv-redesigned
+# https://ratuuul.github.io/mpv-redesigned/
