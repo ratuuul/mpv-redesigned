@@ -6,8 +6,13 @@
 #
 # Every entry needs a reason. Keep this list as short as possible.
 #
+# .github/privacy-allowlist.txt - this file. It quotes the offending string
+# in the reason below, so the scanner has to skip it too.
+.github/privacy-allowlist.txt
+#
 # config/scripts/webm.lua - vendored from ekisu/mpv-webm (MIT). The upstream
-# comment explains the `[[...]]` path delimiter with the placeholder
-# "C:\Users\John" and "/home/john". Those are invented example names in a
-# comment, not a real path, and the file is kept byte-identical to upstream.
+# comment explains the `[[...]]` path delimiter with a placeholder Windows
+# profile path and a placeholder POSIX home path. Those are invented example
+# names in a comment, not a real path, and the file is kept byte-identical to
+# upstream.
 config/scripts/webm.lua

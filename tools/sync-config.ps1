@@ -425,8 +425,9 @@ if ($Commit) {
         if (-not $staged) {
             Write-Host '  Nothing changed; no commit was made.' -ForegroundColor DarkGray
         } else {
-            git -c user.name='Ratul' -c user.email='ratuuul@users.noreply.github.com' `
-                commit -m 'Refresh the configuration from the live mpv install'
+            # The commit identity is the repository owner's business, not
+            # this script's. Whatever git is configured with is used.
+            git commit -m 'Refresh the configuration from the live mpv install'
             Write-Host '  Committed.' -ForegroundColor Green
         }
     } finally {
