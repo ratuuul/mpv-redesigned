@@ -437,10 +437,9 @@ hwdec=no     # a second d3d11va decoder can deadlock with the main one
 network=no   # never fetch a thumbnail over the network
 direct_io=no # required for the Windows pipe path
 scale_factor=1.0
-max_thumb_time=2
 ```
 
-**Tune:** those five values. `network=yes` makes YouTube previews work but
+**Tune:** those four values. `network=yes` makes YouTube previews work but
 doubles bandwidth and often stalls.
 
 ---
@@ -465,7 +464,12 @@ liquid_glass_tick_sound=no       # was spawning a process per scroll event
 liquid_glass_next_video_threshold=120
 liquid_glass_min_width_landscape=760
 liquid_glass_min_height_landscape=320
+liquid_glass_min_width_portrait=360
+liquid_glass_min_height_portrait=360
 ```
+
+All of these live in one file and are read by one option table, so mpv never
+logs an "unknown key" warning for them.
 
 ### Always-visible controls
 

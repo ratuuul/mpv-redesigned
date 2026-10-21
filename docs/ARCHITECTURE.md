@@ -57,9 +57,9 @@ scratch-directory test possible without touching a real installation.
 
 ## Why the config is split into conf/*.conf
 
-`mpv.conf` is 100 lines of comments-plus-settings; a single file covering
-video, audio, subtitles, the interface and profiles would be roughly 600 lines
-with five unrelated `# ====` banners in it. Splitting it:
+`mpv.conf` is a bit over a hundred lines of comments-plus-settings; a single
+file covering video, audio, subtitles, the interface and profiles would be
+roughly 600 lines with five unrelated `# ====` banners in it. Splitting it:
 
 - **gives each concern one obvious file to edit.** "Subtitles are too big" →
   `conf/subtitles.conf`. No scrolling through renderer options to find

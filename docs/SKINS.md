@@ -16,6 +16,11 @@ Two skins are installed. Exactly one is active at a time.
 Neither is modified beyond the Liquid Glass fork changes listed in
 [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md).
 
+`skins\liquid-glass\uosc\` is not in the repository: Liquid Glass is the
+skin that ships active, so there is nothing to park yet. The first switch
+away from it moves `scripts\uosc\` there, and switching back moves it out
+again.
+
 ## Switching
 
 ```powershell

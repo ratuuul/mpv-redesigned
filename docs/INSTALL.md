@@ -105,6 +105,12 @@ No administrator rights: everything goes to your user profile.
    `screenshots\`, then copies `watch_later\` and `screenshots\` out of the
    backup so resume points and past screenshots survive.
 
+   Runtime state is never deployed. `mpv.log` holds the authoring machine's
+   own paths and `recent.json` holds a playback history with local file
+   names, so neither is copied; copying them would also overwrite the
+   user's own history on a re-install. The same goes for `cache\`,
+   `watch_later\`, `screenshots\`, `subs\`, `subtitles\` and `temp\`.
+
 7. **yt-dlp.**
    Downloads `yt-dlp.exe` from the official release into the config directory,
    where mpv's `ytdl_hook` looks first. Skipped with `-ConfigOnly`.
