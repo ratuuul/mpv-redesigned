@@ -107,8 +107,8 @@ The configuration is copied off a real machine, so it is very easy to publish
 something that belongs to one person. The CI scans every tracked file and
 fails the build on any of these:
 
-- an absolute path into a home directory (`C:\Users\...`, `/home/<name>/`,
-  `/Users/<name>/`)
+- an absolute path into a home directory (a drive letter followed by `Users`,
+  or a POSIX `/home/<name>/` style path)
 - a token, an API key or a private key
 - an e-mail address
 - runtime state: `mpv.log`, `recent.json`, `cache/`, `watch_later/`,
