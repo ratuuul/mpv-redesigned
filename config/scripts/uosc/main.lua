@@ -127,6 +127,13 @@ opt.read_options(options, 'uosc', handle_options)
 -- Load Liquid Glass options, apply theme, register toggle binding.
 local lg_theme = require('lib/liquid/theme')
 local lg_motion = require('lib/liquid/motion')
+local lg_layout = require('lib/liquid/layout')
+-- ONE options table for ONE options file.
+--
+-- script-opts/liquid-glass.conf is a single file, so it must be read by a
+-- single table. Reading it twice - once for the skin options and once for
+-- the small-window floors - made mpv log "unknown key ..., ignoring" for
+-- every key the other table did not know about.
 local lg_opts = {
     liquid_glass_theme = 'dark',
     liquid_glass_intensity = 1.0,
@@ -138,6 +145,12 @@ local lg_opts = {
     -- scroll event. On an Intel iGPU box that is real CPU jitter plus
     -- antivirus noise, so it is off by default.
     liquid_glass_tick_sound = 'no',
+    -- Small-window floors (px). The player refuses to shrink below these so
+    -- the controls can never overlap.
+    liquid_glass_min_width_landscape  = tostring(lg_layout.LANDSCAPE_MIN_WIDTH),
+    liquid_glass_min_height_landscape = tostring(lg_layout.LANDSCAPE_MIN_HEIGHT),
+    liquid_glass_min_width_portrait   = tostring(lg_layout.PORTRAIT_MIN_WIDTH),
+    liquid_glass_min_height_portrait  = tostring(lg_layout.PORTRAIT_MIN_HEIGHT),
 }
 require('mp.options').read_options(lg_opts, 'liquid-glass')
 lg_theme.set(lg_opts.liquid_glass_theme)
@@ -182,19 +195,13 @@ end
 -- Detects video orientation, swaps controls into a portrait-friendly compact
 -- layout for vertical videos, and clamps user-driven window resizes so the
 -- player can never shrink to a size where controls would overlap.
-local lg_layout = require('lib/liquid/layout')
-
-local lg_min_opts = {
-    liquid_glass_min_width_landscape  = tostring(lg_layout.LANDSCAPE_MIN_WIDTH),
-    liquid_glass_min_height_landscape = tostring(lg_layout.LANDSCAPE_MIN_HEIGHT),
-    liquid_glass_min_width_portrait   = tostring(lg_layout.PORTRAIT_MIN_WIDTH),
-    liquid_glass_min_height_portrait  = tostring(lg_layout.PORTRAIT_MIN_HEIGHT),
-}
-require('mp.options').read_options(lg_min_opts, 'liquid-glass')
-lg_layout.LANDSCAPE_MIN_WIDTH  = tonumber(lg_min_opts.liquid_glass_min_width_landscape)  or lg_layout.LANDSCAPE_MIN_WIDTH
-lg_layout.LANDSCAPE_MIN_HEIGHT = tonumber(lg_min_opts.liquid_glass_min_height_landscape) or lg_layout.LANDSCAPE_MIN_HEIGHT
-lg_layout.PORTRAIT_MIN_WIDTH   = tonumber(lg_min_opts.liquid_glass_min_width_portrait)   or lg_layout.PORTRAIT_MIN_WIDTH
-lg_layout.PORTRAIT_MIN_HEIGHT  = tonumber(lg_min_opts.liquid_glass_min_height_portrait)  or lg_layout.PORTRAIT_MIN_HEIGHT
+--
+-- The floors come from the single lg_opts table read above, so the options
+-- file is only ever read once.
+lg_layout.LANDSCAPE_MIN_WIDTH  = tonumber(lg_opts.liquid_glass_min_width_landscape)  or lg_layout.LANDSCAPE_MIN_WIDTH
+lg_layout.LANDSCAPE_MIN_HEIGHT = tonumber(lg_opts.liquid_glass_min_height_landscape) or lg_layout.LANDSCAPE_MIN_HEIGHT
+lg_layout.PORTRAIT_MIN_WIDTH   = tonumber(lg_opts.liquid_glass_min_width_portrait)   or lg_layout.PORTRAIT_MIN_WIDTH
+lg_layout.PORTRAIT_MIN_HEIGHT  = tonumber(lg_opts.liquid_glass_min_height_portrait)  or lg_layout.PORTRAIT_MIN_HEIGHT
 
 _G.liquid_glass.layout = lg_layout
 _G.liquid_glass.orientation = 'landscape'

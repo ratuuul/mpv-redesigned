@@ -36,8 +36,9 @@ the config files.
 ### Audio
 
 - WASAPI shared-mode output, named `mpv` in the Windows volume mixer.
-- ReplayGain track mode applied on top of the volume curve, with clipping
-  protection; `volume-max=130` for quiet material.
+- ReplayGain track mode applied on top of the volume curve, with `volume-max=130`
+  for quiet material. Clipping protection is off by default (`replaygain-clip`),
+  which is fine at a 0 dB preamp; turn it on if loud masters distort.
 - Gapless audio, pitch correction via `scaletempo2` (works without
   librubberband), `auto-safe` channel layout with clipping-safe downmix.
 - Optional EBU R128 / dynamic normalisation profiles (`Alt+8`, `Alt+9`),
@@ -76,8 +77,9 @@ the config files.
   video plays, macOS-style centred seek/volume/speed overlays, a speedometer with
   a spring needle, a floating "Next:" pill at the end of an episode, a buffering
   indicator and a custom window border.
-- A quality button in the control bar that shows the current resolution and
-  bitrate, plus an info button that opens mpv's stats overlay.
+- An info button in the control bar that opens mpv's own stats overlay — codec,
+  fps, bitrate and dropped frames at a glance. The format picker is one key away
+  (`F`).
 - Seekbar thumbnail previews (thumbfast).
 - Recent files menu (`Ctrl+Shift+r`).
 - ModernZ is shipped as a parked alternative; `switch-skin.cmd` swaps them.
@@ -136,7 +138,7 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1 -ConfigOnly
 |---|---|
 | OS | Windows 10 or 11, x86-64 |
 | Shell | Windows PowerShell 5.1 (built in) or PowerShell 7 |
-| Disk | ~90 MB for the configuration, ~120 MB more if mpv has to be installed |
+| Disk | ~60 MB for the configuration and its shader cache; ~150 MB more if mpv has to be installed |
 | Optional | [Node.js](https://nodejs.org) on `PATH` — required for full-quality YouTube (see below) |
 | Optional | A browser you are happy to point yt-dlp at, for age-restricted videos |
 
@@ -160,7 +162,7 @@ Full details, including a manual install and an offline install, are in
 ## Quick start
 
 ```powershell
-mpv "D:\Videos\something.mkv"
+mpv "%USERPROFILE%\Videos\something.mkv"
 mpv "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 mpv .                      # play everything in the current folder
 ```

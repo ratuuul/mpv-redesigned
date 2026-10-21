@@ -37,12 +37,11 @@ jobs:
                   Write-Host "ok   $($f.FullName)"
               }
           }
-          # Emit a real annotation so the failure points at a line.
           if ($failed) { exit 1 }
 
       - name: docs/KEYBINDINGS.md matches input.conf
         shell: pwsh
-        run: ./tools/gen-keybindings.ps1 -Check
+        run: pwsh -NoProfile -File tools/gen-keybindings.ps1 -Check
 
   lua:
     name: Lua syntax
@@ -50,8 +49,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # mpv embeds LuaJIT 2.1, which is Lua 5.1. The scripts have to parse
+      # with 5.1, and with 5.1 ONLY: 5.2+ accepts things 5.1 rejects
+      # ("str"[i] instead of ("str")[i]) and 5.4+ rejects things 5.1 accepts
+      # (assigning to a `for` loop control variable). A newer luac would
+      # therefore report failures that mpv never sees.
       - name: Install lua5.1
         run: |
+          set -euo pipefail
           sudo apt-get update -qq
           sudo apt-get install -y -qq lua5.1
 
@@ -60,6 +65,10 @@ jobs:
           set -euo pipefail
           LUAC="$(command -v luac5.1 || command -v luac)"
           echo "using $LUAC ($($LUAC -v 2>&1 | head -n1))"
+          case "$($LUAC -v 2>&1 | head -n1)" in
+            *"Lua 5.1"*) ;;
+            *) echo "::warning::expected Lua 5.1 (mpv's LuaJIT); got $($LUAC -v 2>&1 | head -n1)" ;;
+          esac
           fail=0
           count=0
           while IFS= read -r -d '' f; do
@@ -117,5 +126,73 @@ jobs:
               fail=1
             fi
           done < <(git ls-files)
+
+          exit $fail
+
+  privacy:
+    name: No personal data
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The configuration is copied off a real machine, so the tree can
+      # easily pick up an absolute path, a log file or a token. None of that
+      # may be published. Every shipped path has to be portable: mpv's `~~/`
+      # or a %APPDATA%-style reference.
+      - name: Scan tracked files for personal data
+        run: |
+          set -euo pipefail
+          fail=0
+
+          # Paths that are explicitly allowed to contain a path-shaped
+          # string. Every entry needs a reason in .github/privacy-allowlist.txt.
+          excludes=()
+          while IFS= read -r line; do
+            case "$line" in
+              ''|\#*) continue ;;
+            esac
+            excludes+=(":(exclude)$line")
+          done < .github/privacy-allowlist.txt
+
+          scan() {
+            local label="$1"; shift
+            local pattern="$1"; shift
+            local out
+            out=$(git grep -InE "$pattern" -- "${excludes[@]}" 2>/dev/null || true)
+            if [ -n "$out" ]; then
+              # No pipeline here: a `while` loop fed by a pipe would run in a
+              # subshell and its `fail=1` would be lost.
+              while IFS= read -r line; do
+                echo "::error file=${line%%:*}::$label: $line"
+              done <<< "$out"
+              fail=1
+            fi
+          }
+
+          # Windows and POSIX home directories.
+          scan "absolute user path" '[A-Za-z]:[\\/]Users[\\/]'
+          scan "absolute user path" '[A-Za-z]:[\\/]Documents and Settings[\\/]'
+          scan "absolute home path" '/home/[A-Za-z0-9._-]+/'
+          scan "absolute home path" '/Users/[A-Za-z0-9._-]+/'
+
+          # Credentials.
+          scan "token" 'gh[pousr]_[A-Za-z0-9]{20,}'
+          scan "token" 'github_pat_[A-Za-z0-9_]{20,}'
+          scan "token" 'AKIA[0-9A-Z]{16}'
+          scan "token" 'AIza[0-9A-Za-z_-]{20,}'
+          scan "token" 'xox[baprs]-[A-Za-z0-9-]{10,}'
+          scan "token" '-----BEGIN [A-Z ]*PRIVATE KEY-----'
+
+          # e-mail addresses.
+          scan "e-mail address" '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}'
+
+          # Runtime state must never be committed.
+          for f in $(git ls-files); do
+            case "$f" in
+              config/mpv.log|config/recent.json) echo "::error file=$f::runtime state is committed"; fail=1 ;;
+              config/cache/*|config/watch_later/*|config/screenshots/*|config/subtitles/*)
+                echo "::error file=$f::runtime state is committed"; fail=1 ;;
+            esac
+          done
 
           exit $fail

@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     Regenerates docs/KEYBINDINGS.md from config/input.conf.
 
@@ -38,9 +38,11 @@ param(
 $ErrorActionPreference = 'Stop'
 
 $root       = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
-$inputConf  = Join-Path $root 'config\input.conf'
-$scriptsDir = Join-Path $root 'config\scripts'
-$outFile    = Join-Path $root 'docs\KEYBINDINGS.md'
+# Nested Join-Path calls: the three-argument form needs PowerShell 6, and this
+# runs under Windows PowerShell 5.1 locally and pwsh on the Linux CI runner.
+$inputConf  = Join-Path (Join-Path $root 'config') 'input.conf'
+$scriptsDir = Join-Path (Join-Path $root 'config') 'scripts'
+$outFile    = Join-Path (Join-Path $root 'docs') 'KEYBINDINGS.md'
 
 if (-not (Test-Path $inputConf)) { throw "input.conf not found at $inputConf" }
 
@@ -88,7 +90,7 @@ $dynamic = @(
 # ---------------------------------------------------------------------------
 #  Pass 1: input.conf
 # ---------------------------------------------------------------------------
-$lines    = Get-Content -LiteralPath $inputConf
+$lines    = Get-Content -LiteralPath $inputConf -Encoding UTF8
 $sections = New-Object System.Collections.ArrayList
 $current  = $null
 $pending  = New-Object System.Collections.ArrayList
@@ -183,7 +185,7 @@ $registered = New-Object System.Collections.ArrayList
 
 if (Test-Path $scriptsDir) {
     foreach ($file in (Get-ChildItem -LiteralPath $scriptsDir -Filter '*.lua' -File | Sort-Object Name)) {
-        $text = Get-Content -LiteralPath $file.FullName -Raw
+        $text = Get-Content -LiteralPath $file.FullName -Raw -Encoding UTF8
         $pattern = 'add_(?:forced_)?key_binding\s*\(\s*[''"]([^''"]+)[''"]\s*,\s*[''"]([^''"]+)[''"]'
         foreach ($m in [regex]::Matches($text, $pattern)) {
             [void]$registered.Add([pscustomobject]@{

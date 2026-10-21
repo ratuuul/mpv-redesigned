@@ -60,7 +60,7 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1 -ConfigOnly -Force -NoBac
 |---|---|
 | Windows 10 or 11, x86-64 | The PowerShell script itself refuses to run elsewhere. |
 | Windows PowerShell 5.1 | Present on every Windows 10/11. PowerShell 7 also works. |
-| ~90 MB free | About 10 MB of configuration plus room for the backup. |
+| ~60 MB free | About 10 MB of configuration, the rest for the shader cache built on first play and for the backup. |
 | Internet, unless offline | For mpv (if missing), yt-dlp and, in the `irm` mode, the archive itself. |
 
 **Node.js** is not required to install, but it is required for full-quality
@@ -89,25 +89,35 @@ No administrator rights: everything goes to your user profile.
    - The `-v3` (AVX2) builds are deliberately skipped: they crash on older CPUs.
    - `winget` is deliberately not used: the package id is unstable.
 
-4. **Back up an existing configuration.**
+4. **Check for Node.js.**
+   Prints a hint if `node` is not on `PATH`; does not install anything. Full
+   YouTube quality needs it — see [Node.js and YouTube quality](#nodejs-and-youtube-quality).
+
+5. **Back up an existing configuration.**
    `%APPDATA%\mpv` is *moved* (not copied) to
    `%APPDATA%\mpv-backup-YYYYMMDD-HHMMSS`. If mpv is running, the script stops
-   first — moving a locked directory is how you lose state.
+   first — moving a locked directory is how you lose state. The check applies to
+   the directory being replaced: a `-InstallDir` scratch run is allowed while
+   another player is open.
 
-5. **Deploy.**
+6. **Deploy.**
    Copies `config\*` into the install directory, creates `cache\` and
    `screenshots\`, then copies `watch_later\` and `screenshots\` out of the
    backup so resume points and past screenshots survive.
 
-6. **yt-dlp.**
+7. **yt-dlp.**
    Downloads `yt-dlp.exe` from the official release into the config directory,
    where mpv's `ytdl_hook` looks first. Skipped with `-ConfigOnly`.
 
-7. **Verify.**
+8. **Verify.**
    Starts mpv once with `--config-dir=<install dir> --idle=yes --vo=null
    --ao=null --msg-level=all=warn --log-file=<temp>`, waits four seconds, then
-   greps the log for `Error parsing option`, `Invalid value`, `not found` and
-   `[e]`. A clean parse is printed as `OK Configuration parsed cleanly`.
+   reads the log. `--script-opts=bg-enabled=no` is added for that run only, so
+   the idle photo downloader does not hit the network during a verification.
+   The check fails on `Error parsing option`, `Invalid value`, `Lua error` or any
+   message logged at error level; a clean parse prints
+   `OK Configuration parsed cleanly`. If it fails, the installer prints the log
+   path and exits non-zero.
 
 ## Manual install
 
@@ -146,7 +156,7 @@ or [mpv-player/mpv builds](https://mpv.io/installation/) somewhere on `PATH`,
 or pass `--config-dir` yourself:
 
 ```powershell
-mpv --config-dir="$env:APPDATA\mpv" "D:\Videos\something.mkv"
+mpv --config-dir="$env:APPDATA\mpv" "%USERPROFILE%\Videos\something.mkv"
 ```
 
 ## Offline install

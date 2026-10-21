@@ -4,7 +4,7 @@ Why the configuration is shaped the way it is. This is the "why", not the
 "what" — every option itself is explained next to the line that sets it.
 
 - [How mpv loads this configuration](#how-mpv-loads-this-configuration)
-- [Why the config is split into conf/*.conf](#why-the-config-is-split-into-confconff)
+- [Why the config is split into conf/*.conf](#why-the-config-is-split-into-confconf)
 - [Why the active skin lives in scripts/](#why-the-active-skin-lives-in-scripts)
 - [Why nav_shim exists](#why-nav_shim-exists)
 - [Why d3d11 and not Vulkan](#why-d3d11-and-not-vulkan)
@@ -34,8 +34,10 @@ screenshot-template=~~/screenshots/%F-%p%n
 gpu-shader-cache-dir=~~/cache/gpu-shaders
 ```
 
-A hardcoded `C:\Users\...` in a shipped file would make the repository
-unusable for anyone else. Nothing under `config/` contains one.
+A hardcoded absolute path into somebody's home directory in a shipped file
+would make the repository unusable for anyone else. Nothing under `config/`
+contains one: every path is either relative to mpv's `~~/` (the config
+directory) or built from the environment.
 
 ### Option precedence
 

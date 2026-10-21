@@ -177,9 +177,10 @@ volume=100
 volume-max=130
 ```
 
-ReplayGain is applied on top of the cubic volume curve, so it is never clipped
-by `volume-max`. `replaygain-clip=no` lowers the gain of hot tracks instead of
-clipping them.
+ReplayGain is applied on top of the cubic volume curve, so the volume limit does
+not eat the gain. `replaygain-clip=no` leaves mpv's clipping protection **off**:
+loud masters are allowed to clip rather than being quietly turned down. Set
+`replaygain-clip=yes` if that distortion bothers you.
 
 **Tune:** `conf/audio.conf`, `---- volume ----` and `---- replaygain ----`.
 `replaygain=album` keeps an album at a constant level relative to itself.
@@ -483,12 +484,13 @@ and speed indicators stay hover-only.
 ### Control bar extras
 
 The bar carries, from left to right: play/pause, previous/next, seek jump,
-time, the timeline, time remaining, a **quality button showing the current
-resolution and opening the format picker**, volume, speed, subtitle/audio menus,
-download, the mpv stats overlay, settings and fullscreen.
+time, the timeline, time remaining, volume, speed, the subtitle and audio menus,
+an info button, the playlist, settings and fullscreen.
 
-The info button runs `script-binding stats/display-stats-toggle`, mpv's own
-stats overlay — the fastest way to see codec, fps, bitrate and dropped frames.
+The info button runs `script-binding stats/display-stats-toggle`, mpv's own stats
+overlay — the fastest way to see codec, fps, bitrate and dropped frames. There is
+no separate quality button: `F` opens the format picker, which lists every format
+with its resolution and bitrate.
 
 ### Window chrome
 
@@ -591,8 +593,11 @@ panel this was tuned on. Ask for something near your own screen resolution or
 the photo will be upscaled.
 
 The three sources are public random-photo services, not part of this
-repository. Set `enabled=no` if you are offline, would rather not make those
-requests, or want the skin's own idle background back.
+repository. They are tried in order, so one failing source costs about a second
+before the next answers (`loremflickr` returns HTTP errors often enough to be
+noticeable; `picsum` is the reliable one). Set `enabled=no` if you are offline,
+would rather not make those requests, or want the skin's own idle background
+back.
 
 **Tune:** `script-opts/bg.conf`.
 
@@ -678,7 +683,7 @@ shaders on for a live-action file.
 line without editing anything:
 
 ```powershell
-mpv --profile=fast "D:\Videos\something.mkv"
+mpv --profile=fast "%USERPROFILE%\Videos\something.mkv"
 ```
 
 ### Verification

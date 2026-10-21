@@ -45,9 +45,13 @@ if (-not (Test-Path $InstallDir)) {
 }
 
 $running = Get-Process -Name 'mpv' -ErrorAction SilentlyContinue
-if ($running) {
+$defaultConfigDir = (Join-Path $env:APPDATA 'mpv').TrimEnd('\')
+if ($running -and $InstallDir.TrimEnd('\') -ieq $defaultConfigDir) {
     Write-Host '  mpv is running. Close it first.' -ForegroundColor Red
     exit 1
+}
+if ($running) {
+    Write-Host "  Note: $($running.Count) mpv process(es) are running, but not against this directory." -ForegroundColor DarkGray
 }
 
 if ($Purge) {

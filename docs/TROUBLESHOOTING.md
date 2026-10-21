@@ -338,5 +338,7 @@ If the folder is stuck because a file is locked, close mpv first.
 .\install.ps1
 ```
 
-`install.ps1` also keeps `watch_later` (your resume positions) and the
-`screenshots` folder when it replaces an existing configuration.
+`install.ps1` also carries over any `watch_later` and `screenshots` folders it
+finds in the backup. On Windows mpv keeps resume data in `%LOCALAPPDATA%\mpv`,
+so that state survives the reinstall either way; the carry-over is for trees
+created before that split.

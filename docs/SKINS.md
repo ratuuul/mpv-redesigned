@@ -86,10 +86,15 @@ Anything that cannot be moved — a file locked by a running mpv, a missing
 `skins\` directory — stops the script with a readable error rather than leaving
 a half-swapped state.
 
-The script always operates on `%APPDATA%\mpv`. If you installed the
-configuration somewhere else with `install.ps1 -InstallDir`, edit the
-`$cfg = Join-Path $env:APPDATA "mpv"` line at the top of `switch-skin.ps1`, or
-just move the folders by hand using the map above.
+The script defaults to `%APPDATA%\mpv`. If you installed the configuration
+somewhere else with `install.ps1 -InstallDir`, point it at that directory:
+
+```powershell
+.\switch-skin.ps1 modernz -ConfigDir "D:\mpv-config"
+```
+
+The same directory is used for `scripts\` and `skins\`, so the two folders must
+live side by side as they do in a normal install.
 
 ## When the switcher appears to do nothing
 

@@ -30,10 +30,14 @@ frame-drop counters and PSNR comparisons).
     sponsorblock_minimal.lua
     recentmenu.lua    recent-files menu
     webm.lua          clip cutter
+    autosubs.lua      automatic OpenSubtitles lookup for local files
+    download.lua      download the stream you are watching
+    pip.lua           mini always-on-top player
+    bg.lua            idle photo background
   script-opts\        per-script options
   skins\
     modernz\          ModernZ OSC (parked - becomes scripts\modernz when active)
-  fonts\                Geist, Inter, Source Sans 3, Noto/ModernZ icons
+  fonts\                Geist, Inter, Source Sans 3, Material Icons, modernz-icons
   shaders\              Anime4K Restore + CfL
   yt-dlp.exe            YouTube / streaming support
   switch-skin.cmd       swap between the two skins

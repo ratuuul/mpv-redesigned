@@ -1,0 +1,13 @@
+# Files that are allowed to contain a path-shaped string.
+#
+# The privacy job in .github/workflows/validate.yml fails the build when a
+# tracked file contains an absolute path into a home directory. A vendored
+# upstream file may legitimately contain a generic example in a comment.
+#
+# Every entry needs a reason. Keep this list as short as possible.
+#
+# config/scripts/webm.lua - vendored from ekisu/mpv-webm (MIT). The upstream
+# comment explains the `[[...]]` path delimiter with the placeholder
+# "C:\Users\John" and "/home/john". Those are invented example names in a
+# comment, not a real path, and the file is kept byte-identical to upstream.
+config/scripts/webm.lua

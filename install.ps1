@@ -227,7 +227,7 @@ function Install-YtDlp([string] $Destination) {
         Write-Ok 'yt-dlp already present'
         return
     }
-    Write-Info 'Downloading yt-dlp...'
+    if (-not $DryRun) { Write-Info 'Downloading yt-dlp...' }
     Invoke-Action 'download yt-dlp.exe' {
         $url = 'https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe'
         Invoke-WebRequest -Uri $url -OutFile $exe -UseBasicParsing
@@ -252,7 +252,16 @@ function Deploy-Config([string] $Source, [string] $Destination, [string] $Backup
     Invoke-Action "copy configuration to $Destination" {
         New-Item -ItemType Directory -Force -Path $Destination | Out-Null
         # $Source is already the config directory; copy its contents.
-        Get-ChildItem -LiteralPath $Source -Force | ForEach-Object {
+        #
+        # Runtime state is never deployed. `mpv.log` and `recent.json` are
+        # personal: a log holds the machine's own paths, and the recent list
+        # holds a playback history with local file names. Shipping them into
+        # a fresh install would leak the author's machine to the user, and
+        # would overwrite the user's own history on a re-install.
+        $skip = @('cache', 'mpv.log', 'recent.json', 'watch_later', 'screenshots', 'subs', 'subtitles', 'temp', 'state')
+        Get-ChildItem -LiteralPath $Source -Force | Where-Object {
+            $skip -notcontains $_.Name
+        } | ForEach-Object {
             Copy-Item -LiteralPath $_.FullName -Destination $Destination -Recurse -Force
         }
     }
@@ -310,7 +319,11 @@ function Test-Config([string] $Mpv, [string] $ConfigDir) {
     $log = Join-Path $env:TEMP ('mpv-parse-' + [guid]::NewGuid().ToString('N') + '.log')
     $mpvArgs = @(
         '--no-terminal', '--idle=yes', '--vo=null', '--ao=null',
-        "--config-dir=$ConfigDir", "--log-file=$log", '--msg-level=all=warn'
+        "--config-dir=$ConfigDir", "--log-file=$log", '--msg-level=all=warn',
+        # bg.lua starts downloading an idle photo 1.5 s after startup, which
+        # both hits the network and writes to cache/ during a verification run.
+        # This per-run override disables it without changing the deployed config.
+        '--script-opts=bg-enabled=no'
     )
 
     $proc = Start-Process -FilePath $Mpv -ArgumentList $mpvArgs -PassThru -WindowStyle Hidden
@@ -439,7 +452,7 @@ Write-Host '  ------------------------------------------------' -ForegroundColor
 Write-Host '  Done.' -ForegroundColor Green
 Write-Host ''
 Write-Host '  Open a video:'
-Write-Host '    mpv "D:\Videos\something.mkv"'
+Write-Host '    mpv "%USERPROFILE%\Videos\something.mkv"'
 Write-Host '    mpv "https://www.youtube.com/watch?v=..."'
 Write-Host ''
 Write-Host '  Handy keys:' -ForegroundColor White
