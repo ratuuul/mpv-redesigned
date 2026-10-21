@@ -697,5 +697,21 @@ configuration produces parse errors. For a manual check:
 
 ```powershell
 mpv --idle=yes --vo=null --ao=null --msg-level=all=warn --log-file="$env:TEMP\mpv.log"
-Select-String -Path "$env:TEMP\mpv.log" -Pattern 'Error parsing option|Invalid value|\[e\]'
+Select-String -Path "$env:TEMP\mpv.log" -Pattern 'Error parsing option|Invalid value|Lua error|\[e\]'
 ```
+
+Warnings are worth reading too. `mpv --msg-level=all=warn` logs an
+`unknown key '...', ignoring` line for every option in a `script-opts` file
+that the script does not know, which is how a renamed option or a stale
+options file shows up.
+
+To check the configuration without touching a real installation, install it
+into a scratch directory and point mpv at it:
+
+```powershell
+.\install.ps1 -ConfigOnly -Force -NoBackup -InstallDir "$env:TEMP\mpv-scratch"
+mpv --config-dir="$env:TEMP\mpv-scratch" --idle=yes --vo=null --ao=null --msg-level=all=warn
+```
+
+`tools/sync-config.ps1` does the same check after every merge, and refuses to
+commit a configuration that produces an error or a warning.
