@@ -287,6 +287,20 @@ while ($true) {
     Write-Host "  kept (repo only): $($kept.Count)" -ForegroundColor DarkGray
     foreach ($k in $kept) { Write-Host "      $k" -ForegroundColor DarkGray }
 
+    # The key binding reference is generated from config/input.conf and from
+    # the scripts that register their own keys. A script change can therefore
+    # make the committed file stale, and CI fails on a stale file. Regenerate
+    # it here so the merged config and the docs always agree.
+    $gen = Join-Path $repoRoot 'tools\gen-keybindings.ps1'
+    if (Test-Path $gen) {
+        $out = & powershell -NoProfile -ExecutionPolicy Bypass -File $gen 2>&1
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "  regenerated docs/KEYBINDINGS.md" -ForegroundColor Green
+        } else {
+            Write-Warning "Could not regenerate docs/KEYBINDINGS.md: $out"
+        }
+    }
+
     # Did anything change underneath us while we were copying?
     $stampAfter = Get-LiveStamp
     Start-Sleep -Seconds 5
@@ -405,11 +419,16 @@ if (-not $verifyOk) {
 if ($Commit) {
     Push-Location $repoRoot
     try {
-        git add -- config
-        git status --short -- config
-        git -c user.name='Ratul' -c user.email='ratuuul@users.noreply.github.com' `
-            commit -m 'Refresh the configuration from the live mpv install'
-        Write-Host '  Committed.' -ForegroundColor Green
+        git add -- config docs/KEYBINDINGS.md
+        git status --short -- config docs/KEYBINDINGS.md
+        $staged = git diff --cached --name-only
+        if (-not $staged) {
+            Write-Host '  Nothing changed; no commit was made.' -ForegroundColor DarkGray
+        } else {
+            git -c user.name='Ratul' -c user.email='ratuuul@users.noreply.github.com' `
+                commit -m 'Refresh the configuration from the live mpv install'
+            Write-Host '  Committed.' -ForegroundColor Green
+        }
     } finally {
         Pop-Location
     }

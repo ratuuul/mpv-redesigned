@@ -165,6 +165,7 @@ are not in `input.conf`. Rebind them by editing the script option or the
 | `Alt+p` | `pip.lua` | `pip/toggle` |  |
 | `b` | `sponsorblock_minimal.lua` | `sponsorblock_minimal/sponsorblock` |  |
 | `Ctrl+d` | `download.lua` | `download/download` |  |
+| `Ctrl+Shift+d` | `download.lua` | `download/cancel-download` |  |
 | `W` | `webm.lua` | `webm/display-webm-encoder` | default of the `keybind` option in `script-opts/webm.conf` |
 
 ## Script bindings used in `input.conf`
