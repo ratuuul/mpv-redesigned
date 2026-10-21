@@ -114,36 +114,21 @@
 
   /* ------------------------------------------------------- content render -- */
 
-  var FEATURE_SPANS = [
-    'md:col-span-7',
-    'md:col-span-5',
-    'md:col-span-4',
-    'md:col-span-4',
-    'md:col-span-4',
-    'md:col-span-5',
-    'md:col-span-7',
-    'md:col-span-4',
-    'md:col-span-4',
-    'md:col-span-4',
-    'md:col-span-5',
-    'md:col-span-7'
-  ];
-
   function renderFeatures() {
     var grid = $('#feature-grid');
     if (!grid || !DATA.features.length) return;
 
     var html = DATA.features.map(function (feature, index) {
-      var span = FEATURE_SPANS[index % FEATURE_SPANS.length];
-      var delay = (index % 4) * 70;
+      var number = ('0' + (index + 1)).slice(-2);
+      var delay = (index % 4) * 60;
       return (
-        '<article class="glass glass-hover reveal flex flex-col gap-4 p-6 sm:p-7 ' + span + '" style="--reveal-delay:' + delay + 'ms">' +
-          '<div class="flex items-start justify-between gap-3">' +
-            '<div class="icon-chip">' + feature.icon + '</div>' +
-            '<span class="chip">' + escapeHtml(feature.tag) + '</span>' +
+        '<article class="feature reveal" style="--reveal-delay:' + delay + 'ms">' +
+          '<div class="feature-top">' +
+            '<span class="feature-index">' + number + '</span>' +
+            '<h3 class="feature-title">' + escapeHtml(feature.title) + '</h3>' +
           '</div>' +
-          '<h3 class="text-lg font-semibold tracking-tight text-white sm:text-xl">' + escapeHtml(feature.title) + '</h3>' +
-          '<p class="text-sm leading-relaxed text-white/55">' + escapeHtml(feature.body) + '</p>' +
+          '<p class="feature-body">' + escapeHtml(feature.body) + '</p>' +
+          '<p class="feature-tag">' + escapeHtml(feature.tag) + '</p>' +
         '</article>'
       );
     }).join('');
@@ -175,7 +160,7 @@
       return (
         '<tr class="border-b border-white/5 align-top transition-colors hover:bg-white/[0.03]">' +
           '<td class="py-3 pr-4"><code class="mono text-[0.78rem] text-white/90">' + escapeHtml(row.flag) + '</code></td>' +
-          '<td class="py-3 pr-4"><code class="mono text-[0.74rem] text-cyan-200/80">' + escapeHtml(row.switch) + '</code></td>' +
+          '<td class="py-3 pr-4"><code class="mono text-[0.74rem] text-brand-300">' + escapeHtml(row.switch) + '</code></td>' +
           '<td class="py-3 text-sm leading-relaxed text-white/55">' + escapeHtml(row.body) + '</td>' +
         '</tr>'
       );
@@ -188,10 +173,10 @@
 
     host.innerHTML = DATA.stats.map(function (stat) {
       return (
-        '<div class="glass-flat p-4 sm:p-5">' +
-          '<div class="text-gradient text-3xl font-extrabold tracking-tight sm:text-4xl">' + escapeHtml(stat.value) + '</div>' +
-          '<div class="mt-1 text-sm font-semibold text-white/85">' + escapeHtml(stat.title) + '</div>' +
-          '<div class="mt-1 text-xs leading-relaxed text-white/40">' + escapeHtml(stat.detail) + '</div>' +
+        '<div class="stat">' +
+          '<div class="stat-title">' + escapeHtml(stat.title) + '</div>' +
+          '<div class="stat-value">' + escapeHtml(stat.value) + '</div>' +
+          '<div class="stat-detail">' + escapeHtml(stat.detail) + '</div>' +
         '</div>'
       );
     }).join('');
@@ -203,10 +188,10 @@
 
     host.innerHTML = DATA.faq.map(function (item) {
       return (
-        '<details class="group border-b border-white/5">' +
-          '<summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-left text-[0.98rem] font-semibold text-white/90 transition-colors hover:text-white">' +
+        '<details class="group border-b border-white/10">' +
+          '<summary class="flex cursor-pointer list-none items-start justify-between gap-4 py-5 text-left text-[0.98rem] font-medium text-white/90 transition-colors hover:text-white">' +
             '<span>' + escapeHtml(item.q) + '</span>' +
-            '<span class="mono shrink-0 text-xs text-white/30 transition-transform duration-300 group-open:rotate-45">+</span>' +
+            '<span class="mono shrink-0 text-sm text-brand-400 transition-transform duration-300 group-open:rotate-45">+</span>' +
           '</summary>' +
           '<p class="pb-5 pr-8 text-sm leading-relaxed text-white/55">' + escapeHtml(item.a) + '</p>' +
         '</details>'
@@ -240,24 +225,24 @@
     return {
       algorithm: global.antd.theme.darkAlgorithm,
       token: {
-        colorPrimary: '#7c8cff',
-        colorInfo: '#22d3ee',
-        colorSuccess: '#34d399',
-        colorBgBase: '#07070b',
-        colorBgContainer: 'rgba(255, 255, 255, 0.03)',
-        colorBgElevated: '#0e0f19',
+        colorPrimary: '#e8b860',
+        colorInfo: '#e8b860',
+        colorSuccess: '#e8b860',
+        colorBgBase: '#0a0a09',
+        colorBgContainer: 'rgba(255, 255, 255, 0.02)',
+        colorBgElevated: '#141413',
         colorBorder: 'rgba(255, 255, 255, 0.12)',
-        colorBorderSecondary: 'rgba(255, 255, 255, 0.07)',
-        borderRadius: 12,
-        fontFamily: "'Inter','Segoe UI',system-ui,sans-serif",
+        colorBorderSecondary: 'rgba(255, 255, 255, 0.08)',
+        borderRadius: 3,
+        fontFamily: "'Instrument Sans', system-ui, sans-serif",
         fontSize: 14
       },
       components: {
         Table: {
-          headerBg: 'rgba(255, 255, 255, 0.045)',
-          headerColor: '#c7cbe6',
-          rowHoverBg: 'rgba(124, 140, 255, 0.07)',
-          borderColor: 'rgba(255, 255, 255, 0.07)'
+          headerBg: 'transparent',
+          headerColor: '#6e6b64',
+          rowHoverBg: 'rgba(232, 184, 96, 0.05)',
+          borderColor: 'rgba(255, 255, 255, 0.09)'
         },
         Collapse: {
           headerBg: 'transparent',
@@ -301,15 +286,15 @@
       var children = DATA.stats.map(function (stat) {
         return R.createElement(
           'div',
-          { key: stat.title, className: 'glass-flat p-4 sm:p-5' },
+          { key: stat.title, className: 'stat' },
           R.createElement(a.Statistic, {
             title: stat.title,
             value: stat.value,
-            valueStyle: { fontWeight: 800, letterSpacing: '-0.04em' }
+            valueStyle: { fontWeight: 400 }
           }),
           R.createElement(
             'p',
-            { className: 'mt-1 text-xs leading-relaxed text-white/40' },
+            { className: 'stat-detail' },
             stat.detail
           )
         );
@@ -319,7 +304,7 @@
         R.createElement(
           a.ConfigProvider,
           { theme: antTheme() },
-          R.createElement('div', { className: 'grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4' }, children)
+          R.createElement('div', { className: 'stat-strip antd-surface' }, children)
         )
       );
 
@@ -491,7 +476,41 @@
     items.forEach(function (item) { observer.observe(item); });
   }
 
-  /* --------------------------------------------------------- navigation -- */
+  /* ---------------------------------------------------------- navigation -- */
+
+  /* The document is the file and the scroll is the playhead. The bar at the
+     top of the window is the scrubber, and the readout in the navigation bar
+     is the timecode of the position you are at. */
+  var REEL_FRAMES = 12 * 60 * 60 * 24;
+
+  function formatTimecode(frames) {
+    var total = Math.max(0, Math.floor(frames));
+    var f = total % 24;
+    var s = Math.floor(total / 24) % 60;
+    var m = Math.floor(total / (24 * 60)) % 60;
+    var h = Math.floor(total / (24 * 60 * 60));
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    return pad(h) + ':' + pad(m) + ':' + pad(s) + ':' + pad(f);
+  }
+
+  function initPlayhead() {
+    var fill = $('#playhead-fill');
+    var readout = $('#tc-readout');
+    if (!fill && !readout) return;
+
+    function update() {
+      var doc = document.documentElement;
+      var max = (doc.scrollHeight - (global.innerHeight || 0)) || 1;
+      var y = global.pageYOffset || doc.scrollTop || 0;
+      var ratio = Math.min(1, Math.max(0, y / max));
+      if (fill) fill.style.transform = 'scaleX(' + ratio.toFixed(4) + ')';
+      if (readout) readout.textContent = formatTimecode(ratio * REEL_FRAMES);
+    }
+
+    update();
+    global.addEventListener('scroll', update, { passive: true });
+    global.addEventListener('resize', update);
+  }
 
   function initNav() {
     var shell = $('.nav-shell');
@@ -698,9 +717,9 @@
     var host = $('#hero-canvas');
     if (!host) return;
     try {
-      global.MPVRThree.mount(host, { points: 2400 });
+      global.MPVRThree.mount(host, { points: 260 });
     } catch (err) {
-      /* the CSS mesh stays as the background */
+      /* the page still reads without it */
     }
   }
 
@@ -716,6 +735,7 @@
     initNoScriptFallbacks();
     initReveal();
     initNav();
+    initPlayhead();
     initScrollSpy();
     initSmoothScroll();
     initCopy();

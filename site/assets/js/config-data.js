@@ -373,7 +373,7 @@
       },
       {
         q: 'Does it work on Linux?',
-        a: 'The configuration itself is platform neutral: the video, audio, subtitle and profile files are plain mpv options, and the scripts are plain Lua. Copy the config folder to ~/.config/mpv and you are done. The one-line installer is Windows only because it also installs mpv and yt-dlp for you.'
+        a: 'The configuration itself is platform neutral: the video, audio, subtitle and profile files are plain mpv options, and the scripts are plain Lua. Copy the config folder to ~/.config/mpv and you are done. There is a bash installer next to the PowerShell one: it deploys the configuration, downloads yt-dlp, installs the fonts and checks that the configuration parses. It does not install mpv itself, because on Linux the package manager is the right place for that.'
       },
       {
         q: 'What does it download at runtime?',

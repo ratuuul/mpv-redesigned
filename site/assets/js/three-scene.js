@@ -1,15 +1,16 @@
 /* ==========================================================================
-   mpv-redesigned - hero background
+   mpv-redesigned - the lamp above the hero
    --------------------------------------------------------------------------
-   A slow drift of a few thousand points plus three translucent "glass" planes
-   rendered with additive blending, sitting behind the hero copy.
+   The hero sits in a dark room with one light in it. This is that light:
+   a soft cone coming down from above the frame, with dust turning slowly
+   inside the beam. There is no starfield and no floating glass planes.
 
    Design rules:
-     * capped devicePixelRatio of 2, no antialias, additive blending only
-     * requestAnimationFrame loop that stops when the tab is hidden
-     * prefers-reduced-motion renders exactly one static frame
-     * every geometry, material and the renderer itself are disposed on
-       pagehide so nothing is left behind
+      * capped devicePixelRatio of 2, no antialias, additive blending only
+      * requestAnimationFrame loop that stops when the tab is hidden
+      * prefers-reduced-motion renders exactly one static frame
+      * every geometry, material and the renderer itself are disposed on
+        pagehide so nothing is left behind
    ========================================================================== */
 (function (global) {
   'use strict';
@@ -22,23 +23,97 @@
     return !!reduceMotionQuery.matches;
   }
 
-  function makePoints(THREE, count, spread, size, color, opacity) {
+  var LAMP = 0xe8b860;
+
+  /* The beam.
+     A cone is a shell, and a shell has no volume, so one cone would be
+     invisible. Instead the beam is built from nested cones: a ray that runs
+     close to the axis crosses every shell, and a ray near the edge crosses
+     only the wide ones. Additively blended, that reads as a shaft of light.
+     Each shell fades towards the floor, so the light dies before it lands. */
+  function makeBeam(THREE, radius, height, opacity) {
+    var group = new THREE.Group();
+    var shells = 16;
+    var i;
+
+    for (i = 1; i <= shells; i += 1) {
+      var r = radius * (i / shells);
+      var geometry = new THREE.ConeGeometry(r, height, 48, 1, true);
+      geometry.translate(0, -height / 2, 0);
+
+      var material = new THREE.ShaderMaterial({
+        uniforms: {
+          uHeight: { value: height },
+          uOpacity: { value: (opacity * (1 - i / shells) * 2.4) / shells },
+          uColor: { value: new THREE.Color(LAMP) }
+        },
+        vertexShader: [
+          'varying vec3 vPos;',
+          'varying vec3 vNormal;',
+          'varying vec3 vView;',
+          'void main() {',
+          '  vPos = position;',
+          '  vec4 world = modelMatrix * vec4(position, 1.0);',
+          '  vNormal = normalize(normalMatrix * normal);',
+          '  vView = normalize(cameraPosition - world.xyz);',
+          '  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);',
+          '}'
+        ].join('\n'),
+        fragmentShader: [
+          'uniform float uHeight;',
+          'uniform float uOpacity;',
+          'uniform vec3 uColor;',
+          'varying vec3 vPos;',
+          'varying vec3 vNormal;',
+          'varying vec3 vView;',
+          'void main() {',
+          /* t is the distance from the point of the cone */
+          '  float t = clamp(-vPos.y / uHeight, 0.0, 1.0);',
+          /* brightest just under the lamp, gone by the floor */
+          '  float along = smoothstep(0.0, 0.05, t) * pow(1.0 - t, 1.35);',
+          /* fade the silhouette, otherwise every shell shows as a hard edge */
+          '  float ndv = abs(dot(normalize(vNormal), normalize(vView)));',
+          '  float soft = smoothstep(0.0, 0.45, ndv);',
+          '  gl_FragColor = vec4(uColor, along * soft * uOpacity);',
+          '}'
+        ].join('\n'),
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+        side: THREE.DoubleSide
+      });
+
+      group.add(new THREE.Mesh(geometry, material));
+    }
+
+    return group;
+  }
+
+  /* Dust. Every mote is placed inside the cone so it is only ever visible
+     where the light is, and it falls with the beam. */
+  function makeMotes(THREE, count, radius, height, size, opacity) {
     var positions = new Float32Array(count * 3);
-    var speeds = new Float32Array(count);
+    var depth = new Float32Array(count);
+    var angle = new Float32Array(count);
+    var spread = new Float32Array(count);
+    var speed = new Float32Array(count);
     var i;
 
     for (i = 0; i < count; i += 1) {
-      positions[i * 3] = (Math.random() - 0.5) * spread;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * spread * 0.62;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * spread * 0.5 - 1.5;
-      speeds[i] = 0.012 + Math.random() * 0.05;
+      depth[i] = 0.04 + Math.random() * 0.94;
+      angle[i] = Math.random() * Math.PI * 2;
+      spread[i] = Math.sqrt(Math.random()) * 0.8;
+      speed[i] = 0.012 + Math.random() * 0.03;
+      positions[i * 3] = 0;
+      positions[i * 3 + 1] = 0;
+      positions[i * 3 + 2] = 0;
     }
 
     var geometry = new THREE.BufferGeometry();
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
     var material = new THREE.PointsMaterial({
-      color: color,
+      color: LAMP,
       size: size,
       sizeAttenuation: true,
       transparent: true,
@@ -48,25 +123,13 @@
     });
 
     var points = new THREE.Points(geometry, material);
-    points.userData.speeds = speeds;
-    points.userData.spread = spread * 0.62;
-    points.userData.base = positions.slice(0);
+    points.userData.depth = depth;
+    points.userData.angle = angle;
+    points.userData.spread = spread;
+    points.userData.speed = speed;
+    points.userData.radius = radius;
+    points.userData.height = height;
     return points;
-  }
-
-  function makePlane(THREE, width, height, color, opacity, z) {
-    var geometry = new THREE.PlaneGeometry(width, height);
-    var material = new THREE.MeshBasicMaterial({
-      color: color,
-      transparent: true,
-      opacity: opacity,
-      depthWrite: false,
-      side: THREE.DoubleSide,
-      blending: THREE.AdditiveBlending
-    });
-    var plane = new THREE.Mesh(geometry, material);
-    plane.position.z = z;
-    return plane;
   }
 
   function mount(container, options) {
@@ -75,8 +138,8 @@
 
     var opts = options || {};
     var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(58, 1, 0.1, 100);
-    camera.position.set(0, 0, 6.4);
+    var camera = new THREE.PerspectiveCamera(55, 1, 0.1, 100);
+    camera.position.set(0, 0, 7.6);
 
     var renderer;
     try {
@@ -96,21 +159,21 @@
     renderer.domElement.style.height = '100%';
     container.appendChild(renderer.domElement);
 
-    var pointCount = opts.points || 2400;
-    var fieldA = makePoints(THREE, pointCount, 16, 0.045, 0x8ea2ff, 0.75);
-    var fieldB = makePoints(THREE, Math.round(pointCount * 0.45), 13, 0.03, 0x67e8f9, 0.55);
-    scene.add(fieldA);
-    scene.add(fieldB);
+    var coneRadius = 5.2;
+    var coneHeight = 14;
 
-    var planes = [
-      makePlane(THREE, 7.5, 7.5, 0x4f46e5, 0.075, -2.4),
-      makePlane(THREE, 6.2, 6.2, 0xa21caf, 0.06, -1.7),
-      makePlane(THREE, 5.4, 5.4, 0x0891b2, 0.05, -0.9)
-    ];
-    planes[0].position.set(-1.6, 0.9, -2.4);
-    planes[1].position.set(2.1, -0.7, -1.7);
-    planes[2].position.set(0.4, 1.3, -0.9);
-    for (var p = 0; p < planes.length; p += 1) scene.add(planes[p]);
+    /* The lamp sits above the frame, a little to the right of centre, and
+       the beam falls across the picture. */
+    var beam = makeBeam(THREE, coneRadius, coneHeight, 0.13);
+    beam.position.set(2.6, 3.2, -3.2);
+    beam.rotation.z = 0.1;
+    scene.add(beam);
+
+    var moteCount = opts.points || 700;
+    var motes = makeMotes(THREE, moteCount, coneRadius, coneHeight, 0.022, 0.3);
+    motes.position.copy(beam.position);
+    motes.rotation.z = 0.1;
+    scene.add(motes);
 
     var clock = { last: 0 };
     var frame = null;
@@ -126,16 +189,27 @@
       renderer.setSize(width, height, false);
     }
 
-    function drift(group, elapsed, rate) {
-      var positions = group.geometry.getAttribute('position');
-      var speeds = group.userData.speeds;
-      var span = group.userData.spread;
+    function turn(elapsed) {
+      var positions = motes.geometry.getAttribute('position');
+      var depth = motes.userData.depth;
+      var angle = motes.userData.angle;
+      var spread = motes.userData.spread;
+      var speed = motes.userData.speed;
+      var radius = motes.userData.radius;
+      var height = motes.userData.height;
       var array = positions.array;
       var i;
-      for (i = 0; i < speeds.length; i += 1) {
-        var y = array[i * 3 + 1] + speeds[i] * elapsed * rate;
-        if (y > span * 0.5) y -= span;
-        array[i * 3 + 1] = y;
+
+      for (i = 0; i < speed.length; i += 1) {
+        /* the mote falls, and is carried around the axis on the way down */
+        depth[i] += speed[i] * elapsed;
+        if (depth[i] > 1) depth[i] -= 1;
+        angle[i] += elapsed * 0.12;
+
+        var r = radius * depth[i] * spread[i];
+        array[i * 3] = Math.cos(angle[i]) * r;
+        array[i * 3 + 1] = -depth[i] * height;
+        array[i * 3 + 2] = Math.sin(angle[i]) * r;
       }
       positions.needsUpdate = true;
     }
@@ -145,18 +219,8 @@
       var elapsed = clock.last ? (timestamp - clock.last) / 1000 : 0;
       clock.last = timestamp;
 
-      drift(fieldA, elapsed, 0.55);
-      drift(fieldB, elapsed, -0.38);
-
-      fieldA.rotation.y += elapsed * 0.014;
-      fieldB.rotation.y -= elapsed * 0.021;
-
-      planes[0].rotation.z += elapsed * 0.05;
-      planes[0].rotation.x += elapsed * 0.021;
-      planes[1].rotation.z -= elapsed * 0.037;
-      planes[1].rotation.y += elapsed * 0.016;
-      planes[2].rotation.z += elapsed * 0.028;
-      planes[2].rotation.y -= elapsed * 0.012;
+      turn(elapsed);
+      beam.rotation.y += elapsed * 0.012;
 
       renderer.render(scene, camera);
     }
