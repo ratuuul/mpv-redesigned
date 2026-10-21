@@ -455,9 +455,11 @@ for i = 1, #modifiers do
 	}
 end
 mp.set_key_bindings(primary_bindings, 'mbtn_left', 'force')
-mp.set_key_bindings({
-	{'mbtn_left_dbl', 'ignore'},
-}, 'mbtn_left_dbl', 'force')
+-- NOTE: mbtn_left_dbl is deliberately NOT force-bound to `ignore` here.
+-- The skin used to swallow every double click, which made it impossible to
+-- bind a double-click action in input.conf (e.g. reopening the last media).
+-- input.conf owns MBTN_LEFT_DBL now; the skin only disables it while a
+-- drag is in progress (see binding_levels above).
 mp.set_key_bindings({
 	{
 		'mbtn_right',

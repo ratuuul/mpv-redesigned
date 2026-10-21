@@ -16,7 +16,13 @@ PHOTO SOURCES
   is used whenever one fails:
     loremflickr  https://loremflickr.com/<w>/<h>/<keyword>?lock=<seed>
     picsum       https://picsum.photos/<w>/<h>?random=<seed>
-    unsplash     https://source.unsplash.com/<w>x<h>/?<keyword>   (best effort)
+    unsplash     https://source.unsplash.com/<w>x<h>/?<keyword>   (dead)
+
+  Dead ends (verified 2026-10-21, both return an HTML error page):
+    loremflickr  -> HTTP 500 on every request
+    unsplash     -> HTTP 503, the random endpoint was retired
+  They are therefore no longer in the default `sources` list, but the code
+  still understands them, so re-enabling is a one-line change in bg.conf.
 
   Downloads are asynchronous (curl subprocess), so the player never blocks.
   Every download is validated (size > 5 kB + JPEG/PNG/GIF/WebP/BMP magic
@@ -49,9 +55,11 @@ local o = {
 	timeout = 20,
 	title = 'Background',
 	show_prompt = true,
-	prompt = "What're ya lookin' at? Drop a file or URL already, will ya?",
-	font = 'Geist Medium',
-	font_size = 44,
+	font = 'Geist SemiBold',
+	font_size = 80,
+	font_sub = 'Inter Medium',
+	font_size_sub = 32,
+	prompt = 'Drop a file or link to play',
 	cat_frac = 0.30,
 	cat_max = 340,
 	text_gap = 28,
@@ -85,6 +93,7 @@ local EXTS = { 'jpg', 'png', 'gif', 'webp', 'bmp' }
 
 local state = {
 	busy = false,
+	pending = false,  -- a key press arrived while a download was running
 	gen = 0,
 	bg_path = nil,    -- file currently loaded as the background
 	bg_active = false, -- the background *is* the current file
@@ -134,9 +143,16 @@ local function cache_key(src, seed)
 	return string.format('%s_%dx%d_%d', src, o.width, o.height, seed)
 end
 
+-- Each photo lives in its own folder with a neutral filename, so the skin's
+-- filename label reads "Background.jpg" instead of a cache name.
+local function photo_dir(key)
+	return cache_dir .. key .. '/'
+end
+
 local function find_cached(key)
+	local dir = photo_dir(key)
 	for _, ext in ipairs(EXTS) do
-		local path = cache_dir .. 'bg_' .. key .. '.' .. ext
+		local path = dir .. 'Background.' .. ext
 		local f = io.open(path, 'rb')
 		if f then
 			f:close()
@@ -146,37 +162,55 @@ local function find_cached(key)
 	return nil
 end
 
+local function dir_seed(name)
+	return tonumber(name:match('_%d+x%d+_(%d+)$'))
+end
+
 -- Newest cached photo (largest seed), used when every source fails.
 local function newest_cached()
-	local files = utils.readdir(cache_dir, 'files')
-	if not files then return nil end
+	local dirs = utils.readdir(cache_dir, 'dirs')
+	if not dirs then return nil end
 	local best, best_seed = nil, -1
-	for _, name in ipairs(files) do
-		local seed = name:match('_(%d+)%.[%a]+$')
-		if name:match('^bg_') and seed then
-			seed = tonumber(seed)
-			if seed and seed > best_seed then
-				best, best_seed = cache_dir .. name, seed
+	for _, name in ipairs(dirs) do
+		local seed = dir_seed(name)
+		if seed and seed > best_seed then
+			local path = find_cached(name)
+			if path then
+				best, best_seed = path, seed
 			end
 		end
 	end
 	return best
 end
 
-local function prune_cache()
+-- Delete half-finished downloads.  A .part file is only alive while its
+-- download runs, so anything left over from a previous run is garbage
+-- (mpv was closed mid-download) and would otherwise pile up forever.
+local function sweep_parts()
 	local files = utils.readdir(cache_dir, 'files')
 	if not files then return end
-	local entries = {}
 	for _, name in ipairs(files) do
-		local seed = name:match('_(%d+)%.[%a]+$')
-		if name:match('^bg_') and seed then
-			entries[#entries + 1] = { name = name, seed = tonumber(seed) or 0 }
+		if name:match('^dl_.*%.part$') then
+			os.remove(cache_dir .. name)
 		end
+	end
+end
+
+local function prune_cache()
+	local dirs = utils.readdir(cache_dir, 'dirs')
+	if not dirs then return end
+	local entries = {}
+	for _, name in ipairs(dirs) do
+		local seed = dir_seed(name)
+		if seed then entries[#entries + 1] = { name = name, seed = seed } end
 	end
 	if #entries <= tonumber(o.cache_size) then return end
 	table.sort(entries, function(a, b) return a.seed > b.seed end)
 	for i = tonumber(o.cache_size) + 1, #entries do
-		os.remove(cache_dir .. entries[i].name)
+		local dir = photo_dir(entries[i].name)
+		if not pcall(utils.remove_directory, dir, true) then
+			os.execute('rmdir /s /q "' .. dir:gsub('/', '\\'):gsub('\\$', '') .. '" >nul 2>nul')
+		end
 	end
 end
 
@@ -187,56 +221,65 @@ local icons
 
 local function get_icons()
 	if icons ~= nil then return icons end
-	local path = expand('~~/scripts/uosc/lib/liquid/icons.lua')
-	local ok, mod = pcall(dofile, path)
+	-- icons.lua only contains the inline legacy shapes.  The idle cat lives
+	-- in assets/icons/idle_cat.svg and has to be parsed with svg.lua, exactly
+	-- like uosc does at startup (into our own module instance).
+	local ok, mod = pcall(function()
+		local svg = dofile(expand('~~/scripts/uosc/lib/liquid/svg.lua'))
+		local ic = dofile(expand('~~/scripts/uosc/lib/liquid/icons.lua'))
+		local path = expand('~~/scripts/uosc/assets/icons/idle_cat.svg')
+		local f = io.open(path, 'rb')
+		if f then
+			local text = f:read('*all')
+			f:close()
+			local shapes = svg.parse(text)
+			if shapes and #shapes > 0 then ic.register('idle_cat', shapes) end
+		end
+		return ic
+	end)
 	icons = (ok and type(mod) == 'table') and mod or false
 	return icons
 end
 
-local function hide_prompt()
-	if overlay and state.prompt_shown then
-		overlay.hidden = true
-		overlay:update()
-		state.prompt_shown = false
-	end
-end
-
-local function draw_prompt()
+local function draw_overlay_text()
 	if not o.show_prompt then return end
 	local dim = mp.get_property_native('osd-dimensions')
 	if not dim or not dim.w or not dim.h or dim.w < 2 or dim.h < 2 then return end
-
 	local w, h = dim.w, dim.h
 	local cx, cy = w / 2, h / 2
-	local cat_size = math.min(h * o.cat_frac, o.cat_max)
-	local cat_cy = cy - o.text_gap / 2 - o.font_size / 2
-	local text_y = math.floor(cat_cy + cat_size / 2 + o.text_gap + 0.5)
-
 	local ass = assdraw.ass_new()
-	local cat = get_icons()
-	if cat then
-		pcall(cat.draw_at, ass, 'idle_cat', cx, cat_cy, cat_size, o.ink, '&H00&', nil, true)
-	else
-		text_y = math.floor(cy + 0.5)
-	end
-
-	local ink_bgr = o.ink:sub(5, 6) .. o.ink:sub(3, 4) .. o.ink:sub(1, 2)
+	-- Title
 	ass:new_event()
 	ass:append(string.format(
-		'{\\an5\\pos(%d,%d)\\fn%s\\fs%d\\bord2\\3c&H000000&\\3a&H20&' ..
-		'\\shad2\\4c&H000000&\\4a&H40&\\1c&H%s&}%s',
-		math.floor(cx + 0.5), text_y, o.font, o.font_size, ink_bgr, o.prompt
+		'{\\an5\\pos(%d,%d)\\fn%s\\fs%d\\fsp3\\bord3\\3c&H000000&\\3a&H60&\\shad2\\4c&H000000&\\4a&H90&\\1c&HFFFFFF&}Welcome',
+		math.floor(cx + 0.5), math.floor(cy - 52 + 0.5), o.font, tonumber(o.font_size) or 80
 	))
-
+	-- Subtitle
+	ass:new_event()
+	ass:append(string.format(
+		'{\\an5\\pos(%d,%d)\\fn%s\\fs%d\\fsp1\\bord2.4\\3c&H000000&\\3a&H70&\\shad2\\4c&H000000&\\4a&H80&\\1c&HF0F0F4&}%s',
+		math.floor(cx + 0.5), math.floor(cy + 38 + 0.5), o.font_sub, tonumber(o.font_size_sub) or 32, o.prompt
+	))
 	overlay = overlay or mp.create_osd_overlay('ass-events')
-	-- 0 = under uosc's own overlay (z=2000), so the skin keeps drawing on top.
-	overlay.z = 0
+	overlay.z = 10
 	overlay.res_x = w
 	overlay.res_y = h
 	overlay.data = (ass.text:gsub('^[\r\n]+', ''))
 	overlay.hidden = false
 	overlay:update()
 	state.prompt_shown = true
+end
+
+local function draw_prompt()
+	draw_overlay_text()
+end
+
+local function hide_prompt()
+	if overlay then
+		overlay.hidden = true
+		overlay:update()
+	end
+	state.prompt_shown = false
 end
 
 -- ============================================================== loading ==
@@ -251,7 +294,8 @@ local function load_bg(path, is_new)
 	mp.commandv('loadfile', path, 'replace', -1,
 		'image-display-duration=inf' ..
 		',force-media-title=' .. (o.title:gsub(',', ' ')) ..
-		',save-position-on-quit=no,autocreate-playlist=no')
+		',save-position-on-quit=no,autocreate-playlist=no' ..
+		',panscan=1.0,keepaspect=yes')
 end
 
 -- =========================================================== networking ==
@@ -298,6 +342,18 @@ end
 
 -- ============================================================ fallbacks ==
 
+-- Forward declarations: the download helpers below call back into fetch().
+local fetch
+local queue_pending
+
+-- A key press that arrives while a download is running must not be lost:
+-- it is remembered and honoured as soon as the current download is done.
+local function queue_pending()
+	if not state.pending then return end
+	state.pending = false
+	mp.add_timeout(0.1, function() fetch(false) end)
+end
+
 local function give_up()
 	state.busy = false
 	local cached = newest_cached()
@@ -309,6 +365,7 @@ local function give_up()
 		msg.warn('no photo available (offline and cache is empty)')
 		mp.osd_message('Background: no photo available', 3)
 	end
+	queue_pending()
 end
 
 local function try_source(list, i, seed, gen, quiet)
@@ -351,7 +408,11 @@ local function try_source(list, i, seed, gen, quiet)
 		local status = res and res.status or -1
 		local ext = success and status == 0 and validate(tmp)
 		if ext then
-			local final = cache_dir .. 'bg_' .. key .. '.' .. ext
+			-- A neutral "Background.<ext>" keeps the skin's title label clean.
+			local dir = photo_dir(key)
+			local win = dir:gsub('/', '\\'):gsub('\\$', '')
+			os.execute('mkdir "' .. win .. '" >nul 2>nul')
+			local final = dir .. 'Background.' .. ext
 			os.remove(final)
 			if not os.rename(tmp, final) then final = tmp end
 			state.busy = false
@@ -359,6 +420,7 @@ local function try_source(list, i, seed, gen, quiet)
 			prune_cache()
 			msg.info(('downloaded %s (%s)'):format(src, ext))
 			load_bg(final, true)
+			queue_pending()
 		else
 			os.remove(tmp)
 			msg.verbose(('source %s failed (curl status %s)'):format(src, tostring(status)))
@@ -367,8 +429,14 @@ local function try_source(list, i, seed, gen, quiet)
 	end)
 end
 
-local function fetch(quiet)
-	if state.busy then return end
+local function fetch_impl(quiet)
+	if state.busy then
+		-- A download is still running: remember the request instead of
+		-- dropping it, so every key press still yields a new photo.
+		state.pending = true
+		if not quiet then mp.osd_message('Background: queued', 1) end
+		return
+	end
 	local idle = mp.get_property_bool('idle-active')
 	if not idle and not state.bg_active then
 		-- A real video is playing.  Never steal the file from it.
@@ -383,6 +451,8 @@ local function fetch(quiet)
 	try_source(source_list(), 1, next_seed(), gen, quiet)
 end
 
+fetch = fetch_impl
+
 -- ============================================================== events ==
 
 mp.register_event('file-loaded', function()
@@ -395,6 +465,11 @@ mp.register_event('file-loaded', function()
 			state.new_photo = false
 		end
 		draw_prompt()
+		-- The window (and with it osd-dimensions) usually only exists a
+		-- moment later, so try again once the video output is up.
+		mp.add_timeout(0.2, function()
+			if state.bg_active then draw_prompt() end
+		end)
 	else
 		state.bg_active = false
 		hide_prompt()
@@ -413,13 +488,15 @@ mp.observe_property('idle-active', 'bool', function(_, idle)
 end)
 
 -- Re-fit the prompt after a window resize (the photo itself scales by itself).
+-- NOTE: do not require `prompt_shown` here - the very first osd-dimensions
+-- change is what makes the overlay possible in the first place.
 local resize_timer
 mp.observe_property('osd-dimensions', 'native', function()
 	if not state.bg_active then return end
 	if resize_timer then resize_timer:kill() end
 	resize_timer = mp.add_timeout(0.15, function()
 		resize_timer = nil
-		if state.bg_active and state.prompt_shown then draw_prompt() end
+		if state.bg_active then draw_prompt() end
 	end)
 end)
 
@@ -427,9 +504,19 @@ mp.add_key_binding(nil, 'next', function()
 	fetch(false)
 end)
 
+-- Housekeeping: drop half-finished downloads left behind by a previous
+-- session (mpv closed mid-download).  They are never valid photos and
+-- would otherwise accumulate in the cache folder.
+mp.add_timeout(0, function()
+	ensure_dir()
+	sweep_parts()
+end)
+
 -- Startup: only take over if mpv is genuinely idle (no file was passed).
-mp.add_timeout(tonumber(o.initial_delay) or 1.5, function()
-	if mp.get_property_bool('idle-active') then fetch(true) end
+mp.add_timeout(tonumber(o.initial_delay) or 0.3, function()
+	if mp.get_property_bool('idle-active') then
+		fetch(true)
+	end
 end)
 
 msg.verbose('loaded')

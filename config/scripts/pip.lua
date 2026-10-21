@@ -167,12 +167,10 @@ local function enter()
 end
 
 -- ------------------------------------------------------------- PiP leaving --
-local restore_token = 0
-
 local function restore()
     busy = true
-    restore_token = restore_token + 1
-    local token = restore_token
+    busy_token = busy_token + 1
+    local token = busy_token
     local st = saved or {}
     local geometry = st.geometry or ""
 
@@ -204,8 +202,23 @@ local function restore()
     mp.set_property("border", st.border and "yes" or "no")
     mp.set_property("autofit-smaller", st.autofit_smaller or "")
 
-    if st.maximized then mp.set_property("window-maximized", "yes") end
-    if st.fullscreen then mp.set_property("fullscreen", "yes") end
+    if st.maximized then
+        -- maximise/fullscreen last, and only after the restored geometry has
+        -- been applied: a geometry change while fullscreen makes mpv leave
+        -- fullscreen again on Windows.
+        mp.add_timeout(0.30, function()
+            if token == busy_token and mode == "normal" then
+                mp.set_property("window-maximized", "yes")
+            end
+        end)
+    end
+    if st.fullscreen then
+        mp.add_timeout(0.40, function()
+            if token == busy_token and mode == "normal" then
+                mp.set_property("fullscreen", "yes")
+            end
+        end)
+    end
 
     mode = "normal"
     saved = nil
@@ -220,11 +233,16 @@ local function restore()
     -- `geometry` in fullscreen makes mpv drop out of fullscreen on Windows.
     if geometry == "" and not st.fullscreen and not st.maximized then
         mp.add_timeout(0.25, function()
-            if token == restore_token and mode == "normal" then
+            if token == busy_token and mode == "normal" then
                 mp.set_property("geometry", "")
             end
         end)
     end
+
+    -- Snapshot once everything (incl. delayed restores) has settled.
+    mp.add_timeout(0.60, function()
+        if token == busy_token and mode == "normal" then log("left-final") end
+    end)
 end
 
 -- The active skin (liquid-glass) enforces a controls-safe minimum window size

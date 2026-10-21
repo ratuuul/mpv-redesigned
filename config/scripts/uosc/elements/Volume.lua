@@ -79,9 +79,27 @@ function VolumeSlider:render()
     end
 
     local pebble_r = math.min(width, height) / 2
+    local slider_rect = { ax = ax, ay = ay, bx = bx, by = by }
+    local hovered = get_point_to_rectangle_proximity(cursor, slider_rect) == 0
+    local active = hovered or self.pressed
+
+    -- Liquid Glass hover halo: a soft blurred accent frame behind the
+    -- track, so the slider lifts off the background instead of just
+    -- getting brighter.
+    if active then
+        local accent = theme.current.accent
+        local accent_bgr = accent:sub(5, 6) .. accent:sub(3, 4) .. accent:sub(1, 2)
+        ass:new_event()
+        ass:append(string.format(
+            '{\\an7\\pos(0,0)\\bord5\\blur5\\shad0\\1c&H%s&\\1a&H60&\\p1}m %d %d l %d %d l %d %d l %d %d{\\p0}',
+            accent_bgr, ax, ay, bx, ay, bx, by, ax, by
+        ))
+    end
+
     draw_glass({
         x = ax, y = ay, w = width, h = height, r = pebble_r,
-        intensity = lg.intensity, show_frost = lg.show_frost,
+        intensity = lg.intensity * (active and 1.4 or 1.0),
+        show_frost = lg.show_frost,
     })
 
     local vol_fraction = math.min((state.volume or 0) / (state.volume_max or 100), 1)
@@ -199,7 +217,7 @@ function Volume:render()
     local is_hover = get_point_to_rectangle_proximity(cursor, mute_rect) == 0
     draw_glass({
         x = mute_rect.ax, y = mute_rect.ay, w = mw, h = mh, r = math.min(mw, mh) / 2,
-        intensity = lg.intensity * (is_hover and 1.15 or 1.0),
+        intensity = lg.intensity * (is_hover and 1.4 or 1.0),
         show_frost = lg.show_frost,
     })
 
@@ -214,11 +232,18 @@ function Volume:render()
         local scale = (math.min(mw, mh) * 0.55) / 24
         local ink = theme.current.ink
         local ink_bgr = ink:sub(5, 6) .. ink:sub(3, 4) .. ink:sub(1, 2)
+        local icx = mute_rect.ax + (mw - 24 * scale) / 2
+        local icy = mute_rect.ay + (mh - 24 * scale) / 2
+        -- Same hover glow the control bar uses for its icons.
+        if is_hover then
+            local glow = theme.current.accent or 'FFC46B'
+            pcall(icons.draw_glow_at, ass, icon_name, icx, icy, 24 * scale,
+                glow, '&H40&', 2, 3)
+        end
         ass:new_event()
         ass:append(string.format(
             '{\\an7\\pos(%d,%d)\\bord0\\shad0\\1c&H%s&\\1a&H10&\\fscx%d\\fscy%d\\p1}%s{\\p0}',
-            mute_rect.ax + (mw - 24 * scale) / 2,
-            mute_rect.ay + (mh - 24 * scale) / 2,
+            icx, icy,
             ink_bgr,
             scale * 100, scale * 100,
             icon_path

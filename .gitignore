@@ -23,11 +23,12 @@ config/yt-dlp_linux
 config/yt-dlp_macos
 
 # ---------------------------------------------------------------------------
-#  Publication gate
+#  Site build leftovers (the site is committed as plain static files)
 # ---------------------------------------------------------------------------
-# Created while the configuration is still being edited on the authoring
-# machine. While present, this tree must not be published.
-.HOLD
+site/node_modules/
+site/.vite/
+site/dist/
+site/.cache/
 
 # ---------------------------------------------------------------------------
 #  Backups and scratch files
