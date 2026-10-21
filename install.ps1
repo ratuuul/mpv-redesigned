@@ -266,7 +266,13 @@ function Deploy-Config([string] $Source, [string] $Destination, [string] $Backup
         }
     }
 
-    foreach ($dir in @('cache', 'screenshots')) {
+    # Directories the player and the skin expect to exist.
+    #
+    # `subtitles` is not optional: the uosc skin probes the download folder by
+    # writing a file into it, and it logs
+    # "open_subtitle_downloader: subtitles_directory not writable" and refuses
+    # to open the downloader when the folder is missing.
+    foreach ($dir in @('cache', 'screenshots', 'subtitles')) {
         Invoke-Action "create $dir" {
             New-Item -ItemType Directory -Force -Path (Join-Path $Destination $dir) | Out-Null
         }

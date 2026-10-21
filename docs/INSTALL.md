@@ -101,9 +101,15 @@ No administrator rights: everything goes to your user profile.
    another player is open.
 
 6. **Deploy.**
-   Copies `config\*` into the install directory, creates `cache\` and
-   `screenshots\`, then copies `watch_later\` and `screenshots\` out of the
-   backup so resume points and past screenshots survive.
+   Copies `config\*` into the install directory, creates `cache\`,
+   `screenshots\` and `subtitles\`, then copies `watch_later\` and
+   `screenshots\` out of the backup so resume points and past screenshots
+   survive.
+
+   The `subtitles\` folder is not optional. The uosc skin probes its
+   download folder by writing a file into it, and if the folder is missing
+   it logs `open_subtitle_downloader: subtitles_directory not writable` and
+   refuses to open the subtitle downloader at all.
 
    Runtime state is never deployed. `mpv.log` holds the authoring machine's
    own paths and `recent.json` holds a playback history with local file
