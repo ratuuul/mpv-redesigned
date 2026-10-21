@@ -96,6 +96,15 @@ speed indicators stay hover-only.
 
 ### Liquid Glass fixes applied
 
+The fork is uosc v5.9.2 plus a glass visual layer. The exact list of changed
+and new files, and the licence, are in
+[THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md).
+
+- a new `lib/liquid/` layer: the six-layer glass primitive, the theme
+  tokens, the layout, the spring motion and an SVG-to-ASS icon pipeline
+- the control bar, timeline, volume, speed, top bar and pause indicator were
+  rebuilt for the glass theme and the centred overlays
+- a new "skipped segment" pill and a chapter-list helper
 - window minimum lowered from 1240x420 to 760x320 (the old floor made
   side-by-side work impossible)
 - the speedometer tick no longer spawns a PowerShell subprocess on every
@@ -117,8 +126,9 @@ first. Streaming, format switching and downloads all work out of the box.
 Two independent mechanisms:
 
 **1. Automatic - creator-uploaded subtitles.**
-`ytdl-raw-options=sub-langs=(en|ja|de|es|fr|it|ru|pt|pl|nl|sv|tr|ko|zh).*`
-asks yt-dlp for the subtitles the uploader provided. mpv's `ytdl_hook` turns
+`ytdl-raw-options=sub-langs=(en|ja|de|es|fr|it|ru|pt|pl|nl|sv|tr|ko|zh).*,js-runtimes=node`
+asks yt-dlp for the subtitles the uploader provided, and switches on the Node
+JavaScript runtime that YouTube's format list needs. mpv's `ytdl_hook` turns
 each one into a normal subtitle track immediately, so they are already in
 the track list when the video starts. Cycle them with `v`, or pick from the
 skin's **Subtitles** menu.
@@ -258,11 +268,15 @@ All fonts live in `fonts\` and are loaded by mpv automatically - they are
 
 | Font | Licence | Use |
 |---|---|---|
-| Geist Medium / SemiBold / Mono | OFL-1.1 | subtitles, OSD, ModernZ text |
+| Geist Medium / SemiBold / Mono | OFL-1.1 | subtitles, OSD, Liquid Glass idle screen, ModernZ text |
 | Inter Medium / SemiBold | OFL-1.1 | alternative |
 | Source Sans 3 | OFL-1.1 | alternative |
-| Material Icons Round | Apache-2.0 | Liquid Glass icons |
+| Material Icons Round | Apache-2.0 | ModernZ's Material-style icon set |
 | modernz-icons | LGPL-2.1 (bundled with ModernZ) | ModernZ icons |
+
+Liquid Glass does not use a font for its icons: they are drawing paths
+(`lib/liquid/icons.lua`) with an optional SVG layer in
+`scripts/uosc/assets/icons/`.
 
 The full OFL-1.1 text is in the repository's `licenses/` directory. It is not
 kept in `fonts\` because libass tries to load every file there as a font.
