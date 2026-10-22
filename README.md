@@ -15,7 +15,7 @@ A tuned, single-command [mpv](https://mpv.io) configuration. Liquid Glass contro
 
 <p align="center">
   <picture>
-    <img src="site/assets/images/hero-idle.jpg" alt="The mpv idle screen: a fetched photograph behind the welcome prompt" style="border:1px solid #C3C4BD;border-radius:2px;max-width:100%;height:auto;display:block;margin:0 auto;">
+    <img src="site/assets/images/hero-idle.jpg" alt="The mpv idle screen: a fetched photograph behind the welcome prompt" width="860">
   </picture>
 </p>
 
@@ -91,87 +91,21 @@ Full install details (manual, offline, age-restricted videos) are in [docs/INSTA
 
 ## Feature grid
 
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:16px 0;">
-
-<div style="border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 16px;background:rgba(0,0,0,0.25);">
-<b>Liquid Glass skin</b><br>
-Translucent glass control bar and timeline, centred macOS-style seek/volume/speed overlays, spring speedometer, buffering indicator, custom window border.<br>
-<a href="docs/SKINS.md">docs/SKINS.md</a>
-</div>
-
-<div style="border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 16px;background:rgba(0,0,0,0.25);">
-<b>`gpu-next` + `d3d11va` zero-copy</b><br>
-Hardware decode with frames kept in GPU memory — the single biggest win on shared-memory Intel graphics. Vulkan A/B via `Alt+0`.<br>
-<a href="docs/FEATURES.md">docs/FEATURES.md</a>
-</div>
-
-<div style="border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 16px;background:rgba(0,0,0,0.25);">
-<b>Full-quality scalers</b><br>
-EWA Lanczos luma, spline36 chroma, mitchell downscale, antiring 0.6, debanding with grain, fruit dither.<br>
-<a href="docs/FEATURES.md">docs/FEATURES.md</a>
-</div>
-
-<div style="border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 16px;background:rgba(0,0,0,0.25);">
-<b>24p judder removal</b><br>
-`video-sync=display-resample` + interpolation retimes 23.976/24 fps to a 60 Hz panel.<br>
-<a href="docs/FEATURES.md">docs/FEATURES.md</a>
-</div>
-
-<div style="border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 16px;background:rgba(0,0,0,0.25);">
-<b>WASAPI audio + ReplayGain</b><br>
-Shared-mode WASAPI (`mpv` in the volume mixer), track-mode ReplayGain, `volume-max=130`, gapless audio.<br>
-<a href="docs/FEATURES.md">docs/FEATURES.md</a>
-</div>
-
-<div style="border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 16px;background:rgba(0,0,0,0.25);">
-<b>Designed subtitles</b><br>
-Geist Medium 40, warm off-white, hairline outline + soft shadow, letterbox margins, gentle ASS restyle.<br>
-<a href="docs/FEATURES.md">docs/FEATURES.md</a>
-</div>
-
-<div style="border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 16px;background:rgba(0,0,0,0.25);">
-<b>YouTube format picker</b><br>
-Lists the real formats the server offers and switches without reloading (`F` video, `Alt+f` audio).<br>
-<a href="docs/FEATURES.md">docs/FEATURES.md</a>
-</div>
-
-<div style="border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 16px;background:rgba(0,0,0,0.25);">
-<b>YouTube subtitle picker</b><br>
-Every creator-uploaded and auto-generated track, every language, cached after first fetch (`Alt+s`).<br>
-<a href="docs/FEATURES.md">docs/FEATURES.md</a>
-</div>
-
-<div style="border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 16px;background:rgba(0,0,0,0.25);">
-<b>SponsorBlock</b><br>
-Skip sponsor/intro/outro/self-promo segments per video (`b`).<br>
-<a href="docs/FEATURES.md">docs/FEATURES.md</a>
-</div>
-
-<div style="border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 16px;background:rgba(0,0,0,0.25);">
-<b>Clip cutter</b><br>
-Frame-accurate range picker, H.264/AAC at CRF 18, ~5 MB target, written next to the source (`W`).<br>
-<a href="docs/FEATURES.md">docs/FEATURES.md</a>
-</div>
-
-<div style="border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 16px;background:rgba(0,0,0,0.25);">
-<b>Download stream</b><br>
-Save what you are watching at the quality mpv negotiated, with live progress and no overwrites (`Ctrl+d`).<br>
-<a href="docs/FEATURES.md">docs/FEATURES.md</a>
-</div>
-
-<div style="border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 16px;background:rgba(0,0,0,0.25);">
-<b>Picture-in-picture</b><br>
-Borderless always-on-top mini player anchored above the taskbar; restores the exact previous window state (`Alt+p`).<br>
-<a href="docs/FEATURES.md">docs/FEATURES.md</a>
-</div>
-
-<div style="border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 16px;background:rgba(0,0,0,0.25);">
-<b>Idle photo background</b><br>
-Fetched photograph with "Welcome / Drop a file or link to play" overlay while mpv is idle (`Ctrl+Shift+K`).<br>
-<a href="docs/FEATURES.md">docs/FEATURES.md</a>
-</div>
-
-</div>
+| № | Feature | What it does | Reference |
+|---|---|---|---|
+| 01 | **Liquid Glass skin** | Translucent glass control bar and timeline, centred macOS-style seek/volume/speed overlays, spring speedometer, buffering indicator, custom window border. | [docs/SKINS.md](docs/SKINS.md) |
+| 02 | **`gpu-next` + `d3d11va` zero-copy** | Hardware decode with frames kept in GPU memory — the single biggest win on shared-memory Intel graphics. Vulkan A/B via `Alt+0`. | [docs/FEATURES.md](docs/FEATURES.md) |
+| 03 | **Full-quality scalers** | EWA Lanczos luma, spline36 chroma, mitchell downscale, antiring 0.6, debanding with grain, fruit dither. | [docs/FEATURES.md](docs/FEATURES.md) |
+| 04 | **24p judder removal** | `video-sync=display-resample` + interpolation retimes 23.976/24 fps to a 60 Hz panel. | [docs/FEATURES.md](docs/FEATURES.md) |
+| 05 | **WASAPI audio + ReplayGain** | Shared-mode WASAPI (`mpv` in the volume mixer), track-mode ReplayGain, `volume-max=130`, gapless audio. | [docs/FEATURES.md](docs/FEATURES.md) |
+| 06 | **Designed subtitles** | Geist Medium 40, warm off-white, hairline outline + soft shadow, letterbox margins, gentle ASS restyle. | [docs/FEATURES.md](docs/FEATURES.md) |
+| 07 | **YouTube format picker** | Lists the real formats the server offers and switches without reloading (`F` video, `Alt+f` audio). | [docs/FEATURES.md](docs/FEATURES.md) |
+| 08 | **YouTube subtitle picker** | Every creator-uploaded and auto-generated track, every language, cached after first fetch (`Alt+s`). | [docs/FEATURES.md](docs/FEATURES.md) |
+| 09 | **SponsorBlock** | Skip sponsor/intro/outro/self-promo segments per video (`b`). | [docs/FEATURES.md](docs/FEATURES.md) |
+| 10 | **Clip cutter** | Frame-accurate range picker, H.264/AAC at CRF 18, ~5 MB target, written next to the source (`W`). | [docs/FEATURES.md](docs/FEATURES.md) |
+| 11 | **Download stream** | Save what you are watching at the quality mpv negotiated, with live progress and no overwrites (`Ctrl+d`). | [docs/FEATURES.md](docs/FEATURES.md) |
+| 12 | **Picture-in-picture** | Borderless always-on-top mini player anchored above the taskbar; restores the exact previous window state (`Alt+p`). | [docs/FEATURES.md](docs/FEATURES.md) |
+| 13 | **Idle photo background** | Fetched photograph with "Welcome / Drop a file or link to play" overlay while mpv is idle (`Ctrl+Shift+K`). | [docs/FEATURES.md](docs/FEATURES.md) |
 
 ## Screenshots gallery
 
@@ -181,9 +115,9 @@ Four stills, captured from the reference machine with this configuration install
 
 | | |
 |---|---|
-| <img src="site/assets/images/hero-idle.jpg" alt="The idle screen: a fetched photograph behind the welcome prompt" style="border:1px solid #C3C4BD;border-radius:2px;max-width:100%;height:auto;display:block;margin:0 auto;"> | <img src="site/assets/images/control-bar.png" alt="The Liquid Glass control bar drawn over an SMPTE test signal" style="border:1px solid #C3C4BD;border-radius:2px;max-width:100%;height:auto;display:block;margin:0 auto;"> |
+| <img src="site/assets/images/hero-idle.jpg" alt="The idle screen: a fetched photograph behind the welcome prompt" width="430"> | <img src="site/assets/images/control-bar.png" alt="The Liquid Glass control bar drawn over an SMPTE test signal" width="430"> |
 | **PLATE 01** — the idle screen: a fetched photograph behind the "Welcome / Drop a file or link to play" prompt. | **PLATE 02** — the Liquid Glass control bar, drawn over a playing frame. |
-| <img src="site/assets/images/format-picker.png" alt="The YouTube format picker" style="border:1px solid #C3C4BD;border-radius:2px;max-width:100%;height:auto;display:block;margin:0 auto;"> | <img src="site/assets/images/load-media-menu.png" alt="The load-media browser: a search field and a result list" style="border:1px solid #C3C4BD;border-radius:2px;max-width:100%;height:auto;display:block;margin:0 auto;"> |
+| <img src="site/assets/images/format-picker.png" alt="The YouTube format picker" width="430"> | <img src="site/assets/images/load-media-menu.png" alt="The load-media browser: a search field and a result list" width="430"> |
 | **PLATE 03** — the format picker: the formats the server actually offers. | **PLATE 04** — the load-media browser: a search field and a result list, set in the player's own type scale. |
 
 </p>
