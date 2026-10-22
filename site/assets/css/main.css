@@ -427,7 +427,10 @@ body {
 }
 .tbl thead th {
   position: sticky;
-  top: calc(var(--nav-h) + 0.5rem);
+  /* The header sticks to the top of its own scroll box. A larger offset
+     would push it down over the first row, because the box cannot scroll
+     far enough to absorb it. */
+  top: 0;
   z-index: 2;
   background: var(--paper);
   padding: 0.7rem 0.9rem 0.6rem 0;
