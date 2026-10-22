@@ -1,0 +1,51 @@
+<!-- ================= inside ================= -->
+<section id="inside" class="section">
+  <div class="shell">
+    <div class="section-head">
+      <p class="folio"><span class="folio-num">03</span> Inside the configuration</p>
+      <div class="rule-strong"></div>
+
+      <div class="mt-8 grid gap-x-8 gap-y-10 lg:grid-cols-12">
+        <h2 class="h-section reveal lg:col-span-6">One tree. Every setting has a home.</h2>
+        <p class="deck reveal lg:col-span-6">The configuration is split by domain instead of by length. A renderer option lives with the renderer options, a subtitle option lives with the subtitle options, and the master file only includes the rest.</p>
+      </div>
+    </div>
+
+    <div class="band mt-14">
+      <div class="grid gap-x-8 gap-y-10 lg:grid-cols-12">
+
+      <div class="lg:col-span-8">
+        <p class="kicker">the tree, as deployed</p>
+        <div id="config-tree" class="mt-4 border-t border-rule"></div>
+        <p class="note mt-5">deployed to the mpv configuration directory — the master file includes the rest</p>
+      </div>
+
+      <div class="lg:col-span-4">
+        <ol class="list-none mt-0 mb-0 p-0">
+          <li class="reveal border-t border-rule pt-5 mt-5">
+            <p class="kicker"><span class="text-signal">A / Includes</span></p>
+            <p class="body-copy mt-3"><code class="mono">mpv.conf</code> is a short master file that includes the five <code class="mono">conf</code> files. Nothing is set twice and nothing is set in two places.</p>
+          </li>
+          <li class="reveal border-t border-rule pt-5 mt-5">
+            <p class="kicker"><span class="text-signal">B / Reasoned options</span></p>
+            <p class="body-copy mt-3">Every non-obvious line carries the reason it exists, in the comment above it. A setting nobody can explain is a setting that should not be there.</p>
+          </li>
+          <li class="reveal border-t border-rule pt-5 mt-5">
+            <p class="kicker"><span class="text-signal">C / One keymap</span></p>
+            <p class="body-copy mt-3"><code class="mono">input.conf</code> is the only place a key is bound, and <code class="mono">nav_shim.lua</code> forwards the same bindings to either skin.</p>
+          </li>
+          <li class="reveal border-t border-rule pt-5 mt-5">
+            <p class="kicker"><span class="text-signal">D / Parked, not deleted</span></p>
+            <p class="body-copy mt-3">The alternative skin lives in <code class="mono">skins/modernz</code> and is moved in by a single script. Exactly one skin is ever loaded.</p>
+          </li>
+        </ol>
+      </div>
+
+      </div>
+
+      <div class="band-notes">
+        <p class="measured reveal"><b>5 config files</b>one per domain, plus one master</p>
+      </div>
+    </div>
+  </div>
+</section>

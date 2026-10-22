@@ -1,32 +1,32 @@
 ﻿<!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>mpv-redesigned - a tuned mpv you install with one command</title>
-<meta name="description" content="mpv-redesigned is a tuned mpv configuration for Windows: a Liquid Glass control bar, a full-quality video pipeline, a WASAPI audio chain, designed subtitle typography and a YouTube client with a real format picker. Install it with one command.">
+<meta name="description" content="mpv-redesigned is a tuned mpv configuration for Windows and Linux: a Liquid Glass control bar, a full-quality gpu-next video pipeline, a WASAPI audio chain, designed subtitle typography and a YouTube client with a real format picker. Install it with one command.">
 <meta name="author" content="mpv-redesigned contributors">
-<meta name="theme-color" content="#0a0a09">
+<meta name="theme-color" content="#e7e8e4">
 <link rel="canonical" href="https://ratuuul.github.io/mpv-redesigned/">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="mpv-redesigned">
 <meta property="og:title" content="mpv-redesigned - a tuned mpv you install with one command">
-<meta property="og:description" content="Liquid Glass controls, a full-quality video pipeline, designed subtitle typography and a real YouTube format picker, packaged as one configuration folder.">
+<meta property="og:description" content="Liquid Glass controls, a full-quality video pipeline, designed subtitle typography and a YouTube format picker, packaged as one configuration folder.">
 <meta property="og:url" content="https://ratuuul.github.io/mpv-redesigned/">
 <meta property="og:image" content="https://ratuuul.github.io/mpv-redesigned/assets/images/player-controls.png">
 <meta property="og:image:alt" content="The Liquid Glass control bar drawn over a playing video">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="mpv-redesigned - a tuned mpv you install with one command">
-<meta name="twitter:description" content="Liquid Glass controls, a full-quality video pipeline, designed subtitle typography and a real YouTube format picker.">
+<meta name="twitter:description" content="Liquid Glass controls, a full-quality video pipeline, designed subtitle typography and a YouTube format picker.">
 <meta name="twitter:image" content="https://ratuuul.github.io/mpv-redesigned/assets/images/player-controls.png">
 
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='6' fill='%230a0a09'/%3E%3Cpath d='M18 44V20h13a9 9 0 0 1 0 18H25' stroke='%23efede6' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='44' cy='22' r='4' fill='%23e8b860'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='2' fill='%23e7e8e4'/%3E%3Cpath d='M18 44V20h13a9 9 0 0 1 0 18H25' stroke='%2316171a' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='44' cy='22' r='4' fill='%23bc3a1e'/%3E%3C/svg%3E">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://cdn.tailwindcss.com">
@@ -40,22 +40,18 @@
     theme: {
       extend: {
         colors: {
-          /* the room and the paper, so every utility class on the page is
-             already warm before a single rule is written */
-          white: '#efede6',
-          black: '#0a0a09',
-          ink: { 950: '#0a0a09', 900: '#0f0f0e', 800: '#141413', 700: '#1b1b19', 600: '#262522' },
-          /* the lamp */
-          brand: { 200: '#f6ddaa', 300: '#f0ce8e', 400: '#e8b860', 500: '#c99441', 600: '#b8873a' },
-          neon: { fuchsia: '#e8b860', cyan: '#e8b860', mint: '#e8b860' }
+          paper: { DEFAULT: '#e7e8e4', soft: '#dfe0da', deep: '#d5d6d0' },
+          ink: { DEFAULT: '#16171a', dim: '#33363b', faint: '#5a5e63' },
+          rule: { DEFAULT: '#c3c4bd', soft: '#d3d4ce' },
+          signal: { DEFAULT: '#bc3a1e', deep: '#942c15' },
+          plate: { DEFAULT: '#131416', soft: '#1e2023', ink: '#e7e8e4', dim: '#9aa0a3' }
         },
         fontFamily: {
-          sans: ['Instrument Sans', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
-          serif: ['Instrument Serif', 'Iowan Old Style', 'Times New Roman', 'serif'],
-          mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Consolas', 'monospace']
+          sans: ['Archivo', 'Helvetica Neue', 'Segoe UI', 'Arial', 'sans-serif'],
+          serif: ['Bodoni Moda', 'Bodoni MT', 'Didot', 'Times New Roman', 'serif'],
+          mono: ['IBM Plex Mono', 'ui-monospace', 'SFMono-Regular', 'Consolas', 'monospace']
         },
-        maxWidth: { shell: '88rem' },
-        letterSpacing: { tightest: '-0.045em' }
+        maxWidth: { shell: '90rem' }
       }
     }
   };
@@ -65,50 +61,41 @@
 <link rel="stylesheet" href="assets/css/main.css">
 </head>
 
-<body class="bg-ink-950 text-white/92 font-sans antialiased">
+<body class="bg-paper text-ink font-sans antialiased">
 
 <div id="playhead" aria-hidden="true"><span id="playhead-fill"></span></div>
 
-<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-sm focus:bg-ink-800 focus:px-4 focus:py-2 focus:text-sm focus:text-white">Skip to content</a>
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-sm focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:text-paper">Skip to content</a>
 
-<!-- ============================================================ navbar -->
+<!-- ============================================================ running head -->
 <header class="nav-shell" x-data="siteNav">
   <div class="shell flex h-[var(--nav-h)] items-center justify-between gap-6">
-    <a href="#top" class="group flex items-center gap-3" aria-label="mpv-redesigned home">
-      <span class="grid h-9 w-9 place-items-center rounded-sm border border-white/15">
-        <svg class="h-[18px] w-[18px] text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M5 19V5h7.5a4.5 4.5 0 0 1 0 9H9"></path>
-          <circle cx="18" cy="6.5" r="1.6" fill="var(--lamp)" stroke="none"></circle>
-        </svg>
-      </span>
-      <span class="flex flex-col leading-none">
-        <span class="text-[0.95rem] font-semibold tracking-tight text-white">mpv-redesigned</span>
-        <span class="mono mt-1.5 text-[0.62rem] tracking-[0.08em] text-white/52">a tuned mpv</span>
-      </span>
+    <a href="#top" class="flex items-center gap-3" aria-label="mpv-redesigned home">
+      <span class="h-2 w-2 bg-signal" aria-hidden="true"></span>
+      <span class="mono text-[0.88rem] font-semibold tracking-tight">mpv-redesigned</span>
     </a>
 
-    <nav class="hidden items-center gap-7 lg:flex" aria-label="Primary">
+    <nav class="hidden items-center gap-6 lg:flex" aria-label="Primary">
+      <a class="nav-link" data-spy="showcase" href="#showcase">Showcase</a>
       <a class="nav-link" data-spy="features" href="#features">What you get</a>
       <a class="nav-link" data-spy="inside" href="#inside">Inside</a>
-      <a class="nav-link" data-spy="showcase" href="#showcase">Showcase</a>
       <a class="nav-link" data-spy="deep" href="#deep">Deep dive</a>
       <a class="nav-link" data-spy="keys" href="#keys">Key bindings</a>
       <a class="nav-link" data-spy="install" href="#install">Install</a>
       <a class="nav-link" data-spy="faq" href="#faq">FAQ</a>
     </nav>
 
-    <div class="flex items-center gap-3">
-      <p class="timecode hidden lg:block" aria-hidden="true">
-        <b id="tc-readout">00:00:00:00</b>
-        <span class="text-white/42">/ 12:00:00:00</span>
+    <div class="flex items-center gap-4">
+      <p class="timecode hidden xl:block" aria-hidden="true">
+        <b id="tc-readout">00:00:00:00</b><span class="text-ink-faint"> / 12:00:00:00</span>
       </p>
-      <a class="btn-ghost hidden sm:inline-flex" href="https://github.com/ratuuul/mpv-redesigned" target="_blank" rel="noopener noreferrer">
+      <a class="btn btn-quiet hidden sm:inline-flex" href="https://github.com/ratuuul/mpv-redesigned" target="_blank" rel="noopener noreferrer">
         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.2c-3.34.73-4.04-1.42-4.04-1.42-.55-1.4-1.34-1.77-1.34-1.77-1.1-.75.08-.74.08-.74 1.21.09 1.85 1.24 1.85 1.24 1.08 1.85 2.83 1.31 3.52 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.01 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.21.7.82.58A12 12 0 0 0 12 .5Z"></path>
         </svg>
         GitHub
       </a>
-      <button type="button" class="grid h-10 w-10 place-items-center rounded-sm border border-white/15 text-white/85 lg:hidden" data-drawer-toggle x-on:click="toggle()" :aria-expanded="open ? 'true' : 'false'" aria-controls="mobile-drawer" aria-label="Open the menu">
+      <button type="button" class="grid h-9 w-9 place-items-center rounded-sm border border-rule lg:hidden" data-drawer-toggle x-on:click="toggle()" :aria-expanded="open ? 'true' : 'false'" aria-controls="mobile-drawer" aria-label="Open the menu">
         <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
           <path d="M4 7h16M4 12h16M4 17h16"></path>
         </svg>
@@ -116,169 +103,88 @@
     </div>
   </div>
 
-  <div class="drawer-scrim fixed inset-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden" data-drawer-scrim x-on:click="close()" :class="{ 'is-open': open }" aria-hidden="true"></div>
-  <div id="mobile-drawer" class="drawer fixed right-0 top-0 z-50 h-full w-[min(21rem,86vw)] border-l border-white/10 bg-ink-900/95 px-6 py-7 backdrop-blur-xl lg:hidden" data-drawer :class="{ 'is-open': open }">
-    <p class="label mb-6">Navigate</p>
+  <div class="drawer-scrim fixed inset-0 z-40 bg-ink/60 lg:hidden" data-drawer-scrim x-on:click="close()" :class="{ 'is-open': open }" aria-hidden="true"></div>
+  <div id="mobile-drawer" class="drawer fixed right-0 top-0 z-50 h-full w-[min(21rem,86vw)] border-l border-rule bg-paper px-6 py-7 lg:hidden" data-drawer :class="{ 'is-open': open }">
+    <p class="kicker mb-6">Contents</p>
     <nav class="flex flex-col gap-1" aria-label="Mobile">
+      <a class="nav-link py-2" data-spy="showcase" href="#showcase">Showcase</a>
       <a class="nav-link py-2" data-spy="features" href="#features">What you get</a>
       <a class="nav-link py-2" data-spy="inside" href="#inside">Inside the configuration</a>
-      <a class="nav-link py-2" data-spy="showcase" href="#showcase">Showcase</a>
       <a class="nav-link py-2" data-spy="deep" href="#deep">Feature deep dive</a>
       <a class="nav-link py-2" data-spy="keys" href="#keys">Key bindings</a>
       <a class="nav-link py-2" data-spy="install" href="#install">Install</a>
       <a class="nav-link py-2" data-spy="faq" href="#faq">FAQ</a>
     </nav>
-    <div class="mt-8 border-t border-white/10 pt-6">
-      <a class="btn-primary w-full justify-center" href="https://github.com/ratuuul/mpv-redesigned" target="_blank" rel="noopener noreferrer">Open the repository</a>
+    <div class="mt-8 border-t border-rule pt-6">
+      <a class="btn btn-signal w-full justify-center" href="https://github.com/ratuuul/mpv-redesigned" target="_blank" rel="noopener noreferrer">Open the repository</a>
     </div>
   </div>
 </header>
 
+<main id="main">
+
 <!-- ========================================================== hero -->
-<section id="top" class="relative z-10 overflow-hidden">
-  <div id="hero-canvas" class="pointer-events-none absolute inset-0" aria-hidden="true"></div>
+<section id="top" class="section">
+  <div class="shell mt-10 md:mt-16">
+    <div class="grid gap-x-8 gap-y-10 lg:grid-cols-12">
 
-  <div class="shell relative pb-20 pt-32 md:pb-28 md:pt-40">
-    <div class="grid items-center gap-14 lg:grid-cols-12">
+      <!-- the column of words -->
       <div class="lg:col-span-6">
-        <p class="stamp hero-enter" style="animation-delay:.05s">mpv 0.41-dev &middot; libplacebo 7.358</p>
+        <p class="kicker hero-enter" style="animation-delay:.05s">mpv 0.41-dev &middot; libplacebo 7.358.0 &middot; Windows + Linux</p>
 
-        <h1 class="display hero-enter mt-7 text-white" style="animation-delay:.13s">
-          A tuned mpv that finally looks designed.
-        </h1>
+        <h1 class="masthead hero-enter mt-6" style="animation-delay:.13s">A tuned mpv that finally looks designed.</h1>
 
-        <p class="lede hero-enter mt-7" style="animation-delay:.21s">
-          A Liquid Glass control bar that stays on screen, a video pipeline that does not soften the picture,
-          a WASAPI audio chain, subtitles set on purpose, and a YouTube client that lists the formats the
-          server actually offers. One configuration folder, one command to install it.
+        <p class="deck hero-enter mt-6" style="animation-delay:.21s">
+          One configuration folder: a Liquid Glass control bar that stays on screen, a video pipeline that does not
+          soften the picture, a WASAPI audio chain, subtitles set on purpose, and a YouTube client that lists the
+          formats the server actually offers.
         </p>
 
-        <div class="hero-enter mt-9 flex flex-wrap items-center gap-3" style="animation-delay:.29s">
-          <a class="btn-primary" href="#install">
-            Install in one command
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M5 12h13M13 6l6 6-6 6"></path>
-            </svg>
-          </a>
-          <a class="btn-ghost" href="#keys">Browse the key bindings</a>
+        <div class="hero-enter mt-8 flex flex-wrap items-center gap-3" style="animation-delay:.29s">
+          <a class="btn btn-signal" href="#install">Install in one command</a>
+          <a class="btn btn-quiet" href="#keys">See the key bindings</a>
+        </div>
+      </div>
+
+      <!-- the picture -->
+      <div class="lg:col-span-6">
+        <figure class="plate hero-enter" style="animation-delay:.37s">
+          <img src="assets/images/hero-idle.png" alt="The mpv idle screen, with a fetched photograph behind the prompt and the key hints" width="1920" height="1200" loading="eager" decoding="async">
+          <figcaption class="plate-cap"><b>PLATE 01</b> <span>the idle screen &mdash; a fetched photograph behind the prompt</span></figcaption>
+        </figure>
+      </div>
+
+      <!-- the one command -->
+      <div class="lg:col-span-12">
+        <div class="rule"></div>
+
+        <div class="mt-6">
+          <p class="kicker">windows &middot; powershell</p>
+          <div class="mt-2 flex items-start gap-3">
+            <div class="cmd flex-1">irm https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.ps1 | iex</div>
+            <button type="button" class="copy-btn mt-2" data-copy="irm https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.ps1 | iex"><span data-copy-label>copy</span></button>
+          </div>
         </div>
 
-        <div class="hero-enter mt-12" style="animation-delay:.37s">
-          <div class="terminal">
-            <div class="terminal-row">
-              <div class="terminal-bar">
-                <span>windows &middot; powershell</span>
-                <button type="button" class="copy-btn" data-copy="irm https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.ps1 | iex"><span data-copy-label>copy</span></button>
-              </div>
-              <div class="terminal-body">irm https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.ps1 | iex</div>
-            </div>
-            <div class="terminal-row">
-              <div class="terminal-bar">
-                <span>linux &middot; bash</span>
-                <button type="button" class="copy-btn" data-copy="curl -fsSL https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.sh | bash"><span data-copy-label>copy</span></button>
-              </div>
-              <div class="terminal-body">curl -fsSL https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.sh | bash</div>
-            </div>
+        <div class="mt-6">
+          <p class="kicker">linux &middot; bash</p>
+          <div class="mt-2 flex items-start gap-3">
+            <div class="cmd flex-1">curl -fsSL https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.sh | bash</div>
+            <button type="button" class="copy-btn mt-2" data-copy="curl -fsSL https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.sh | bash"><span data-copy-label>copy</span></button>
           </div>
         </div>
       </div>
 
-      <div class="lg:col-span-6">
-        <figure class="frame hero-enter" style="animation-delay:.45s">
-          <img src="assets/images/hero-idle.png" alt="The mpv idle screen showing a background photograph with the welcome prompt and key hints on top" width="1920" height="1200" loading="eager" decoding="async">
-        </figure>
-        <p class="caption mt-4 text-center">The idle screen, with a fetched photograph behind the prompt</p>
-      </div>
     </div>
 
-    <div class="mt-24">
+    <!-- the four numbers, and the claims in the margin band -->
+    <div class="band mt-14">
       <div id="stats-fallback" class="stat-strip"></div>
       <div id="stats-antd" class="hidden"></div>
-    </div>
-  </div>
-</section>
 
-<!-- ====================================================== features -->
-<section id="features" class="section">
-  <div class="shell">
-    <div class="section-head">
-      <div class="section-head-line">
-        <span class="stamp reveal">00:01:12:04</span>
-        <span class="section-head-rule reveal"></span>
-      </div>
-      <div class="mt-8 grid gap-x-8 gap-y-6 lg:grid-cols-12">
-        <h2 class="display-md reveal lg:col-span-6 text-white">Twelve things the default mpv never had.</h2>
-        <p class="lede reveal lg:col-span-6">
-          Every card below is a setting you can read in the repository, on a file that explains why it exists.
-          Nothing is hidden in a binary, and every one of them can be switched off again.
-        </p>
-      </div>
-    </div>
-
-    <div id="feature-grid" class="feature-grid mt-14"></div>
-  </div>
-</section>
-
-<!-- ======================================================== inside -->
-<section id="inside" class="section">
-  <div class="shell">
-    <div class="section-head">
-      <div class="section-head-line">
-        <span class="stamp reveal">00:02:38:19</span>
-        <span class="section-head-rule reveal"></span>
-      </div>
-      <div class="mt-8 grid gap-x-8 gap-y-6 lg:grid-cols-12">
-        <h2 class="display-md reveal lg:col-span-6 text-white">One tree. Every setting has a home.</h2>
-        <p class="lede reveal lg:col-span-6">
-          The configuration is split by domain instead of by length. A renderer option lives with the renderer
-          options, a subtitle option lives with the subtitle options, and the master file only includes the rest.
-        </p>
-      </div>
-    </div>
-
-    <div class="mt-14 grid gap-x-8 gap-y-6 lg:grid-cols-12">
-      <div class="lg:col-span-6">
-        <div class="code-shell reveal">
-          <div class="flex items-center justify-between gap-3 border-b border-white/[0.07] bg-white/[0.02] px-4 py-3">
-            <span class="mono text-[0.7rem] uppercase tracking-[0.2em] text-white/48">config tree</span>
-            <span class="mono text-[0.7rem] text-white/42">deployed to the mpv config directory</span>
-          </div>
-          <div id="config-tree" class="py-4"></div>
-        </div>
-      </div>
-
-      <div class="lg:col-span-6">
-        <ol class="flex flex-col">
-          <li class="ruled reveal">
-            <p class="ruled-key">A / Includes</p>
-            <p class="mt-3 text-sm leading-relaxed text-white/72">
-              <code class="mono text-white/88">mpv.conf</code> is a short master file that includes the five
-              <code class="mono text-white/88">conf</code> files. Nothing is set twice and nothing is set in two places.
-            </p>
-          </li>
-          <li class="ruled reveal">
-            <p class="ruled-key">B / Reasoned options</p>
-            <p class="mt-3 text-sm leading-relaxed text-white/72">
-              Every non-obvious line carries the reason it exists. The comment above the yt-dlp options explains
-              why the JavaScript runtime line must not be removed.
-            </p>
-          </li>
-          <li class="ruled reveal">
-            <p class="ruled-key">C / One keymap</p>
-            <p class="mt-3 text-sm leading-relaxed text-white/72">
-              <code class="mono text-white/88">input.conf</code> is the only place a key is bound.
-              <code class="mono text-white/88">nav_shim.lua</code> detects the active skin and forwards the same
-              bindings to it, so switching skins never changes how you drive the player.
-            </p>
-          </li>
-          <li class="ruled ruled-last reveal">
-            <p class="ruled-key">D / Parked, not deleted</p>
-            <p class="mt-3 text-sm leading-relaxed text-white/72">
-              The alternative skin lives in <code class="mono text-white/88">skins/modernz</code> and is moved in
-              by a single script. Exactly one skin is ever loaded.
-            </p>
-          </li>
-        </ol>
+      <div class="band-notes">
+        <p class="measured"><b>0 dropped frames</b>at 1920&times;1200 on Intel integrated graphics</p>
+        <p class="measured mt-5"><b>PSNR &ge; 66.5 dB</b>against the software decoder</p>
       </div>
     </div>
   </div>
@@ -288,553 +194,691 @@
 <section id="showcase" class="section">
   <div class="shell">
     <div class="section-head">
-      <div class="section-head-line">
-        <span class="stamp reveal">00:03:55:02</span>
-        <span class="section-head-rule reveal"></span>
-      </div>
+      <p class="folio"><span class="folio-num">01</span> Showcase</p>
+      <div class="rule-strong"></div>
+
       <div class="mt-8 grid gap-x-8 gap-y-6 lg:grid-cols-12">
-        <h2 class="display-md reveal lg:col-span-6 text-white">Glass, drawn in four stills.</h2>
-        <p class="lede reveal lg:col-span-6">
-          The skin is best seen moving, but the static frames still say a lot: a control bar that does not
-          black out the picture, overlays that follow the pointer, and panels that belong to the same design.
+        <h2 class="h-section lg:col-span-6">Four stills, and a skin that stays out of the way.</h2>
+        <p class="deck lg:col-span-6">
+          The skin is best seen moving, but the stills say a lot: a control bar that does not black out the picture,
+          overlays that follow the pointer, and panels that belong to the same design.
         </p>
       </div>
     </div>
+  </div>
 
-    <div class="mt-14" x-data="tabSet" data-tabs>
-      <div class="grid gap-x-8 gap-y-6 lg:grid-cols-12">
-        <div class="lg:col-span-5">
-          <div class="flex gap-4 overflow-x-auto pb-2 lg:flex-col lg:gap-0 lg:overflow-visible lg:pb-0" role="tablist" aria-label="Screenshots">
-            <button type="button" class="tab-rail whitespace-nowrap" data-tab="0" x-on:click="select(0)" :class="{ 'is-active': active === 0 }" role="tab" aria-selected="true" aria-controls="shot-0">
-              <span class="mono mr-3 text-[0.66rem] tracking-[0.2em] text-white/45">01</span> Idle screen
-            </button>
-            <button type="button" class="tab-rail whitespace-nowrap" data-tab="1" x-on:click="select(1)" :class="{ 'is-active': active === 1 }" role="tab" aria-selected="false" aria-controls="shot-1">
-              <span class="mono mr-3 text-[0.66rem] tracking-[0.2em] text-white/45">02</span> Liquid Glass controls
-            </button>
-            <button type="button" class="tab-rail whitespace-nowrap" data-tab="2" x-on:click="select(2)" :class="{ 'is-active': active === 2 }" role="tab" aria-selected="false" aria-controls="shot-2">
-              <span class="mono mr-3 text-[0.66rem] tracking-[0.2em] text-white/45">03</span> Hover overlays
-            </button>
-            <button type="button" class="tab-rail whitespace-nowrap" data-tab="3" x-on:click="select(3)" :class="{ 'is-active': active === 3 }" role="tab" aria-selected="false" aria-controls="shot-3">
-              <span class="mono mr-3 text-[0.66rem] tracking-[0.2em] text-white/45">04</span> Menu panels
-            </button>
-          </div>
-        </div>
+  <!-- the one dark room -->
+  <div class="dark-plate w-full py-16">
+    <div class="shell">
+      <div class="rule"></div>
+      <p class="kicker mt-6">the frames, on a light table</p>
+      <div id="plate-canvas" class="plate-canvas mt-6"></div>
+      <p class="note mt-6 text-plate-dim">
+        The four frames turn slowly on the light table. Drag the sheet to move through them by hand, or leave it
+        alone and it keeps turning.
+      </p>
+    </div>
+  </div>
 
-        <div class="lg:col-span-7">
-          <div id="shot-0" data-tab-panel="0" x-show="active === 0" x-transition.opacity.duration.150ms x-cloak>
-            <figure class="frame aspect-[17/10]">
-              <img class="h-full w-full object-contain" src="assets/images/hero-idle.png" alt="The idle welcome screen with a background photograph and the prompt on top" width="1700" height="1000" loading="lazy" decoding="async">
-            </figure>
-            <p class="mt-5 text-sm leading-relaxed text-white/62">
-              Nothing loaded, and it still looks finished. A cached photograph sits behind the window with the
-              prompt and the key hints on top.
-            </p>
-          </div>
+  <div class="shell">
+    <!-- the four printed figures -->
+    <div class="mt-14 grid gap-x-8 gap-y-10 lg:grid-cols-12">
+      <figure class="plate lg:col-span-6 reveal">
+        <img src="assets/images/player-controls.png" alt="The Liquid Glass control bar drawn over a playing frame, with a hairline timeline along the bottom" width="1500" height="900" loading="lazy" decoding="async">
+        <figcaption class="plate-cap"><b>PLATE 02</b> <span>Liquid Glass controls over a playing frame</span></figcaption>
+      </figure>
 
-          <div id="shot-1" data-tab-panel="1" x-show="active === 1" x-transition.opacity.duration.150ms x-cloak>
-            <figure class="frame aspect-[17/10]">
-              <img class="h-full w-full object-contain" src="assets/images/player-controls.png" alt="The Liquid Glass control bar with a translucent timeline over a playing video" width="1500" height="900" loading="lazy" decoding="async">
-            </figure>
-            <p class="mt-5 text-sm leading-relaxed text-white/62">
-              The control bar stays on screen while the picture plays: a hairline timeline, a soft translucency,
-              and no opaque black slab across the bottom of the frame.
-            </p>
-          </div>
+      <figure class="plate lg:col-span-6 reveal">
+        <img src="assets/images/volume-hover.png" alt="The volume ribbon drawn above the frame, under the pointer, while the pointer rests on the speaker control" width="1500" height="900" loading="lazy" decoding="async">
+        <figcaption class="plate-cap"><b>PLATE 03</b> <span>the volume ribbon, drawn where the pointer is</span></figcaption>
+      </figure>
 
-          <div id="shot-2" data-tab-panel="2" x-show="active === 2" x-transition.opacity.duration.150ms x-cloak>
-            <figure class="frame aspect-[17/10]">
-              <img class="h-full w-full object-contain" src="assets/images/volume-hover.png" alt="The volume slider shown while the pointer hovers over the speaker icon" width="1500" height="900" loading="lazy" decoding="async">
-            </figure>
-            <p class="mt-5 text-sm leading-relaxed text-white/62">
-              Centred macOS-style overlays appear where the pointer is, with the volume slider drawn as one
-              continuous glass ribbon.
-            </p>
-          </div>
+      <figure class="plate lg:col-span-6 reveal">
+        <img src="assets/images/menu-autosubs.png" alt="The menu panel listing the subtitle tracks found by the automatic lookup, set in the player type scale" width="1500" height="900" loading="lazy" decoding="async">
+        <figcaption class="plate-cap"><b>PLATE 04</b> <span>the menu panel, same type scale as the player</span></figcaption>
+      </figure>
 
-          <div id="shot-3" data-tab-panel="3" x-show="active === 3" x-transition.opacity.duration.150ms x-cloak>
-            <figure class="frame aspect-[17/10]">
-              <img class="h-full w-full object-contain" src="assets/images/menu-autosubs.png" alt="The menu panel listing the subtitle tracks found by the automatic lookup" width="1500" height="900" loading="lazy" decoding="async">
-            </figure>
-            <p class="mt-5 text-sm leading-relaxed text-white/62">
-              The menu panel matches the skin: a rounded sheet, a hairline border and the same type scale as the
-              rest of the player.
-            </p>
-          </div>
-        </div>
+      <figure class="plate lg:col-span-6 reveal">
+        <img src="assets/images/hero-idle.png" alt="The mpv idle screen with a fetched photograph behind the prompt and the key hints" width="1920" height="1200" loading="lazy" decoding="async">
+        <figcaption class="plate-cap"><b>PLATE 01</b> <span>the idle screen</span></figcaption>
+      </figure>
+    </div>
+
+    <!-- the reading copy, and the claim in the margin band -->
+    <div class="band mt-12">
+      <p class="body-copy">
+        All four frames are captures from the same machine and the same configuration, not drawings made for this
+        page. The control bar is the uosc Liquid Glass theme, the volume ribbon is drawn where the pointer rests,
+        and the menu panel is set in the player's own type scale.
+      </p>
+
+      <div class="band-notes">
+        <p class="measured"><b>4 stills</b>1500 &times; 900, captured from the reference machine</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===================================================== deep dive -->
+<!-- ================= features ================= -->
+<section id="features" class="section">
+  <div class="shell">
+    <div class="section-head">
+      <p class="folio"><span class="folio-num">02</span> What you get</p>
+      <div class="rule-strong"></div>
+
+      <div class="mt-8 grid gap-x-8 gap-y-10 lg:grid-cols-12">
+        <h2 class="h-section reveal lg:col-span-6">Twelve things the default mpv never had.</h2>
+        <p class="deck reveal lg:col-span-6">Every entry below is a setting you can read in the repository, on a file that explains why it exists. Nothing is hidden in a binary, and every one of them can be switched off again.</p>
+      </div>
+    </div>
+
+    <div class="mt-14">
+      <div id="feature-grid" class="grid gap-x-10"></div>
+    </div>
+
+    <div class="band mt-12">
+      <div class="grid gap-x-8 gap-y-8 lg:grid-cols-12">
+      <p class="body-copy lg:col-span-8">
+        The configuration is split by domain rather than by length, so a renderer option lives with the renderer
+        options and a subtitle option lives with the subtitle options. The master file only includes the rest.
+        Read one domain end to end and you have read everything that domain is able to do.
+      </p>
+      </div>
+
+      <div class="band-notes">
+        <p class="measured reveal"><b>13 scripts</b>and 5 GLSL shaders, all shipped</p>
+        <p class="measured reveal"><b>10 profiles</b>Alt+0 to Alt+9, applied on the fly</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= inside ================= -->
+<section id="inside" class="section">
+  <div class="shell">
+    <div class="section-head">
+      <p class="folio"><span class="folio-num">03</span> Inside the configuration</p>
+      <div class="rule-strong"></div>
+
+      <div class="mt-8 grid gap-x-8 gap-y-10 lg:grid-cols-12">
+        <h2 class="h-section reveal lg:col-span-6">One tree. Every setting has a home.</h2>
+        <p class="deck reveal lg:col-span-6">The configuration is split by domain instead of by length. A renderer option lives with the renderer options, a subtitle option lives with the subtitle options, and the master file only includes the rest.</p>
+      </div>
+    </div>
+
+    <div class="band mt-14">
+      <div class="grid gap-x-8 gap-y-10 lg:grid-cols-12">
+
+      <div class="lg:col-span-8">
+        <p class="kicker">the tree, as deployed</p>
+        <div id="config-tree" class="mt-4 border-t border-rule"></div>
+        <p class="note mt-5">deployed to the mpv configuration directory — the master file includes the rest</p>
+      </div>
+
+      <div class="lg:col-span-4">
+        <ol class="list-none mt-0 mb-0 p-0">
+          <li class="reveal border-t border-rule pt-5 mt-5">
+            <p class="kicker"><span class="text-signal">A / Includes</span></p>
+            <p class="body-copy mt-3"><code class="mono">mpv.conf</code> is a short master file that includes the five <code class="mono">conf</code> files. Nothing is set twice and nothing is set in two places.</p>
+          </li>
+          <li class="reveal border-t border-rule pt-5 mt-5">
+            <p class="kicker"><span class="text-signal">B / Reasoned options</span></p>
+            <p class="body-copy mt-3">Every non-obvious line carries the reason it exists, in the comment above it. A setting nobody can explain is a setting that should not be there.</p>
+          </li>
+          <li class="reveal border-t border-rule pt-5 mt-5">
+            <p class="kicker"><span class="text-signal">C / One keymap</span></p>
+            <p class="body-copy mt-3"><code class="mono">input.conf</code> is the only place a key is bound, and <code class="mono">nav_shim.lua</code> forwards the same bindings to either skin.</p>
+          </li>
+          <li class="reveal border-t border-rule pt-5 mt-5">
+            <p class="kicker"><span class="text-signal">D / Parked, not deleted</span></p>
+            <p class="body-copy mt-3">The alternative skin lives in <code class="mono">skins/modernz</code> and is moved in by a single script. Exactly one skin is ever loaded.</p>
+          </li>
+        </ol>
+      </div>
+
+      </div>
+
+      <div class="band-notes">
+        <p class="measured reveal"><b>5 config files</b>one per domain, plus one master</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= deep dive ================= -->
 <section id="deep" class="section">
   <div class="shell">
+
     <div class="section-head">
-      <div class="section-head-line">
-        <span class="stamp reveal">00:05:21:14</span>
-        <span class="section-head-rule reveal"></span>
-      </div>
-      <div class="mt-8 grid gap-x-8 gap-y-6 lg:grid-cols-12">
-        <h2 class="display-md reveal lg:col-span-6 text-white">The six details that change the feel.</h2>
-        <p class="lede reveal lg:col-span-6">
-          Six pieces of the configuration are worth reading closely, because they are the difference between
-          an mpv you tolerate and one you keep open.
-        </p>
+      <p class="folio"><span class="folio-num">04</span> Feature deep dive</p>
+      <div class="rule-strong"></div>
+      <div class="grid gap-x-8 gap-y-10 lg:grid-cols-12 mt-10">
+        <h2 class="h-section lg:col-span-6 reveal">The six details that change the feel.</h2>
+        <p class="deck lg:col-span-6 reveal">Six pieces of the configuration are worth reading closely, because they are the difference between an mpv you tolerate and one you keep open.</p>
       </div>
     </div>
 
-    <div class="mt-14 flex flex-col gap-14 lg:gap-20">
+    <div class="rule mt-16"></div>
 
-      <article class="grid gap-x-8 gap-y-6 lg:grid-cols-12">
+    <!-- ------------------------------------------------------ deep dive 01 -->
+    <article class="mt-16 reveal">
+      <div class="grid gap-x-8 gap-y-8 lg:grid-cols-12">
         <div class="lg:col-span-6">
-          <p class="stamp">Deep dive 01</p>
-          <h3 class="display-sm mt-4 text-white">The idle photo background</h3>
-          <p class="mt-5 text-[0.98rem] leading-relaxed text-white/68">
-            When there is nothing to play, mpv shows a black rectangle. This configuration fetches a photograph
-            instead, caches it locally, and puts the prompt on top of it. The image is blurred and darkened
-            enough that the text stays readable, and the next photo is one key away.
-          </p>
-          <ul class="mt-6 flex flex-col gap-2.5 text-sm text-white/62">
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Cached on disk, so the idle screen never waits on the network twice.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Keyword driven, and it can be switched off completely with one option.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>The next photo is fetched with <kbd>Ctrl+Shift+K</kbd>.</li>
+          <p class="kicker">Deep dive 01</p>
+          <h3 class="h-sub mt-3">The idle photo background.</h3>
+          <p class="body-copy mt-4">When there is nothing to play, mpv shows a black rectangle and waits. This configuration fetches a photograph instead, caches it locally and puts the prompt on top of it. The image is blurred and darkened enough that the text stays readable over it, and the next photograph is one key away.</p>
+          <ul class="list-none grid gap-3 mt-6">
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Cached on disk, so the idle screen never waits on the network twice.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Keyword driven, and switched off completely with a single option.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>The next photograph is fetched with <kbd>Ctrl+Shift+K</kbd>.</span>
+            </li>
           </ul>
         </div>
-        <div class="lg:col-span-6">
-          <div class="glass reveal p-6">
-            <p class="label">script-opts / bg.conf</p>
-            <pre class="shell-cmd mt-4"># keywords are comma separated
-keywords=nature,landscape,minimal,city,night
-# leave empty for a random photo
-cache_dir=~~/cache/bg</pre>
-            <div class="mt-5 flex items-center gap-3 border-t border-white/[0.07] pt-5">
-              <span class="chip">bg.lua</span>
-              <span class="text-xs text-white/52">Fetches, caches and paints the background.</span>
-            </div>
-          </div>
-        </div>
-      </article>
+        <figure class="lg:col-span-6">
+          <div class="code-block"><span class="cmt"># Comma-separated; one is picked at random</span>
+<span class="cmt"># for every new photo.</span>
+<span class="opt">keywords</span>=<span class="val">nature,landscape,minimal,city,night</span>
+<span class="cmt"># Keep at most this many photos in ~~/cache/bg/</span>
+<span class="opt">cache_size</span>=<span class="val">20</span></div>
+          <figcaption class="plate-cap"><b>FIG. 04.1</b> <span>script-opts / bg.conf</span></figcaption>
+        </figure>
+      </div>
+    </article>
 
-      <article class="grid gap-x-8 gap-y-6 lg:grid-cols-12">
-        <div class="lg:col-span-6 lg:order-2">
-          <p class="stamp">Deep dive 02</p>
-          <h3 class="display-sm mt-4 text-white">Double-click to resume</h3>
-          <p class="mt-5 text-[0.98rem] leading-relaxed text-white/68">
-            Closing mpv and coming back later should not mean finding the file again. The double click on the
-            window reopens the last media and resumes it at the exact position it was left at, and the saved
-            position deliberately ignores stray volume and mute changes.
-          </p>
-          <ul class="mt-6 flex flex-col gap-2.5 text-sm text-white/62">
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>A deliberately narrow list of what is restored: start, speed, pitch, tracks, delay and scale.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>No modification time check, so remote files keep their saved position.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Fullscreen moved to <kbd>f</kbd> so the double click is free.</li>
-          </ul>
-        </div>
+    <div class="rule mt-16"></div>
+
+    <!-- ------------------------------------------------------ deep dive 02 -->
+    <article class="mt-16 reveal">
+      <div class="grid gap-x-8 gap-y-8 lg:grid-cols-12">
         <div class="lg:col-span-6 lg:order-1">
-          <div class="glass reveal p-6">
-            <p class="label">config / mpv.conf</p>
-            <pre class="shell-cmd mt-4">save-position-on-quit=yes
-resume-playback=yes
-resume-playback-check-mtime=no
-write-filename-in-watch-later-config=yes
-watch-later-options=start,speed,pitch,aid,sid,sub-delay,sub-scale</pre>
-            <div class="mt-5 flex items-center gap-3 border-t border-white/[0.07] pt-5">
-              <span class="chip">lasthit.lua</span>
-              <span class="text-xs text-white/52">Reopens the last file on a double click.</span>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <article class="grid gap-x-8 gap-y-6 lg:grid-cols-12">
-        <div class="lg:col-span-6">
-          <p class="stamp">Deep dive 03</p>
-          <h3 class="display-sm mt-4 text-white">YouTube, as a real client</h3>
-          <p class="mt-5 text-[0.98rem] leading-relaxed text-white/68">
-            The format menu lists the formats the server actually offers and switches between them without
-            reloading the video. The subtitle menu lists every language the video carries, creator uploaded and
-            auto generated, with a separate track for the secondary language.
-          </p>
-          <ul class="mt-6 flex flex-col gap-2.5 text-sm text-white/62">
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Creator subtitles are pre-loaded as normal tracks, so the usual key still works.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Sponsor segments can be skipped, and the category list is configurable.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>The stream you are watching can be downloaded at the quality mpv negotiated.</li>
+          <p class="kicker">Deep dive 02</p>
+          <h3 class="h-sub mt-3">Double-click to resume.</h3>
+          <p class="body-copy mt-4">Closing mpv and coming back later should not mean finding the file again. A double click on the window reopens the last media and resumes it at the exact position it was left at. The saved position deliberately ignores stray volume and mute changes, so a film never comes back at the wrong level.</p>
+          <ul class="list-none grid gap-3 mt-6">
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>A deliberately narrow list of what is restored: start, speed, pitch, tracks, delay and scale.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>No modification time check, so remote files keep the position they were saved with.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Fullscreen moved to <kbd>f</kbd>, which leaves the double click free.</span>
+            </li>
           </ul>
         </div>
-        <div class="lg:col-span-6">
-          <div class="glass reveal p-6">
-            <p class="label">config / mpv.conf</p>
-            <pre class="shell-cmd mt-4">ytdl-raw-options=sub-langs=(en|ja|de|es|fr|it|ru|pt|pl|nl|sv|tr|ko|zh).*,js-runtimes=node</pre>
-            <p class="mt-4 text-xs leading-relaxed text-white/52">
-              The JavaScript runtime line is not optional. Without a named runtime, modern yt-dlp cannot solve
-              the signature challenges and every video comes back without usable formats.
-            </p>
-            <div class="mt-5 flex flex-wrap items-center gap-2 border-t border-white/[0.07] pt-5">
-              <span class="chip">quality-menu.lua</span>
-              <span class="chip">ytsubs.lua</span>
-              <span class="chip">sponsorblock_minimal.lua</span>
-            </div>
-          </div>
-        </div>
-      </article>
+        <figure class="lg:col-span-6 lg:order-2">
+          <div class="code-block"><span class="opt">save-position-on-quit</span>=<span class="val">yes</span>
+<span class="opt">resume-playback</span>=<span class="val">yes</span>
+<span class="opt">resume-playback-check-mtime</span>=<span class="val">no</span>
+<span class="opt">write-filename-in-watch-later-config</span>=<span class="val">yes</span>
+<span class="opt">watch-later-options</span>=<span class="val">start,speed,pitch,aid,sid,sub-delay,sub-scale</span></div>
+          <figcaption class="plate-cap"><b>FIG. 04.2</b> <span>config / mpv.conf</span></figcaption>
+        </figure>
+      </div>
+    </article>
 
-      <article class="grid gap-x-8 gap-y-6 lg:grid-cols-12">
-        <div class="lg:col-span-6 lg:order-2">
-          <p class="stamp">Deep dive 04</p>
-          <h3 class="display-sm mt-4 text-white">A subtitle pipeline, not a font size</h3>
-          <p class="mt-5 text-[0.98rem] leading-relaxed text-white/68">
-            Subtitles are set in Geist Medium at 40, in a warm off-white, with a hairline outline and a soft
-            shadow so they survive any background. Margins are forced so a 2.35 to 1 film keeps its captions
-            inside the letterbox instead of floating over the image.
-          </p>
-          <ul class="mt-6 flex flex-col gap-2.5 text-sm text-white/62">
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Fansub ASS files get a gentle restyle so they match plain text subtitles.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Two opt-in looks: a translucent panel and shadow-only cinema subtitles.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Bitmap subtitles are softened rather than restyled.</li>
+    <div class="rule mt-16"></div>
+
+    <!-- ------------------------------------------------------ deep dive 03 -->
+    <article class="mt-16 reveal">
+      <div class="grid gap-x-8 gap-y-8 lg:grid-cols-12">
+        <div class="lg:col-span-6">
+          <p class="kicker">Deep dive 03</p>
+          <h3 class="h-sub mt-3">YouTube, as a real client.</h3>
+          <p class="body-copy mt-4">A URL is not a file, and the default player treats it like one. Here the format menu lists the formats the server actually offers and switches between them without reloading the video. The subtitle menu lists every language the video carries, creator uploaded and auto generated, with a separate track for the secondary language.</p>
+          <ul class="list-none grid gap-3 mt-6">
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Creator subtitles are pre-loaded as normal tracks, so the usual <kbd>v</kbd> key still works.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Sponsor segments are skipped with <kbd>b</kbd>, and the category list is configurable.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>The stream you are watching can be downloaded at the quality mpv negotiated.</span>
+            </li>
           </ul>
         </div>
+        <figure class="lg:col-span-6">
+          <div class="code-block"><span class="opt">ytdl-raw-options</span>=<span class="val">sub-langs=(en|ja|de|es|fr|it|ru|pt|pl|nl|sv|tr|ko|zh).*,js-runtimes=node</span></div>
+          <figcaption class="plate-cap"><b>FIG. 04.3</b> <span>config / mpv.conf</span></figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <div class="rule mt-16"></div>
+
+    <!-- ------------------------------------------------------ deep dive 04 -->
+    <article class="mt-16 reveal">
+      <div class="grid gap-x-8 gap-y-8 lg:grid-cols-12">
         <div class="lg:col-span-6 lg:order-1">
-          <div class="glass reveal p-6">
-            <p class="label">config / conf / subtitles.conf</p>
-            <pre class="shell-cmd mt-4">sub-font=Geist Medium
-sub-font-size=40
-sub-color=FCF3E8
-sub-border-size=1.2
-sub-shadow-size=1.6
-sub-ass-force-margins=yes</pre>
-            <div class="mt-5 flex flex-wrap items-center gap-2 border-t border-white/[0.07] pt-5">
-              <kbd>Alt+6</kbd>
-              <span class="chip">Alt+7</span>
-              <span class="chip">Alt+o</span>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <article class="grid gap-x-8 gap-y-6 lg:grid-cols-12">
-        <div class="lg:col-span-6">
-          <p class="stamp">Deep dive 05</p>
-          <h3 class="display-sm mt-4 text-white">Hardware decode, then Anime4K</h3>
-          <p class="mt-5 text-[0.98rem] leading-relaxed text-white/68">
-            d3d11 output with d3d11va decoding is the single biggest win on an integrated GPU with shared
-            memory. On top of that sits the full quality stack: EWA Lanczos for luma, spline36 for chroma,
-            mitchell for downscaling, and anti-ringing so the sharpening does not ring.
-          </p>
-          <ul class="mt-6 flex flex-col gap-2.5 text-sm text-white/62">
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Anime4K line-art restoration applies itself to files whose path contains anime.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>The shader cache is built ahead of time, so the first play does not stutter.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Vulkan output is one key away for an A and B comparison.</li>
+          <p class="kicker">Deep dive 04</p>
+          <h3 class="h-sub mt-3">A subtitle pipeline, not a font size.</h3>
+          <p class="body-copy mt-4">Subtitles are set in Geist Medium at 40, in a warm off-white, with a hairline outline and a soft shadow so they survive any background. Margins are forced, so a 2.35 to 1 film keeps its captions inside the letterbox instead of floating over the image. The result reads as part of the picture rather than as a layer on top of it.</p>
+          <ul class="list-none grid gap-3 mt-6">
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Fansub ASS files get a gentle restyle so they match plain text subtitles.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Two opt-in looks: a translucent panel, and shadow-only cinema subtitles.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Bitmap subtitles are softened rather than restyled.</span>
+            </li>
           </ul>
         </div>
-        <div class="lg:col-span-6">
-          <div class="glass reveal p-6">
-            <p class="label">config / conf / video.conf</p>
-            <pre class="shell-cmd mt-4">vo=gpu-next
-gpu-api=d3d11
-gpu-decoder=d3d11va
-scale=luma:ewa_lanczos
-scale-chroma=spline36
-dscale=mitchell
-dither=fruit
-tone-mapping=spline</pre>
-            <div class="mt-5 flex flex-wrap items-center gap-2 border-t border-white/[0.07] pt-5">
-              <kbd>Alt+0</kbd>
-              <span class="chip">Alt+2</span>
-              <span class="chip">Alt+4</span>
-            </div>
-          </div>
-        </div>
-      </article>
+        <figure class="lg:col-span-6 lg:order-2">
+          <div class="code-block"><span class="opt">sub-font</span>=<span class="val">'Geist Medium'</span>
+<span class="opt">sub-font-size</span>=<span class="val">40</span>
+<span class="opt">sub-color</span>=<span class="val">"#F5F2EF"</span>
+<span class="cmt"># a hairline outline plus a soft shadow</span>
+<span class="opt">sub-outline-size</span>=<span class="val">1.15</span>
+<span class="opt">sub-shadow-offset</span>=<span class="val">1.1</span>
+<span class="opt">sub-blur</span>=<span class="val">0.3</span>
+<span class="opt">sub-border-style</span>=<span class="val">outline-and-shadow</span>
+<span class="opt">sub-ass-force-margins</span>=<span class="val">yes</span></div>
+          <figcaption class="plate-cap"><b>FIG. 04.4</b> <span>config / conf / subtitles.conf</span></figcaption>
+        </figure>
+      </div>
+    </article>
 
-      <article class="grid gap-x-8 gap-y-6 lg:grid-cols-12">
-        <div class="lg:col-span-6 lg:order-2">
-          <p class="stamp">Deep dive 06</p>
-          <h3 class="display-sm mt-4 text-white">Controls that hover, then get out of the way</h3>
-          <p class="mt-5 text-[0.98rem] leading-relaxed text-white/68">
-            The control bar and the timeline are translucent and stay on screen while the picture plays, but the
-            overlays are pointer driven: they appear where the mouse is and fade away when it leaves. A speed
-            meter with a spring needle sits at the centre of the screen while the speed changes.
-          </p>
-          <ul class="mt-6 flex flex-col gap-2.5 text-sm text-white/62">
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Centred seek, volume and speed overlays, drawn by the skin rather than by the player.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Seekbar thumbnails are pre-fetched while the pointer moves.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>An info button opens the player statistics: codec, frames per second, bitrate, dropped frames.</li>
+    <div class="rule mt-16"></div>
+
+    <!-- ------------------------------------------------------ deep dive 05 -->
+    <article class="mt-16 reveal">
+      <div class="grid gap-x-8 gap-y-8 lg:grid-cols-12">
+        <div class="lg:col-span-6">
+          <p class="kicker">Deep dive 05</p>
+          <h3 class="h-sub mt-3">Hardware decode, then Anime4K.</h3>
+          <p class="body-copy mt-4">On an integrated GPU with shared memory the expensive part is the copy out of system memory, so the decode path is kept on the device. On top of that sits the full quality stack: EWA Lanczos for luma, spline36 for chroma, mitchell for downscaling, and anti-ringing so the sharpening does not ring. Every line here was measured on this machine before it was kept.</p>
+          <ul class="list-none grid gap-3 mt-6">
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Anime4K line-art restoration applies itself to files whose path contains <span class="mono">anime</span>.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>The shader cache is built ahead of time, so the first play does not stutter.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Vulkan output is one key away, with <kbd>Alt+0</kbd>, for an A and B comparison.</span>
+            </li>
           </ul>
         </div>
+        <figure class="lg:col-span-6">
+          <div class="code-block"><span class="opt">vo</span>=<span class="val">gpu-next</span>
+<span class="opt">gpu-api</span>=<span class="val">d3d11</span>
+<span class="opt">gpu-context</span>=<span class="val">d3d11</span>
+<span class="cmt"># zero-copy: no extra GPU to GPU copy</span>
+<span class="opt">hwdec</span>=<span class="val">d3d11va</span>
+<span class="opt">d3d11va-zero-copy</span>=<span class="val">yes</span>
+<span class="opt">scale</span>=<span class="val">ewa_lanczossharp</span>
+<span class="opt">cscale</span>=<span class="val">spline36</span>
+<span class="opt">dscale</span>=<span class="val">mitchell</span>
+<span class="opt">scale-antiring</span>=<span class="val">0.6</span>
+<span class="opt">video-sync</span>=<span class="val">display-resample</span>
+<span class="opt">interpolation</span>=<span class="val">yes</span>
+<span class="opt">dither</span>=<span class="val">fruit</span>
+<span class="opt">tone-mapping</span>=<span class="val">spline</span></div>
+          <figcaption class="plate-cap"><b>FIG. 04.5</b> <span>config / conf / video.conf</span></figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <div class="rule mt-16"></div>
+
+    <!-- ------------------------------------------------------ deep dive 06 -->
+    <article class="mt-16 reveal">
+      <div class="grid gap-x-8 gap-y-8 lg:grid-cols-12">
         <div class="lg:col-span-6 lg:order-1">
-          <div class="glass reveal p-6">
-            <p class="label">config / mpv.conf</p>
-            <pre class="shell-cmd mt-4"># the skin draws the controls, so mpv's own is off
-osc=no
-osd-bar=no
-# keep the window interactive after a file ends
-keep-open=yes
-keep-open-pause=yes</pre>
-            <div class="mt-5 flex flex-wrap items-center gap-2 border-t border-white/[0.07] pt-5">
-              <span class="chip">Liquid Glass</span>
-              <span class="chip">thumbfast.lua</span>
-              <span class="chip">Ctrl+t</span>
-            </div>
-          </div>
+          <p class="kicker">Deep dive 06</p>
+          <h3 class="h-sub mt-3">Controls that hover, then get out of the way.</h3>
+          <p class="body-copy mt-4">The control bar and the timeline are translucent, and they stay on screen while the picture plays. The overlays are pointer driven: they appear where the mouse is and fade away when it leaves. The window stays interactive after a file ends, so the next one can be dragged straight in.</p>
+          <ul class="list-none grid gap-3 mt-6">
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Centred seek, volume and speed overlays, drawn by the skin rather than by the player.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Seekbar thumbnails are pre-fetched while the pointer moves.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>An info button opens the player statistics: codec, frames per second, bitrate, dropped frames.</span>
+            </li>
+          </ul>
         </div>
-      </article>
+        <figure class="lg:col-span-6 lg:order-2">
+          <div class="code-block"><span class="cmt"># the skin draws the controls, so mpv's own is off</span>
+<span class="opt">osc</span>=<span class="val">no</span>
+<span class="opt">osd-bar</span>=<span class="val">no</span>
+<span class="cmt"># keep the window interactive after a file ends</span>
+<span class="opt">keep-open</span>=<span class="val">yes</span>
+<span class="opt">keep-open-pause</span>=<span class="val">yes</span></div>
+          <figcaption class="plate-cap"><b>FIG. 04.6</b> <span>config / mpv.conf</span></figcaption>
+        </figure>
+      </div>
+    </article>
 
+    <div class="rule mt-16"></div>
+
+    <div class="band mt-8">
+      <div class="grid gap-x-8 gap-y-6 lg:grid-cols-12">
+      <p class="body-copy lg:col-span-7">None of this is a plugin you have to trust; it is configuration you can read, comment out and replace. Every line above comes from a file in the repository, and every file says why it exists.</p>
+      </div>
+
+      <div class="band-notes">
+        <p class="measured reveal"><b>PSNR ≥ 66.5 dB</b>the d3d11 path is pixel identical to software</p>
+      </div>
     </div>
+
   </div>
 </section>
 
-<!-- ================================================== key bindings -->
+<!-- ================= key bindings ================= -->
 <section id="keys" class="section">
   <div class="shell">
+
     <div class="section-head">
-      <div class="section-head-line">
-        <span class="stamp reveal">00:07:44:08</span>
-        <span class="section-head-rule reveal"></span>
-      </div>
+      <p class="folio"><span class="folio-num">05</span> Key bindings</p>
+      <div class="rule-strong"></div>
       <div class="mt-8 grid gap-x-8 gap-y-6 lg:grid-cols-12">
-        <h2 class="display-md reveal lg:col-span-6 text-white">One keymap, both skins.</h2>
-        <p class="lede reveal lg:col-span-6">
-          Every binding below is real: a line in <code class="mono text-white/82">input.conf</code>, a binding
-          registered by one of the shipped scripts, or a player default the configuration deliberately keeps.
-          Search by key, action or group, and sort by any column.
+        <h2 class="h-section lg:col-span-6">One keymap, both skins.</h2>
+        <p class="deck lg:col-span-6">
+          Every binding below is real: a line in <code class="mono">input.conf</code>, a binding registered by one
+          of the shipped scripts, or a player default the configuration deliberately keeps. Search by key, action
+          or group, and sort by any column.
         </p>
       </div>
     </div>
 
-    <div class="glass reveal mt-12 p-4 sm:p-7" x-data="bindingsPanel" x-init="mountAnt()">
-      <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <p class="text-sm text-white/78">
-            <span class="mono text-white" x-text="visible">0</span>
-            <span class="text-white/52">of</span>
-            <span class="mono text-white" x-text="total">0</span>
-            <span class="text-white/52">bindings</span>
-          </p>
-          <p class="mt-1 text-xs text-white/45">Generated from the shipped configuration.</p>
+    <div class="band mt-14">
+      <div class="grid gap-x-8 gap-y-10 lg:grid-cols-12">
+
+      <div class="lg:col-span-12" x-data="bindingsPanel" x-init="mountAnt()">
+
+        <div class="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
+          <div>
+            <p class="text-sm text-ink-dim">
+              <span class="mono text-ink" x-text="visible">0</span>
+              of
+              <span class="mono text-ink" x-text="total">0</span>
+              bindings
+            </p>
+            <p class="note mt-1">Generated from the shipped configuration by the tooling in the repository.</p>
+          </div>
+
+          <div class="w-full md:w-80">
+            <label class="sr-only" for="bindings-search">Search the key bindings</label>
+            <input id="bindings-search" type="search" autocomplete="off" placeholder="Search keys, actions, groups"
+                   class="w-full border border-rule bg-paper-soft px-3 py-2 text-sm text-ink placeholder:text-ink-faint outline-none focus:border-signal"
+                   x-model="query" x-on:input="setQuery($event.target.value)">
+          </div>
         </div>
-        <div class="relative w-full md:w-80">
-          <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-white/45" aria-hidden="true">
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
-              <circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path>
-            </svg>
-          </span>
-          <label class="sr-only" for="bindings-search">Search the key bindings</label>
-          <input id="bindings-search" type="search" autocomplete="off" placeholder="Search keys, actions, groups"
-                 class="w-full rounded-xl border border-white/10 bg-black/40 py-2.5 pl-10 pr-4 text-sm text-white placeholder-white/30 outline-none transition-colors focus:border-brand-400/70"
-                 x-model="query" x-on:input="setQuery($event.target.value)">
+
+        <div id="bindings-antd" class="mt-8 hidden"></div>
+
+        <div id="bindings-plain" class="mt-8 overflow-x-auto">
+          <table class="tbl">
+            <caption class="sr-only">Every key binding shipped with mpv-redesigned</caption>
+            <thead>
+              <tr>
+                <th scope="col" data-sort="keys" class="cursor-pointer select-none">Key</th>
+                <th scope="col" data-sort="action" class="cursor-pointer select-none">Action</th>
+                <th scope="col" data-sort="group" class="cursor-pointer select-none">Group</th>
+                <th scope="col" data-sort="source" class="cursor-pointer select-none">Source</th>
+              </tr>
+            </thead>
+            <tbody id="bindings-plain-body"></tbody>
+          </table>
+          <p id="bindings-empty" class="hidden py-8 text-sm text-ink-faint">No binding matches that search.</p>
         </div>
+
       </div>
 
-      <div id="bindings-antd" class="mt-6 hidden"></div>
+      <div class="lg:col-span-12">
+        <p class="note">The complete list is regenerated from input.conf by the tooling in the repository.</p>
+      </div>
 
-      <div id="bindings-plain" class="mt-6 overflow-x-auto">
-        <table class="w-full min-w-[34rem] text-left">
-          <caption class="sr-only">Every key binding shipped with mpv-redesigned</caption>
-          <thead>
-            <tr class="border-b border-white/10">
-              <th scope="col" class="cursor-pointer select-none py-3 pr-4 mono text-[0.68rem] font-normal uppercase tracking-[0.14em] text-white/52 transition-colors hover:text-white" data-sort="keys">Key</th>
-              <th scope="col" class="cursor-pointer select-none py-3 pr-4 mono text-[0.68rem] font-normal uppercase tracking-[0.14em] text-white/52 transition-colors hover:text-white" data-sort="action">Action</th>
-              <th scope="col" class="hidden cursor-pointer select-none py-3 pr-4 mono text-[0.68rem] font-normal uppercase tracking-[0.14em] text-white/52 transition-colors hover:text-white md:table-cell" data-sort="group">Group</th>
-              <th scope="col" class="hidden cursor-pointer select-none py-3 mono text-[0.68rem] font-normal uppercase tracking-[0.14em] text-white/52 transition-colors hover:text-white lg:table-cell" data-sort="source">Source</th>
-            </tr>
-          </thead>
-          <tbody id="bindings-plain-body"></tbody>
-        </table>
-        <p id="bindings-empty" class="hidden py-10 text-center text-sm text-white/52">No binding matches that search.</p>
+      </div>
+
+      <div class="band-notes">
+        <p class="measured reveal"><b>69 bindings</b>in 8 groups, from one input.conf</p>
       </div>
     </div>
 
-    <p class="mono mt-6 text-[0.7rem] uppercase tracking-[0.18em] text-white/42">
-      The complete list is regenerated from input.conf by the tooling in the repository.
-    </p>
   </div>
 </section>
 
-<!-- ======================================================= install -->
+<!-- ================= install ================= -->
 <section id="install" class="section">
   <div class="shell">
+
     <div class="section-head">
-      <div class="section-head-line">
-        <span class="stamp reveal">00:09:12:23</span>
-        <span class="section-head-rule reveal"></span>
-      </div>
+      <p class="folio"><span class="folio-num">06</span> Install</p>
+      <div class="rule-strong"></div>
       <div class="mt-8 grid gap-x-8 gap-y-6 lg:grid-cols-12">
-        <h2 class="display-md reveal lg:col-span-6 text-white">One command, then it just plays.</h2>
-        <p class="lede reveal lg:col-span-6">
-          The installer backs up whatever it finds, deploys the configuration, and starts mpv once to prove the
+        <h2 class="h-section lg:col-span-6">One command, then it just plays.</h2>
+        <p class="deck lg:col-span-6">
+          The installer backs up whatever it finds, deploys the configuration and starts mpv once to prove the
           file parses. It never asks for administrator rights, and it never writes outside your own profile.
         </p>
       </div>
     </div>
 
-    <div class="mt-14 grid gap-x-8 gap-y-6 lg:grid-cols-12" x-data="tabSet" data-tabs>
-      <div class="lg:col-span-6">
-        <div class="flex gap-6" role="tablist" aria-label="Install targets">
-          <button type="button" class="tab-rail flex-1 text-center sm:text-left" data-tab="0" x-on:click="select(0)" :class="{ 'is-active': active === 0 }" role="tab" aria-selected="true" aria-controls="install-0">Windows</button>
-          <button type="button" class="tab-rail flex-1 text-center sm:text-left" data-tab="1" x-on:click="select(1)" :class="{ 'is-active': active === 1 }" role="tab" aria-selected="false" aria-controls="install-1">Linux</button>
+    <div class="mt-14 grid gap-x-8 gap-y-10 lg:grid-cols-12">
+
+      <div class="lg:col-span-12">
+        <div class="flex items-center justify-between gap-4">
+          <p class="kicker">windows · powershell</p>
+          <button type="button" class="copy-btn" data-copy="irm https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.ps1 | iex"><span data-copy-label>copy</span></button>
+        </div>
+        <div class="cmd mt-3">irm https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.ps1 | iex</div>
+      </div>
+
+      <div class="lg:col-span-12">
+        <div class="flex items-center justify-between gap-4">
+          <p class="kicker">linux · bash</p>
+          <button type="button" class="copy-btn" data-copy="curl -fsSL https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.sh | bash"><span data-copy-label>copy</span></button>
+        </div>
+        <div class="cmd mt-3">curl -fsSL https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.sh | bash</div>
+      </div>
+
+    </div>
+
+    <div class="mt-14 grid gap-x-8 gap-y-10 lg:grid-cols-12" x-data="tabSet" data-tabs>
+
+      <div class="lg:col-span-5">
+        <div class="flex gap-4" role="tablist" aria-label="Install targets">
+          <button type="button" class="tab-rail flex-1 text-center sm:text-left border-b border-rule px-3 py-2 text-sm text-ink-dim hover:text-ink [&.is-active]:border-signal [&.is-active]:text-ink" data-tab="0" x-on:click="select(0)" :class="{ 'is-active': active === 0 }" role="tab" aria-selected="true" aria-controls="install-0">Windows</button>
+          <button type="button" class="tab-rail flex-1 text-center sm:text-left border-b border-rule px-3 py-2 text-sm text-ink-dim hover:text-ink [&.is-active]:border-signal [&.is-active]:text-ink" data-tab="1" x-on:click="select(1)" :class="{ 'is-active': active === 1 }" role="tab" aria-selected="false" aria-controls="install-1">Linux</button>
         </div>
 
-        <div class="min-h-[26rem]">
-        <div class="glass mt-6 p-6" id="install-0" data-tab-panel="0" x-show="active === 0" x-transition.opacity.duration.300ms x-cloak>
-          <div class="flex items-center justify-between gap-3">
-            <span class="label">windows 10 or 11 &middot; powershell</span>
-            <button type="button" class="copy-btn" data-copy="irm https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.ps1 | iex"><span data-copy-label>copy</span>
-            </button>
-          </div>
-          <pre class="shell-cmd mt-4">irm https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.ps1 | iex</pre>
-          <p class="mt-4 text-xs leading-relaxed text-white/52">
-            Run it from Windows PowerShell 5.1 or PowerShell 7, not from cmd. A preview that changes nothing is
-            one switch away.
+        <div id="install-0" data-tab-panel="0" x-show="active === 0" x-transition.opacity.duration.200ms x-cloak>
+          <p class="body-copy mt-6">
+            Run it from Windows PowerShell 5.1 or PowerShell 7, not from cmd. A preview that changes nothing at
+            all is one switch away.
           </p>
-          <ol class="mt-5 flex flex-col gap-3 text-sm text-white/68">
-            <li class="flex gap-3"><span class="mono shrink-0 text-brand-300">01</span>The repository archive is downloaded and unpacked to a temporary folder.</li>
-            <li class="flex gap-3"><span class="mono shrink-0 text-brand-300">02</span>If mpv is missing and scoop is not installed, mpv is unpacked locally and the user path is extended.</li>
-            <li class="flex gap-3"><span class="mono shrink-0 text-brand-300">03</span>yt-dlp is downloaded into the configuration so the network hook finds it first.</li>
-            <li class="flex gap-3"><span class="mono shrink-0 text-brand-300">04</span>An existing configuration is moved to a timestamped backup, and the watch history comes along.</li>
-            <li class="flex gap-3"><span class="mono shrink-0 text-brand-300">05</span>mpv is started once to confirm the configuration parses.</li>
+          <ol class="mt-6 flex list-none flex-col gap-4">
+            <li class="flex gap-4">
+              <span class="mono text-signal">01</span>
+              <span class="text-sm text-ink-dim">The repository archive is downloaded and unpacked to a temporary folder.</span>
+            </li>
+            <li class="flex gap-4">
+              <span class="mono text-signal">02</span>
+              <span class="text-sm text-ink-dim">If mpv is missing and scoop is not installed, mpv is unpacked locally and the user path is extended.</span>
+            </li>
+            <li class="flex gap-4">
+              <span class="mono text-signal">03</span>
+              <span class="text-sm text-ink-dim">yt-dlp is downloaded into the configuration so the network hook finds it first.</span>
+            </li>
+            <li class="flex gap-4">
+              <span class="mono text-signal">04</span>
+              <span class="text-sm text-ink-dim">An existing configuration is moved to a timestamped backup and the watch history comes along.</span>
+            </li>
+            <li class="flex gap-4">
+              <span class="mono text-signal">05</span>
+              <span class="text-sm text-ink-dim">mpv is started once to confirm the configuration parses.</span>
+            </li>
           </ol>
         </div>
 
-        <div class="glass mt-6 p-6" id="install-1" data-tab-panel="1" x-show="active === 1" x-transition.opacity.duration.300ms x-cloak>
-          <div class="flex items-center justify-between gap-3">
-            <span class="label">linux &middot; bash</span>
-            <button type="button" class="copy-btn" data-copy="curl -fsSL https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.sh | bash"><span data-copy-label>copy</span>
-            </button>
-          </div>
-          <pre class="shell-cmd mt-4">curl -fsSL https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.sh | bash</pre>
-          <p class="mt-4 text-xs leading-relaxed text-white/52">
-            The bash installer mirrors the PowerShell one: it backs up whatever it finds, deploys the
-            configuration into <code class="mono text-white/68">~/.config/mpv</code>, downloads yt-dlp and
-            checks that the configuration parses.
+        <div id="install-1" data-tab-panel="1" x-show="active === 1" x-transition.opacity.duration.200ms x-cloak>
+          <p class="body-copy mt-6">
+            The bash installer mirrors the PowerShell one: it backs up whatever it finds, deploys the configuration
+            into <code class="mono">~/.config/mpv</code>, downloads yt-dlp and checks that the configuration parses.
           </p>
-          <ol class="mt-5 flex flex-col gap-3 text-sm text-white/68">
-            <li class="flex gap-3"><span class="mono shrink-0 text-neon-cyan">01</span>Install mpv and yt-dlp from the distribution package manager, or let the installer point you at the right command.</li>
-            <li class="flex gap-3"><span class="mono shrink-0 text-neon-cyan">02</span>Run the command above, or clone the repository and run <code class="mono text-white/82">bash install.sh</code> from the clone.</li>
-            <li class="flex gap-3"><span class="mono shrink-0 text-neon-cyan">03</span>Keep the yt-dlp options line in the master file, including the JavaScript runtime hint.</li>
-            <li class="flex gap-3"><span class="mono shrink-0 text-neon-cyan">04</span>Start the player with a file, a link, or a folder to play everything in it.</li>
+          <ol class="mt-6 flex list-none flex-col gap-4">
+            <li class="flex gap-4">
+              <span class="mono text-signal">01</span>
+              <span class="text-sm text-ink-dim">Install mpv and yt-dlp from the distribution package manager, or let the installer point you at the right command.</span>
+            </li>
+            <li class="flex gap-4">
+              <span class="mono text-signal">02</span>
+              <span class="text-sm text-ink-dim">Run the command above, or clone the repository and run <code class="mono">bash install.sh</code> from the clone.</span>
+            </li>
+            <li class="flex gap-4">
+              <span class="mono text-signal">03</span>
+              <span class="text-sm text-ink-dim">Keep the yt-dlp options line in the master file, including the JavaScript runtime hint.</span>
+            </li>
+            <li class="flex gap-4">
+              <span class="mono text-signal">04</span>
+              <span class="text-sm text-ink-dim">Start the player with a file, a link, or a folder to play everything in it.</span>
+            </li>
           </ol>
-        </div>
         </div>
       </div>
 
-      <div class="lg:col-span-6">
-        <div class="glass reveal overflow-hidden">
-          <div class="flex items-center justify-between gap-3 border-b border-white/[0.07] px-6 py-4">
-            <span class="mono text-[0.7rem] uppercase tracking-[0.2em] text-white/48">Installer switches</span>
-            <span class="mono text-[0.7rem] text-white/42">install.ps1</span>
-          </div>
-          <div class="overflow-x-auto px-6 py-2">
-            <table class="w-full min-w-[30rem] text-left">
-              <caption class="sr-only">Switches understood by the installer</caption>
-              <thead>
-                <tr class="border-b border-white/10">
-                  <th scope="col" class="py-3 pr-4 mono text-[0.68rem] font-normal uppercase tracking-[0.14em] text-white/52">Flag</th>
-                  <th scope="col" class="py-3 pr-4 mono text-[0.68rem] font-normal uppercase tracking-[0.14em] text-white/52">PowerShell switch</th>
-                  <th scope="col" class="py-3 mono text-[0.68rem] font-normal uppercase tracking-[0.14em] text-white/52">What it does</th>
-                </tr>
-              </thead>
-              <tbody id="install-flags-body"></tbody>
-            </table>
-          </div>
+      <div class="lg:col-span-7">
+        <div class="overflow-x-auto">
+          <table class="tbl">
+            <caption class="sr-only">Switches understood by the installer</caption>
+            <thead>
+              <tr>
+                <th scope="col">Flag</th>
+                <th scope="col">PowerShell switch</th>
+                <th scope="col">What it does</th>
+              </tr>
+            </thead>
+            <tbody id="install-flags-body"></tbody>
+          </table>
         </div>
 
-        <div class="glass-flat reveal mt-4 p-6">
-          <p class="label">Uninstall and rollback</p>
-          <p class="mt-3 text-sm leading-relaxed text-white/68">
+        <div class="mt-10">
+          <p class="kicker">uninstall and rollback</p>
+          <p class="body-copy mt-3">
             The uninstaller moves the installed configuration into a timestamped backup folder instead of deleting
-            it, so the rollback path stays open. Add the purge switch to delete it outright, after a
-            confirmation. The player itself is left alone and stays installed.
+            it, so the rollback path stays open. The purge switch deletes it outright, after a confirmation. The
+            player itself is left alone and stays installed.
           </p>
-          <pre class="shell-cmd mt-4">powershell -ExecutionPolicy Bypass -File .\uninstall.ps1</pre>
+          <div class="cmd mt-4">powershell -ExecutionPolicy Bypass -File .\uninstall.ps1</div>
         </div>
+      </div>
+
+    </div>
+
+    <div class="band mt-14">
+      <div class="band-notes">
+        <p class="measured reveal"><b>~60 MB</b>the configuration and shader cache</p>
+        <p class="measured reveal"><b>no admin rights</b>everything goes to your user profile</p>
       </div>
     </div>
+
   </div>
 </section>
 
-<!-- =========================================================== faq -->
+<!-- ================= faq ================= -->
 <section id="faq" class="section">
   <div class="shell">
+
     <div class="section-head">
-      <div class="section-head-line">
-        <span class="stamp reveal">00:11:38:05</span>
-        <span class="section-head-rule reveal"></span>
+      <p class="folio"><span class="folio-num">07</span> FAQ</p>
+      <div class="rule-strong"></div>
+    </div>
+
+    <div class="band mt-10">
+      <div class="grid gap-x-8 gap-y-10 lg:grid-cols-12">
+
+      <div class="lg:col-span-5">
+        <h2 class="h-section">The questions people actually ask.</h2>
+        <p class="deck mt-5">
+          Where the files live, what gets downloaded, what leaves the machine, and how to walk it all back.
+        </p>
       </div>
-      <div class="mt-8 grid gap-x-8 gap-y-6 lg:grid-cols-12">
-        <div class="lg:col-span-5">
-          <h2 class="display-md reveal text-white">The questions people actually ask.</h2>
-          <p class="lede reveal mt-6">
-            Where the files live, what gets downloaded, what leaves the machine, and how to walk it all back.
-          </p>
-        </div>
-        <div class="lg:col-span-7">
-          <div id="faq-fallback" class="glass reveal px-6"></div>
-          <div id="faq-antd" class="hidden"></div>
-        </div>
+
+      <div class="lg:col-span-7">
+        <div id="faq-fallback"></div>
+        <div id="faq-antd" class="hidden"></div>
+      </div>
+
+      </div>
+
+      <div class="band-notes">
+        <p class="measured reveal"><b>verified</b>on mpv 0.41-dev with libplacebo 7.358.0</p>
       </div>
     </div>
+
   </div>
 </section>
 
-  </main>
+</main>
 
-
-<!-- =========================================================== footer -->
-<footer class="relative z-10 border-t border-white/[0.07] pb-12 pt-16">
-  <div class="shell">
-    <div class="grid gap-10 lg:grid-cols-12">
-      <div class="lg:col-span-5">
+<!-- ============================================================== colophon -->
+<footer class="border-t border-rule">
+  <div class="shell py-12">
+    <div class="grid gap-x-8 gap-y-10 lg:grid-cols-12">
+      <div class="lg:col-span-4">
         <div class="flex items-center gap-3">
-          <span class="grid h-9 w-9 place-items-center rounded-sm border border-white/15">
-            <svg class="h-[18px] w-[18px] text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M5 19V5h7.5a4.5 4.5 0 0 1 0 9H9"></path>
-              <circle cx="18" cy="6.5" r="1.6" fill="currentColor" stroke="none"></circle>
-            </svg>
-          </span>
-          <span class="text-[0.95rem] font-semibold tracking-tight text-white">mpv-redesigned</span>
+          <span class="h-2 w-2 bg-signal" aria-hidden="true"></span>
+          <span class="mono text-[0.88rem] font-semibold">mpv-redesigned</span>
         </div>
-        <p class="mt-5 max-w-sm text-sm leading-relaxed text-white/56">
-          A tuned mpv configuration, its installer and its documentation. The original work is MIT licensed;
+        <p class="note mt-4 max-w-[34ch]">
+          A tuned mpv configuration, its installers and its documentation. The original work is MIT licensed;
           the redistributed skins, scripts, shaders and fonts keep their own licences.
         </p>
-        <a class="btn-ghost mt-6" href="https://github.com/ratuuul/mpv-redesigned" target="_blank" rel="noopener noreferrer">
-          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.2c-3.34.73-4.04-1.42-4.04-1.42-.55-1.4-1.34-1.77-1.34-1.77-1.1-.75.08-.74.08-.74 1.21.09 1.85 1.24 1.85 1.24 1.08 1.85 2.83 1.31 3.52 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.01 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.21.7.82.58A12 12 0 0 0 12 .5Z"></path>
-          </svg>
-          Open on GitHub
-        </a>
       </div>
 
       <div class="lg:col-span-4">
-        <p class="label">Documentation</p>
-        <ul class="mt-5 flex flex-col gap-3 text-sm">
-          <li><a class="text-white/68 transition-colors hover:text-white" href="https://github.com/ratuuul/mpv-redesigned/blob/main/docs/INSTALL.md" target="_blank" rel="noopener noreferrer">docs/INSTALL.md</a></li>
-          <li><a class="text-white/68 transition-colors hover:text-white" href="https://github.com/ratuuul/mpv-redesigned/blob/main/docs/FEATURES.md" target="_blank" rel="noopener noreferrer">docs/FEATURES.md</a></li>
-          <li><a class="text-white/68 transition-colors hover:text-white" href="https://github.com/ratuuul/mpv-redesigned/blob/main/docs/KEYBINDINGS.md" target="_blank" rel="noopener noreferrer">docs/KEYBINDINGS.md</a></li>
-          <li><a class="text-white/68 transition-colors hover:text-white" href="https://github.com/ratuuul/mpv-redesigned/blob/main/docs/SKINS.md" target="_blank" rel="noopener noreferrer">docs/SKINS.md</a></li>
-          <li><a class="text-white/68 transition-colors hover:text-white" href="https://github.com/ratuuul/mpv-redesigned/blob/main/docs/ARCHITECTURE.md" target="_blank" rel="noopener noreferrer">docs/ARCHITECTURE.md</a></li>
-          <li><a class="text-white/68 transition-colors hover:text-white" href="https://github.com/ratuuul/mpv-redesigned/blob/main/docs/TROUBLESHOOTING.md" target="_blank" rel="noopener noreferrer">docs/TROUBLESHOOTING.md</a></li>
+        <p class="kicker">Documentation</p>
+        <ul class="mt-4 flex flex-col gap-2 text-sm">
+          <li><a class="text-ink-dim underline decoration-rule underline-offset-4 hover:text-signal hover:decoration-signal" href="https://github.com/ratuuul/mpv-redesigned/blob/main/docs/INSTALL.md" target="_blank" rel="noopener noreferrer">docs/INSTALL.md</a></li>
+          <li><a class="text-ink-dim underline decoration-rule underline-offset-4 hover:text-signal hover:decoration-signal" href="https://github.com/ratuuul/mpv-redesigned/blob/main/docs/FEATURES.md" target="_blank" rel="noopener noreferrer">docs/FEATURES.md</a></li>
+          <li><a class="text-ink-dim underline decoration-rule underline-offset-4 hover:text-signal hover:decoration-signal" href="https://github.com/ratuuul/mpv-redesigned/blob/main/docs/KEYBINDINGS.md" target="_blank" rel="noopener noreferrer">docs/KEYBINDINGS.md</a></li>
+          <li><a class="text-ink-dim underline decoration-rule underline-offset-4 hover:text-signal hover:decoration-signal" href="https://github.com/ratuuul/mpv-redesigned/blob/main/docs/SKINS.md" target="_blank" rel="noopener noreferrer">docs/SKINS.md</a></li>
+          <li><a class="text-ink-dim underline decoration-rule underline-offset-4 hover:text-signal hover:decoration-signal" href="https://github.com/ratuuul/mpv-redesigned/blob/main/docs/ARCHITECTURE.md" target="_blank" rel="noopener noreferrer">docs/ARCHITECTURE.md</a></li>
+          <li><a class="text-ink-dim underline decoration-rule underline-offset-4 hover:text-signal hover:decoration-signal" href="https://github.com/ratuuul/mpv-redesigned/blob/main/docs/TROUBLESHOOTING.md" target="_blank" rel="noopener noreferrer">docs/TROUBLESHOOTING.md</a></li>
         </ul>
       </div>
 
       <div class="lg:col-span-3">
-        <p class="label">Licence</p>
-        <p class="mt-5 text-sm leading-relaxed text-white/56">
-          The configuration, the installers and the documentation are MIT licensed. The redistributed skin,
-          scripts, shaders and fonts are LGPL, GPL, MPL, MIT, OFL and Apache licensed, each under its own terms.
+        <p class="kicker">Colophon</p>
+        <p class="note mt-4">
+          Built for mpv 0.41-dev with libplacebo 7.358.0. Set in Bodoni Moda, Archivo and IBM Plex Mono.
+          Verified on an Intel integrated GPU at 1920&#215;1200.
         </p>
-        <a id="back-to-top" class="back-to-top btn-ghost mt-6" href="#top">
-          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M12 19V6M6 11l6-6 6 6"></path>
-          </svg>
-          Back to top
-        </a>
       </div>
-    </div>
 
-    <div class="mt-12 flex flex-col gap-3 border-t border-white/[0.07] pt-6 text-xs text-white/45 sm:flex-row sm:items-center sm:justify-between">
-      <p class="mono">mpv-redesigned &middot; MIT licensed &middot; mpv and yt-dlp are not redistributed</p>
-      <p class="mono">Built for mpv 0.41-dev with libplacebo 7.358</p>
+      <div class="lg:col-span-1 lg:text-right">
+        <a id="back-to-top" class="back-to-top mono text-xs text-ink-faint underline decoration-rule underline-offset-4 hover:text-signal" href="#top">Top</a>
+      </div>
     </div>
   </div>
 </footer>

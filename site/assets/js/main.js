@@ -120,15 +120,15 @@
 
     var html = DATA.features.map(function (feature, index) {
       var number = ('0' + (index + 1)).slice(-2);
-      var delay = (index % 4) * 60;
+      var delay = (index % 4) * 50;
       return (
-        '<article class="feature reveal" style="--reveal-delay:' + delay + 'ms">' +
-          '<div class="feature-top">' +
-            '<span class="feature-index">' + number + '</span>' +
-            '<h3 class="feature-title">' + escapeHtml(feature.title) + '</h3>' +
+        '<article class="index-row reveal" style="--reveal-delay:' + delay + 'ms">' +
+          '<span class="index-num">' + number + '</span>' +
+          '<div>' +
+            '<h3 class="index-title">' + escapeHtml(feature.title) + '</h3>' +
+            '<p class="index-body">' + escapeHtml(feature.body) + '</p>' +
+            '<p class="index-tag">' + escapeHtml(feature.tag) + '</p>' +
           '</div>' +
-          '<p class="feature-body">' + escapeHtml(feature.body) + '</p>' +
-          '<p class="feature-tag">' + escapeHtml(feature.tag) + '</p>' +
         '</article>'
       );
     }).join('');
@@ -158,10 +158,10 @@
 
     body.innerHTML = DATA.installFlags.map(function (row, index) {
       return (
-        '<tr class="border-b border-white/5 align-top transition-colors hover:bg-white/[0.03]">' +
-          '<td class="py-3 pr-4"><code class="mono text-[0.78rem] text-white/92">' + escapeHtml(row.flag) + '</code></td>' +
-          '<td class="py-3 pr-4"><code class="mono text-[0.74rem] text-brand-300">' + escapeHtml(row.switch) + '</code></td>' +
-          '<td class="py-3 text-sm leading-relaxed text-white/68">' + escapeHtml(row.body) + '</td>' +
+        '<tr class="install-row">' +
+          '<td class="py-3 pr-4"><code class="mono text-[0.78rem] text-ink">' + escapeHtml(row.flag) + '</code></td>' +
+          '<td class="py-3 pr-4"><code class="mono text-[0.74rem] text-signal">' + escapeHtml(row.switch) + '</code></td>' +
+          '<td class="py-3 text-sm leading-relaxed text-ink-dim">' + escapeHtml(row.body) + '</td>' +
         '</tr>'
       );
     }).join('');
@@ -174,9 +174,9 @@
     host.innerHTML = DATA.stats.map(function (stat) {
       return (
         '<div class="stat">' +
-          '<div class="stat-title">' + escapeHtml(stat.title) + '</div>' +
-          '<div class="stat-value">' + escapeHtml(stat.value) + '</div>' +
-          '<div class="stat-detail">' + escapeHtml(stat.detail) + '</div>' +
+          '<p class="kicker">' + escapeHtml(stat.title) + '</p>' +
+          '<p class="stat-value">' + escapeHtml(stat.value) + '</p>' +
+          '<p class="stat-detail">' + escapeHtml(stat.detail) + '</p>' +
         '</div>'
       );
     }).join('');
@@ -188,12 +188,12 @@
 
     host.innerHTML = DATA.faq.map(function (item) {
       return (
-        '<details class="group border-b border-white/10">' +
-          '<summary class="flex cursor-pointer list-none items-start justify-between gap-4 py-5 text-left text-[0.98rem] font-medium text-white/92 transition-colors hover:text-white">' +
+        '<details class="qa">' +
+          '<summary>' +
             '<span>' + escapeHtml(item.q) + '</span>' +
-            '<span class="mono shrink-0 text-sm text-brand-400 transition-transform duration-300 group-open:rotate-45">+</span>' +
+            '<span class="plus" aria-hidden="true">+</span>' +
           '</summary>' +
-          '<p class="pb-5 pr-8 text-sm leading-relaxed text-white/68">' + escapeHtml(item.a) + '</p>' +
+          '<p class="answer">' + escapeHtml(item.a) + '</p>' +
         '</details>'
       );
     }).join('');
@@ -206,11 +206,11 @@
     var rows = BindingStore.sorted();
     body.innerHTML = rows.map(function (row) {
       return (
-        '<tr class="border-b border-white/5 align-top transition-colors hover:bg-white/[0.03]">' +
+        '<tr class="binding-row">' +
           '<td class="py-3 pr-4"><kbd>' + escapeHtml(row.keys) + '</kbd></td>' +
-          '<td class="py-3 pr-4 text-sm leading-relaxed text-white/78">' + escapeHtml(row.action) + '</td>' +
-          '<td class="hidden py-3 pr-4 text-xs text-white/52 md:table-cell">' + escapeHtml(row.group) + '</td>' +
-          '<td class="mono hidden py-3 text-xs text-white/45 lg:table-cell">' + escapeHtml(row.source) + '</td>' +
+          '<td class="py-3 pr-4 text-sm leading-relaxed text-ink-dim">' + escapeHtml(row.action) + '</td>' +
+          '<td class="py-3 pr-4 text-xs text-ink-faint">' + escapeHtml(row.group) + '</td>' +
+          '<td class="mono py-3 text-xs text-ink-faint">' + escapeHtml(row.source) + '</td>' +
         '</tr>'
       );
     }).join('');
@@ -223,26 +223,26 @@
 
   function antTheme() {
     return {
-      algorithm: global.antd.theme.darkAlgorithm,
+      algorithm: global.antd.theme.defaultAlgorithm,
       token: {
-        colorPrimary: '#e8b860',
-        colorInfo: '#e8b860',
-        colorSuccess: '#e8b860',
-        colorBgBase: '#0a0a09',
-        colorBgContainer: 'rgba(255, 255, 255, 0.02)',
-        colorBgElevated: '#141413',
-        colorBorder: 'rgba(255, 255, 255, 0.12)',
-        colorBorderSecondary: 'rgba(255, 255, 255, 0.08)',
-        borderRadius: 3,
-        fontFamily: "'Instrument Sans', system-ui, sans-serif",
-        fontSize: 14
+        colorPrimary: '#bc3a1e',
+        colorInfo: '#bc3a1e',
+        colorSuccess: '#bc3a1e',
+        colorBgBase: '#e7e8e4',
+        colorBgContainer: 'transparent',
+        colorBgElevated: '#dfe0da',
+        colorBorder: '#c3c4bd',
+        colorBorderSecondary: '#d3d4ce',
+        borderRadius: 2,
+        fontFamily: "'Archivo', system-ui, sans-serif",
+        fontSize: 15
       },
       components: {
         Table: {
           headerBg: 'transparent',
-          headerColor: '#6e6b64',
-          rowHoverBg: 'rgba(232, 184, 96, 0.05)',
-          borderColor: 'rgba(255, 255, 255, 0.09)'
+          headerColor: '#5a5e63',
+          rowHoverBg: 'rgba(22, 23, 26, 0.04)',
+          borderColor: '#d3d4ce'
         },
         Collapse: {
           headerBg: 'transparent',
@@ -348,7 +348,7 @@
           dataIndex: 'action',
           key: 'action',
           sorter: function (a1, b1) { return a1.action.localeCompare(b1.action); },
-          render: function (value) { return R.createElement('span', { className: 'text-white/82' }, value); }
+          render: function (value) { return R.createElement('span', { className: 'text-ink-dim' }, value); }
         },
         {
           title: 'Group',
@@ -356,7 +356,7 @@
           key: 'group',
           width: 150,
           sorter: function (a1, b1) { return a1.group.localeCompare(b1.group); },
-          render: function (value) { return R.createElement('span', { className: 'text-white/56' }, value); }
+          render: function (value) { return R.createElement('span', { className: 'text-ink-faint' }, value); }
         },
         {
           title: 'Source',
@@ -364,7 +364,7 @@
           key: 'source',
           width: 130,
           sorter: function (a1, b1) { return a1.source.localeCompare(b1.source); },
-          render: function (value) { return R.createElement('span', { className: 'mono text-white/48' }, value); }
+          render: function (value) { return R.createElement('span', { className: 'mono text-ink-faint' }, value); }
         }
       ];
 
@@ -374,14 +374,7 @@
         columns: columns,
         size: 'small',
         scroll: { x: 760 },
-        pagination: rows.length > 12
-          ? {
-              pageSize: 12,
-              size: 'small',
-              showSizeChanger: false,
-              showTotal: function (total) { return total + ' of ' + DATA.keybindings.length + ' bindings'; }
-            }
-          : false,
+        pagination: false,
         onChange: function (pagination, filters, sorter) {
           if (!sorter || !sorter.columnKey || !sorter.order) return;
           BindingStore.sortKey = sorter.columnKey;
@@ -714,12 +707,12 @@
 
   function initThree() {
     if (!global.MPVRThree || typeof global.MPVRThree.mount !== 'function') return;
-    var host = $('#hero-canvas');
+    var host = $('#plate-canvas');
     if (!host) return;
     try {
-      global.MPVRThree.mount(host, { points: 260 });
+      global.MPVRThree.mount(host, { frames: 4 });
     } catch (err) {
-      /* the page still reads without it */
+      /* the printed figures below the plate are the fallback */
     }
   }
 

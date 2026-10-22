@@ -1,16 +1,17 @@
 /* ==========================================================================
-   mpv-redesigned - the lamp above the hero
+   mpv-redesigned - the light table
    --------------------------------------------------------------------------
-   The hero sits in a dark room with one light in it. This is that light:
-   a soft cone coming down from above the frame, with dust turning slowly
-   inside the beam. There is no starfield and no floating glass planes.
+   One dark plate in the middle of a paper document. Inside it, the four
+   stills turn slowly on a shallow arc, the way frames turn on a light table.
 
    Design rules:
-      * capped devicePixelRatio of 2, no antialias, additive blending only
+      * capped devicePixelRatio of 2, no antialias
       * requestAnimationFrame loop that stops when the tab is hidden
       * prefers-reduced-motion renders exactly one static frame
-      * every geometry, material and the renderer itself are disposed on
-        pagehide so nothing is left behind
+      * every geometry, material, texture and the renderer itself are
+        disposed on pagehide so nothing is left behind
+      * if the images or WebGL are unavailable, the printed figures under
+        the plate are the fallback and the page still reads
    ========================================================================== */
 (function (global) {
   'use strict';
@@ -23,123 +24,29 @@
     return !!reduceMotionQuery.matches;
   }
 
-  var LAMP = 0xe8b860;
+  var FRAMES = [
+    { src: 'assets/images/player-controls.png', title: 'Liquid Glass controls' },
+    { src: 'assets/images/volume-hover.png', title: 'Hover overlays' },
+    { src: 'assets/images/menu-autosubs.png', title: 'Menu panels' },
+    { src: 'assets/images/hero-idle.png', title: 'The idle screen' }
+  ];
 
-  /* The beam.
-     A cone is a shell, and a shell has no volume, so one cone would be
-     invisible. Instead the beam is built from nested cones: a ray that runs
-     close to the axis crosses every shell, and a ray near the edge crosses
-     only the wide ones. Additively blended, that reads as a shaft of light.
-     Each shell fades towards the floor, so the light dies before it lands. */
-  function makeBeam(THREE, radius, height, opacity) {
-    var group = new THREE.Group();
-    var shells = 16;
-    var i;
-
-    for (i = 1; i <= shells; i += 1) {
-      var r = radius * (i / shells);
-      var geometry = new THREE.ConeGeometry(r, height, 48, 1, true);
-      geometry.translate(0, -height / 2, 0);
-
-      var material = new THREE.ShaderMaterial({
-        uniforms: {
-          uHeight: { value: height },
-          uOpacity: { value: (opacity * (1 - i / shells) * 2.4) / shells },
-          uColor: { value: new THREE.Color(LAMP) }
-        },
-        vertexShader: [
-          'varying vec3 vPos;',
-          'varying vec3 vNormal;',
-          'varying vec3 vView;',
-          'void main() {',
-          '  vPos = position;',
-          '  vec4 world = modelMatrix * vec4(position, 1.0);',
-          '  vNormal = normalize(normalMatrix * normal);',
-          '  vView = normalize(cameraPosition - world.xyz);',
-          '  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);',
-          '}'
-        ].join('\n'),
-        fragmentShader: [
-          'uniform float uHeight;',
-          'uniform float uOpacity;',
-          'uniform vec3 uColor;',
-          'varying vec3 vPos;',
-          'varying vec3 vNormal;',
-          'varying vec3 vView;',
-          'void main() {',
-          /* t is the distance from the point of the cone */
-          '  float t = clamp(-vPos.y / uHeight, 0.0, 1.0);',
-          /* brightest just under the lamp, gone by the floor */
-          '  float along = smoothstep(0.0, 0.05, t) * pow(1.0 - t, 1.35);',
-          /* fade the silhouette, otherwise every shell shows as a hard edge */
-          '  float ndv = abs(dot(normalize(vNormal), normalize(vView)));',
-          '  float soft = smoothstep(0.0, 0.45, ndv);',
-          '  gl_FragColor = vec4(uColor, along * soft * uOpacity);',
-          '}'
-        ].join('\n'),
-        transparent: true,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-        side: THREE.DoubleSide
-      });
-
-      group.add(new THREE.Mesh(geometry, material));
-    }
-
-    return group;
-  }
-
-  /* Dust. Every mote is placed inside the cone so it is only ever visible
-     where the light is, and it falls with the beam. */
-  function makeMotes(THREE, count, radius, height, size, opacity) {
-    var positions = new Float32Array(count * 3);
-    var depth = new Float32Array(count);
-    var angle = new Float32Array(count);
-    var spread = new Float32Array(count);
-    var speed = new Float32Array(count);
-    var i;
-
-    for (i = 0; i < count; i += 1) {
-      depth[i] = 0.04 + Math.random() * 0.94;
-      angle[i] = Math.random() * Math.PI * 2;
-      spread[i] = Math.sqrt(Math.random()) * 0.8;
-      speed[i] = 0.012 + Math.random() * 0.03;
-      positions[i * 3] = 0;
-      positions[i * 3 + 1] = 0;
-      positions[i * 3 + 2] = 0;
-    }
-
-    var geometry = new THREE.BufferGeometry();
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-
-    var material = new THREE.PointsMaterial({
-      color: LAMP,
-      size: size,
-      sizeAttenuation: true,
-      transparent: true,
-      opacity: opacity,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending
-    });
-
-    var points = new THREE.Points(geometry, material);
-    points.userData.depth = depth;
-    points.userData.angle = angle;
-    points.userData.spread = spread;
-    points.userData.speed = speed;
-    points.userData.radius = radius;
-    points.userData.height = height;
-    return points;
-  }
+  var WIDTH = 5.0;
+  var HEIGHT = 3.0;
+  var RADIUS = 9.4;
+  var SPREAD = 0.42;
 
   function mount(container, options) {
     var THREE = global.THREE;
     if (!THREE || !container) return null;
 
     var opts = options || {};
+    var count = opts.frames || FRAMES.length;
+
     var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(55, 1, 0.1, 100);
-    camera.position.set(0, 0, 7.6);
+    var camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+    camera.position.set(0, 0.2, 11.4);
+    camera.lookAt(0, 0, 0);
 
     var renderer;
     try {
@@ -157,26 +64,102 @@
     renderer.domElement.setAttribute('aria-hidden', 'true');
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';
+    renderer.domElement.style.touchAction = 'pan-y';
     container.appendChild(renderer.domElement);
 
-    var coneRadius = 5.2;
-    var coneHeight = 14;
+    var group = new THREE.Group();
+    scene.add(group);
 
-    /* The lamp sits above the frame, a little to the right of centre, and
-       the beam falls across the picture. */
-    var beam = makeBeam(THREE, coneRadius, coneHeight, 0.13);
-    beam.position.set(2.6, 3.2, -3.2);
-    beam.rotation.z = 0.1;
-    scene.add(beam);
+    /* The frames. Each one is a mount with a border and the picture on it. */
+    var loader = new THREE.TextureLoader();
+    var loaded = 0;
+    var planes = [];
 
-    var moteCount = opts.points || 700;
-    var motes = makeMotes(THREE, moteCount, coneRadius, coneHeight, 0.022, 0.3);
-    motes.position.copy(beam.position);
-    motes.rotation.z = 0.1;
-    scene.add(motes);
+    for (var i = 0; i < count; i += 1) {
+      var frame = FRAMES[i % FRAMES.length];
+      var angle = (i - (count - 1) / 2) * SPREAD;
+
+      var mountGeo = new THREE.PlaneGeometry(WIDTH + 0.22, HEIGHT + 0.22);
+      var mountMat = new THREE.MeshBasicMaterial({
+        color: 0x2b2e32,
+        transparent: true,
+        opacity: 0
+      });
+      var back = new THREE.Mesh(mountGeo, mountMat);
+      back.position.set(
+        Math.sin(angle) * RADIUS,
+        0,
+        Math.cos(angle) * RADIUS - RADIUS
+      );
+      back.rotation.y = -angle;
+      group.add(back);
+
+      var geo = new THREE.PlaneGeometry(WIDTH, HEIGHT);
+      var mat = new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0
+      });
+      var plane = new THREE.Mesh(geo, mat);
+      plane.position.copy(back.position);
+      plane.rotation.y = -angle;
+      group.add(plane);
+
+      planes.push({ back: back, face: plane, angle: angle });
+
+      (function (index, backMesh, faceMesh, backMaterial, faceMaterial) {
+        loader.load(
+          frame.src,
+          function (texture) {
+            texture.colorSpace = THREE.SRGBColorSpace;
+            texture.minFilter = THREE.LinearFilter;
+            texture.generateMipmaps = false;
+            faceMaterial.map = texture;
+            faceMaterial.needsUpdate = true;
+            loaded += 1;
+            faceMaterial.opacity = 1;
+            backMaterial.opacity = 1;
+          },
+          undefined,
+          function () {
+            /* the frame stays blank; the printed figures below carry it */
+          }
+        );
+      })(i, back, plane, mountMat, mat);
+    }
+
+    /* The scrubber: drag the arc round. */
+    var drag = { active: false, x: 0, last: 0, offset: 0, velocity: 0 };
+    var spin = 0;
+
+    function onDown(event) {
+      drag.active = true;
+      drag.last = event.clientX;
+      drag.velocity = 0;
+      renderer.domElement.style.cursor = 'grabbing';
+    }
+
+    function onMove(event) {
+      if (!drag.active) return;
+      var dx = event.clientX - drag.last;
+      drag.last = event.clientX;
+      drag.offset += dx * 0.005;
+      drag.velocity = dx * 0.005;
+    }
+
+    function onUp() {
+      drag.active = false;
+      renderer.domElement.style.cursor = 'grab';
+    }
+
+    renderer.domElement.style.cursor = 'grab';
+    renderer.domElement.addEventListener('pointerdown', onDown);
+    global.addEventListener('pointermove', onMove);
+    global.addEventListener('pointerup', onUp);
+    global.addEventListener('pointercancel', onUp);
 
     var clock = { last: 0 };
-    var frame = null;
+    var frameId = null;
     var running = false;
     var disposed = false;
 
@@ -187,31 +170,11 @@
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height, false);
-    }
 
-    function turn(elapsed) {
-      var positions = motes.geometry.getAttribute('position');
-      var depth = motes.userData.depth;
-      var angle = motes.userData.angle;
-      var spread = motes.userData.spread;
-      var speed = motes.userData.speed;
-      var radius = motes.userData.radius;
-      var height = motes.userData.height;
-      var array = positions.array;
-      var i;
-
-      for (i = 0; i < speed.length; i += 1) {
-        /* the mote falls, and is carried around the axis on the way down */
-        depth[i] += speed[i] * elapsed;
-        if (depth[i] > 1) depth[i] -= 1;
-        angle[i] += elapsed * 0.12;
-
-        var r = radius * depth[i] * spread[i];
-        array[i * 3] = Math.cos(angle[i]) * r;
-        array[i * 3 + 1] = -depth[i] * height;
-        array[i * 3 + 2] = Math.sin(angle[i]) * r;
-      }
-      positions.needsUpdate = true;
+      /* keep the arc in frame whatever the plate is shaped like */
+      var fit = Math.min(1, width / 1180);
+      camera.position.z = 11.4 / Math.max(fit, 0.42);
+      camera.updateProjectionMatrix();
     }
 
     function render(timestamp) {
@@ -219,8 +182,23 @@
       var elapsed = clock.last ? (timestamp - clock.last) / 1000 : 0;
       clock.last = timestamp;
 
-      turn(elapsed);
-      beam.rotation.y += elapsed * 0.012;
+      /* the table breathes; a drag nudges it and it settles back */
+      if (!drag.active) {
+        drag.velocity *= 0.94;
+        drag.offset += drag.velocity;
+        drag.offset *= 0.985;
+      }
+      spin += elapsed * 0.085;
+
+      group.rotation.y = spin + drag.offset;
+      group.position.y = Math.sin(spin * 0.7) * 0.16;
+
+      for (var i = 0; i < planes.length; i += 1) {
+        var depth = Math.cos(planes[i].angle) * RADIUS;
+        var lift = 1 - depth / RADIUS;
+        planes[i].face.position.y = planes[i].back.position.y + lift * 0.06;
+        planes[i].face.rotation.z = planes[i].back.rotation.z = Math.sin(spin * 0.5 + i) * 0.004;
+      }
 
       renderer.render(scene, camera);
     }
@@ -228,7 +206,7 @@
     function loop(timestamp) {
       if (!running || disposed) return;
       render(timestamp);
-      frame = global.requestAnimationFrame(loop);
+      frameId = global.requestAnimationFrame(loop);
     }
 
     function start() {
@@ -239,14 +217,14 @@
       }
       running = true;
       clock.last = 0;
-      frame = global.requestAnimationFrame(loop);
+      frameId = global.requestAnimationFrame(loop);
     }
 
     function stop() {
       running = false;
-      if (frame) {
-        global.cancelAnimationFrame(frame);
-        frame = null;
+      if (frameId) {
+        global.cancelAnimationFrame(frameId);
+        frameId = null;
       }
     }
 
@@ -265,10 +243,16 @@
       document.removeEventListener('visibilitychange', onVisibility);
       global.removeEventListener('resize', resize);
       global.removeEventListener('pagehide', dispose);
+      global.removeEventListener('pointermove', onMove);
+      global.removeEventListener('pointerup', onUp);
+      global.removeEventListener('pointercancel', onUp);
 
       scene.traverse(function (object) {
         if (object.geometry && object.geometry.dispose) object.geometry.dispose();
         if (object.material && object.material.dispose) object.material.dispose();
+        if (object.material && object.material.map && object.material.map.dispose) {
+          object.material.map.dispose();
+        }
       });
       scene.clear();
       if (renderer.domElement && renderer.domElement.parentNode) {
@@ -293,7 +277,8 @@
       start: start,
       stop: stop,
       dispose: dispose,
-      renderer: renderer
+      renderer: renderer,
+      loaded: function () { return loaded; }
     };
   }
 

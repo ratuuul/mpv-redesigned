@@ -1,216 +1,247 @@
-<!-- ===================================================== deep dive -->
+<!-- ================= deep dive ================= -->
 <section id="deep" class="section">
   <div class="shell">
+
     <div class="section-head">
-      <div class="section-head-line">
-        <span class="stamp reveal">00:05:21:14</span>
-        <span class="section-head-rule reveal"></span>
-      </div>
-      <div class="mt-8 grid gap-x-8 gap-y-6 lg:grid-cols-12">
-        <h2 class="display-md reveal lg:col-span-6 text-white">The six details that change the feel.</h2>
-        <p class="lede reveal lg:col-span-6">
-          Six pieces of the configuration are worth reading closely, because they are the difference between
-          an mpv you tolerate and one you keep open.
-        </p>
+      <p class="folio"><span class="folio-num">04</span> Feature deep dive</p>
+      <div class="rule-strong"></div>
+      <div class="grid gap-x-8 gap-y-10 lg:grid-cols-12 mt-10">
+        <h2 class="h-section lg:col-span-6 reveal">The six details that change the feel.</h2>
+        <p class="deck lg:col-span-6 reveal">Six pieces of the configuration are worth reading closely, because they are the difference between an mpv you tolerate and one you keep open.</p>
       </div>
     </div>
 
-    <div class="mt-14 flex flex-col gap-14 lg:gap-20">
+    <div class="rule mt-16"></div>
 
-      <article class="grid gap-x-8 gap-y-6 lg:grid-cols-12">
+    <!-- ------------------------------------------------------ deep dive 01 -->
+    <article class="mt-16 reveal">
+      <div class="grid gap-x-8 gap-y-8 lg:grid-cols-12">
         <div class="lg:col-span-6">
-          <p class="stamp">Deep dive 01</p>
-          <h3 class="display-sm mt-4 text-white">The idle photo background</h3>
-          <p class="mt-5 text-[0.98rem] leading-relaxed text-white/68">
-            When there is nothing to play, mpv shows a black rectangle. This configuration fetches a photograph
-            instead, caches it locally, and puts the prompt on top of it. The image is blurred and darkened
-            enough that the text stays readable, and the next photo is one key away.
-          </p>
-          <ul class="mt-6 flex flex-col gap-2.5 text-sm text-white/62">
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Cached on disk, so the idle screen never waits on the network twice.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Keyword driven, and it can be switched off completely with one option.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>The next photo is fetched with <kbd>Ctrl+Shift+K</kbd>.</li>
+          <p class="kicker">Deep dive 01</p>
+          <h3 class="h-sub mt-3">The idle photo background.</h3>
+          <p class="body-copy mt-4">When there is nothing to play, mpv shows a black rectangle and waits. This configuration fetches a photograph instead, caches it locally and puts the prompt on top of it. The image is blurred and darkened enough that the text stays readable over it, and the next photograph is one key away.</p>
+          <ul class="list-none grid gap-3 mt-6">
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Cached on disk, so the idle screen never waits on the network twice.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Keyword driven, and switched off completely with a single option.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>The next photograph is fetched with <kbd>Ctrl+Shift+K</kbd>.</span>
+            </li>
           </ul>
         </div>
-        <div class="lg:col-span-6">
-          <div class="glass reveal p-6">
-            <p class="label">script-opts / bg.conf</p>
-            <pre class="shell-cmd mt-4"># keywords are comma separated
-keywords=nature,landscape,minimal,city,night
-# leave empty for a random photo
-cache_dir=~~/cache/bg</pre>
-            <div class="mt-5 flex items-center gap-3 border-t border-white/[0.07] pt-5">
-              <span class="chip">bg.lua</span>
-              <span class="text-xs text-white/52">Fetches, caches and paints the background.</span>
-            </div>
-          </div>
-        </div>
-      </article>
+        <figure class="lg:col-span-6">
+          <div class="code-block"><span class="cmt"># Comma-separated; one is picked at random</span>
+<span class="cmt"># for every new photo.</span>
+<span class="opt">keywords</span>=<span class="val">nature,landscape,minimal,city,night</span>
+<span class="cmt"># Keep at most this many photos in ~~/cache/bg/</span>
+<span class="opt">cache_size</span>=<span class="val">20</span></div>
+          <figcaption class="plate-cap"><b>FIG. 04.1</b> <span>script-opts / bg.conf</span></figcaption>
+        </figure>
+      </div>
+    </article>
 
-      <article class="grid gap-x-8 gap-y-6 lg:grid-cols-12">
-        <div class="lg:col-span-6 lg:order-2">
-          <p class="stamp">Deep dive 02</p>
-          <h3 class="display-sm mt-4 text-white">Double-click to resume</h3>
-          <p class="mt-5 text-[0.98rem] leading-relaxed text-white/68">
-            Closing mpv and coming back later should not mean finding the file again. The double click on the
-            window reopens the last media and resumes it at the exact position it was left at, and the saved
-            position deliberately ignores stray volume and mute changes.
-          </p>
-          <ul class="mt-6 flex flex-col gap-2.5 text-sm text-white/62">
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>A deliberately narrow list of what is restored: start, speed, pitch, tracks, delay and scale.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>No modification time check, so remote files keep their saved position.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Fullscreen moved to <kbd>f</kbd> so the double click is free.</li>
-          </ul>
-        </div>
+    <div class="rule mt-16"></div>
+
+    <!-- ------------------------------------------------------ deep dive 02 -->
+    <article class="mt-16 reveal">
+      <div class="grid gap-x-8 gap-y-8 lg:grid-cols-12">
         <div class="lg:col-span-6 lg:order-1">
-          <div class="glass reveal p-6">
-            <p class="label">config / mpv.conf</p>
-            <pre class="shell-cmd mt-4">save-position-on-quit=yes
-resume-playback=yes
-resume-playback-check-mtime=no
-write-filename-in-watch-later-config=yes
-watch-later-options=start,speed,pitch,aid,sid,sub-delay,sub-scale</pre>
-            <div class="mt-5 flex items-center gap-3 border-t border-white/[0.07] pt-5">
-              <span class="chip">lasthit.lua</span>
-              <span class="text-xs text-white/52">Reopens the last file on a double click.</span>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <article class="grid gap-x-8 gap-y-6 lg:grid-cols-12">
-        <div class="lg:col-span-6">
-          <p class="stamp">Deep dive 03</p>
-          <h3 class="display-sm mt-4 text-white">YouTube, as a real client</h3>
-          <p class="mt-5 text-[0.98rem] leading-relaxed text-white/68">
-            The format menu lists the formats the server actually offers and switches between them without
-            reloading the video. The subtitle menu lists every language the video carries, creator uploaded and
-            auto generated, with a separate track for the secondary language.
-          </p>
-          <ul class="mt-6 flex flex-col gap-2.5 text-sm text-white/62">
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Creator subtitles are pre-loaded as normal tracks, so the usual key still works.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Sponsor segments can be skipped, and the category list is configurable.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>The stream you are watching can be downloaded at the quality mpv negotiated.</li>
+          <p class="kicker">Deep dive 02</p>
+          <h3 class="h-sub mt-3">Double-click to resume.</h3>
+          <p class="body-copy mt-4">Closing mpv and coming back later should not mean finding the file again. A double click on the window reopens the last media and resumes it at the exact position it was left at. The saved position deliberately ignores stray volume and mute changes, so a film never comes back at the wrong level.</p>
+          <ul class="list-none grid gap-3 mt-6">
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>A deliberately narrow list of what is restored: start, speed, pitch, tracks, delay and scale.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>No modification time check, so remote files keep the position they were saved with.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Fullscreen moved to <kbd>f</kbd>, which leaves the double click free.</span>
+            </li>
           </ul>
         </div>
-        <div class="lg:col-span-6">
-          <div class="glass reveal p-6">
-            <p class="label">config / mpv.conf</p>
-            <pre class="shell-cmd mt-4">ytdl-raw-options=sub-langs=(en|ja|de|es|fr|it|ru|pt|pl|nl|sv|tr|ko|zh).*,js-runtimes=node</pre>
-            <p class="mt-4 text-xs leading-relaxed text-white/52">
-              The JavaScript runtime line is not optional. Without a named runtime, modern yt-dlp cannot solve
-              the signature challenges and every video comes back without usable formats.
-            </p>
-            <div class="mt-5 flex flex-wrap items-center gap-2 border-t border-white/[0.07] pt-5">
-              <span class="chip">quality-menu.lua</span>
-              <span class="chip">ytsubs.lua</span>
-              <span class="chip">sponsorblock_minimal.lua</span>
-            </div>
-          </div>
-        </div>
-      </article>
+        <figure class="lg:col-span-6 lg:order-2">
+          <div class="code-block"><span class="opt">save-position-on-quit</span>=<span class="val">yes</span>
+<span class="opt">resume-playback</span>=<span class="val">yes</span>
+<span class="opt">resume-playback-check-mtime</span>=<span class="val">no</span>
+<span class="opt">write-filename-in-watch-later-config</span>=<span class="val">yes</span>
+<span class="opt">watch-later-options</span>=<span class="val">start,speed,pitch,aid,sid,sub-delay,sub-scale</span></div>
+          <figcaption class="plate-cap"><b>FIG. 04.2</b> <span>config / mpv.conf</span></figcaption>
+        </figure>
+      </div>
+    </article>
 
-      <article class="grid gap-x-8 gap-y-6 lg:grid-cols-12">
-        <div class="lg:col-span-6 lg:order-2">
-          <p class="stamp">Deep dive 04</p>
-          <h3 class="display-sm mt-4 text-white">A subtitle pipeline, not a font size</h3>
-          <p class="mt-5 text-[0.98rem] leading-relaxed text-white/68">
-            Subtitles are set in Geist Medium at 40, in a warm off-white, with a hairline outline and a soft
-            shadow so they survive any background. Margins are forced so a 2.35 to 1 film keeps its captions
-            inside the letterbox instead of floating over the image.
-          </p>
-          <ul class="mt-6 flex flex-col gap-2.5 text-sm text-white/62">
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Fansub ASS files get a gentle restyle so they match plain text subtitles.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Two opt-in looks: a translucent panel and shadow-only cinema subtitles.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Bitmap subtitles are softened rather than restyled.</li>
+    <div class="rule mt-16"></div>
+
+    <!-- ------------------------------------------------------ deep dive 03 -->
+    <article class="mt-16 reveal">
+      <div class="grid gap-x-8 gap-y-8 lg:grid-cols-12">
+        <div class="lg:col-span-6">
+          <p class="kicker">Deep dive 03</p>
+          <h3 class="h-sub mt-3">YouTube, as a real client.</h3>
+          <p class="body-copy mt-4">A URL is not a file, and the default player treats it like one. Here the format menu lists the formats the server actually offers and switches between them without reloading the video. The subtitle menu lists every language the video carries, creator uploaded and auto generated, with a separate track for the secondary language.</p>
+          <ul class="list-none grid gap-3 mt-6">
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Creator subtitles are pre-loaded as normal tracks, so the usual <kbd>v</kbd> key still works.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Sponsor segments are skipped with <kbd>b</kbd>, and the category list is configurable.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>The stream you are watching can be downloaded at the quality mpv negotiated.</span>
+            </li>
           </ul>
         </div>
+        <figure class="lg:col-span-6">
+          <div class="code-block"><span class="opt">ytdl-raw-options</span>=<span class="val">sub-langs=(en|ja|de|es|fr|it|ru|pt|pl|nl|sv|tr|ko|zh).*,js-runtimes=node</span></div>
+          <figcaption class="plate-cap"><b>FIG. 04.3</b> <span>config / mpv.conf</span></figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <div class="rule mt-16"></div>
+
+    <!-- ------------------------------------------------------ deep dive 04 -->
+    <article class="mt-16 reveal">
+      <div class="grid gap-x-8 gap-y-8 lg:grid-cols-12">
         <div class="lg:col-span-6 lg:order-1">
-          <div class="glass reveal p-6">
-            <p class="label">config / conf / subtitles.conf</p>
-            <pre class="shell-cmd mt-4">sub-font=Geist Medium
-sub-font-size=40
-sub-color=FCF3E8
-sub-border-size=1.2
-sub-shadow-size=1.6
-sub-ass-force-margins=yes</pre>
-            <div class="mt-5 flex flex-wrap items-center gap-2 border-t border-white/[0.07] pt-5">
-              <kbd>Alt+6</kbd>
-              <span class="chip">Alt+7</span>
-              <span class="chip">Alt+o</span>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <article class="grid gap-x-8 gap-y-6 lg:grid-cols-12">
-        <div class="lg:col-span-6">
-          <p class="stamp">Deep dive 05</p>
-          <h3 class="display-sm mt-4 text-white">Hardware decode, then Anime4K</h3>
-          <p class="mt-5 text-[0.98rem] leading-relaxed text-white/68">
-            d3d11 output with d3d11va decoding is the single biggest win on an integrated GPU with shared
-            memory. On top of that sits the full quality stack: EWA Lanczos for luma, spline36 for chroma,
-            mitchell for downscaling, and anti-ringing so the sharpening does not ring.
-          </p>
-          <ul class="mt-6 flex flex-col gap-2.5 text-sm text-white/62">
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Anime4K line-art restoration applies itself to files whose path contains anime.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>The shader cache is built ahead of time, so the first play does not stutter.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Vulkan output is one key away for an A and B comparison.</li>
+          <p class="kicker">Deep dive 04</p>
+          <h3 class="h-sub mt-3">A subtitle pipeline, not a font size.</h3>
+          <p class="body-copy mt-4">Subtitles are set in Geist Medium at 40, in a warm off-white, with a hairline outline and a soft shadow so they survive any background. Margins are forced, so a 2.35 to 1 film keeps its captions inside the letterbox instead of floating over the image. The result reads as part of the picture rather than as a layer on top of it.</p>
+          <ul class="list-none grid gap-3 mt-6">
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Fansub ASS files get a gentle restyle so they match plain text subtitles.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Two opt-in looks: a translucent panel, and shadow-only cinema subtitles.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Bitmap subtitles are softened rather than restyled.</span>
+            </li>
           </ul>
         </div>
-        <div class="lg:col-span-6">
-          <div class="glass reveal p-6">
-            <p class="label">config / conf / video.conf</p>
-            <pre class="shell-cmd mt-4">vo=gpu-next
-gpu-api=d3d11
-gpu-decoder=d3d11va
-scale=luma:ewa_lanczos
-scale-chroma=spline36
-dscale=mitchell
-dither=fruit
-tone-mapping=spline</pre>
-            <div class="mt-5 flex flex-wrap items-center gap-2 border-t border-white/[0.07] pt-5">
-              <kbd>Alt+0</kbd>
-              <span class="chip">Alt+2</span>
-              <span class="chip">Alt+4</span>
-            </div>
-          </div>
-        </div>
-      </article>
+        <figure class="lg:col-span-6 lg:order-2">
+          <div class="code-block"><span class="opt">sub-font</span>=<span class="val">'Geist Medium'</span>
+<span class="opt">sub-font-size</span>=<span class="val">40</span>
+<span class="opt">sub-color</span>=<span class="val">"#F5F2EF"</span>
+<span class="cmt"># a hairline outline plus a soft shadow</span>
+<span class="opt">sub-outline-size</span>=<span class="val">1.15</span>
+<span class="opt">sub-shadow-offset</span>=<span class="val">1.1</span>
+<span class="opt">sub-blur</span>=<span class="val">0.3</span>
+<span class="opt">sub-border-style</span>=<span class="val">outline-and-shadow</span>
+<span class="opt">sub-ass-force-margins</span>=<span class="val">yes</span></div>
+          <figcaption class="plate-cap"><b>FIG. 04.4</b> <span>config / conf / subtitles.conf</span></figcaption>
+        </figure>
+      </div>
+    </article>
 
-      <article class="grid gap-x-8 gap-y-6 lg:grid-cols-12">
-        <div class="lg:col-span-6 lg:order-2">
-          <p class="stamp">Deep dive 06</p>
-          <h3 class="display-sm mt-4 text-white">Controls that hover, then get out of the way</h3>
-          <p class="mt-5 text-[0.98rem] leading-relaxed text-white/68">
-            The control bar and the timeline are translucent and stay on screen while the picture plays, but the
-            overlays are pointer driven: they appear where the mouse is and fade away when it leaves. A speed
-            meter with a spring needle sits at the centre of the screen while the speed changes.
-          </p>
-          <ul class="mt-6 flex flex-col gap-2.5 text-sm text-white/62">
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Centred seek, volume and speed overlays, drawn by the skin rather than by the player.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>Seekbar thumbnails are pre-fetched while the pointer moves.</li>
-            <li class="flex gap-3"><span class="mt-[0.62rem] h-[3px] w-[3px] shrink-0 bg-brand-400"></span>An info button opens the player statistics: codec, frames per second, bitrate, dropped frames.</li>
+    <div class="rule mt-16"></div>
+
+    <!-- ------------------------------------------------------ deep dive 05 -->
+    <article class="mt-16 reveal">
+      <div class="grid gap-x-8 gap-y-8 lg:grid-cols-12">
+        <div class="lg:col-span-6">
+          <p class="kicker">Deep dive 05</p>
+          <h3 class="h-sub mt-3">Hardware decode, then Anime4K.</h3>
+          <p class="body-copy mt-4">On an integrated GPU with shared memory the expensive part is the copy out of system memory, so the decode path is kept on the device. On top of that sits the full quality stack: EWA Lanczos for luma, spline36 for chroma, mitchell for downscaling, and anti-ringing so the sharpening does not ring. Every line here was measured on this machine before it was kept.</p>
+          <ul class="list-none grid gap-3 mt-6">
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Anime4K line-art restoration applies itself to files whose path contains <span class="mono">anime</span>.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>The shader cache is built ahead of time, so the first play does not stutter.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Vulkan output is one key away, with <kbd>Alt+0</kbd>, for an A and B comparison.</span>
+            </li>
           </ul>
         </div>
+        <figure class="lg:col-span-6">
+          <div class="code-block"><span class="opt">vo</span>=<span class="val">gpu-next</span>
+<span class="opt">gpu-api</span>=<span class="val">d3d11</span>
+<span class="opt">gpu-context</span>=<span class="val">d3d11</span>
+<span class="cmt"># zero-copy: no extra GPU to GPU copy</span>
+<span class="opt">hwdec</span>=<span class="val">d3d11va</span>
+<span class="opt">d3d11va-zero-copy</span>=<span class="val">yes</span>
+<span class="opt">scale</span>=<span class="val">ewa_lanczossharp</span>
+<span class="opt">cscale</span>=<span class="val">spline36</span>
+<span class="opt">dscale</span>=<span class="val">mitchell</span>
+<span class="opt">scale-antiring</span>=<span class="val">0.6</span>
+<span class="opt">video-sync</span>=<span class="val">display-resample</span>
+<span class="opt">interpolation</span>=<span class="val">yes</span>
+<span class="opt">dither</span>=<span class="val">fruit</span>
+<span class="opt">tone-mapping</span>=<span class="val">spline</span></div>
+          <figcaption class="plate-cap"><b>FIG. 04.5</b> <span>config / conf / video.conf</span></figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <div class="rule mt-16"></div>
+
+    <!-- ------------------------------------------------------ deep dive 06 -->
+    <article class="mt-16 reveal">
+      <div class="grid gap-x-8 gap-y-8 lg:grid-cols-12">
         <div class="lg:col-span-6 lg:order-1">
-          <div class="glass reveal p-6">
-            <p class="label">config / mpv.conf</p>
-            <pre class="shell-cmd mt-4"># the skin draws the controls, so mpv's own is off
-osc=no
-osd-bar=no
-# keep the window interactive after a file ends
-keep-open=yes
-keep-open-pause=yes</pre>
-            <div class="mt-5 flex flex-wrap items-center gap-2 border-t border-white/[0.07] pt-5">
-              <span class="chip">Liquid Glass</span>
-              <span class="chip">thumbfast.lua</span>
-              <span class="chip">Ctrl+t</span>
-            </div>
-          </div>
+          <p class="kicker">Deep dive 06</p>
+          <h3 class="h-sub mt-3">Controls that hover, then get out of the way.</h3>
+          <p class="body-copy mt-4">The control bar and the timeline are translucent, and they stay on screen while the picture plays. The overlays are pointer driven: they appear where the mouse is and fade away when it leaves. The window stays interactive after a file ends, so the next one can be dragged straight in.</p>
+          <ul class="list-none grid gap-3 mt-6">
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Centred seek, volume and speed overlays, drawn by the skin rather than by the player.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>Seekbar thumbnails are pre-fetched while the pointer moves.</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-ink-dim">
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span>An info button opens the player statistics: codec, frames per second, bitrate, dropped frames.</span>
+            </li>
+          </ul>
         </div>
-      </article>
+        <figure class="lg:col-span-6 lg:order-2">
+          <div class="code-block"><span class="cmt"># the skin draws the controls, so mpv's own is off</span>
+<span class="opt">osc</span>=<span class="val">no</span>
+<span class="opt">osd-bar</span>=<span class="val">no</span>
+<span class="cmt"># keep the window interactive after a file ends</span>
+<span class="opt">keep-open</span>=<span class="val">yes</span>
+<span class="opt">keep-open-pause</span>=<span class="val">yes</span></div>
+          <figcaption class="plate-cap"><b>FIG. 04.6</b> <span>config / mpv.conf</span></figcaption>
+        </figure>
+      </div>
+    </article>
 
+    <div class="rule mt-16"></div>
+
+    <div class="band mt-8">
+      <div class="grid gap-x-8 gap-y-6 lg:grid-cols-12">
+      <p class="body-copy lg:col-span-7">None of this is a plugin you have to trust; it is configuration you can read, comment out and replace. Every line above comes from a file in the repository, and every file says why it exists.</p>
+      </div>
+
+      <div class="band-notes">
+        <p class="measured reveal"><b>PSNR ≥ 66.5 dB</b>the d3d11 path is pixel identical to software</p>
+      </div>
     </div>
+
   </div>
 </section>

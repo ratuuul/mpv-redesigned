@@ -22,9 +22,9 @@ const site = resolve(root, 'site');
 
 const SECTIONS = [
   ['hero', '01-hero'],
-  ['features', '02-features'],
-  ['inside', '03-inside'],
-  ['showcase', '04-showcase'],
+  ['showcase', '02-showcase'],
+  ['features', '03-features'],
+  ['inside', '04-inside'],
   ['deep', '05-deep'],
   ['keys', '06-keys'],
   ['install', '07-install'],
@@ -48,6 +48,23 @@ const html = layout.replace('<!--SECTIONS-->', parts.join('\n\n'));
 
 if (html.includes('<!--SECTIONS-->')) {
   throw new Error('the section marker was not replaced');
+}
+
+/* The page is printed on paper now. A white utility would be invisible on
+   it, so any that survived the rewrite is a bug, not a style choice. */
+const whiteUtilities = [...html.matchAll(/[\w-]+-white\//g)].map((m) => m[0]);
+if (whiteUtilities.length) {
+  const unique = [...new Set(whiteUtilities)];
+  throw new Error(
+    'white utilities are invisible on paper: ' + unique.join(', ')
+  );
+}
+
+/* Every section the navigation and the scroll spy point at must exist. */
+for (const id of ['top', 'showcase', 'features', 'inside', 'deep', 'keys', 'install', 'faq']) {
+  if (!new RegExp('id="' + id + '"').test(html)) {
+    throw new Error('missing section id: ' + id);
+  }
 }
 
 await writeFile(resolve(site, 'index.html'), html, 'utf8');
