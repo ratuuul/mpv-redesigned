@@ -1,0 +1,101 @@
+<!-- ======================================================= install -->
+<section id="install" class="section">
+  <div class="shell">
+    <div class="section-head">
+      <div class="section-head-line">
+        <span class="stamp reveal">00:09:12:23</span>
+        <span class="section-head-rule reveal"></span>
+      </div>
+      <div class="mt-8 grid gap-x-8 gap-y-6 lg:grid-cols-12">
+        <h2 class="display-md reveal lg:col-span-6 text-white">One command, then it just plays.</h2>
+        <p class="lede reveal lg:col-span-6">
+          The installer backs up whatever it finds, deploys the configuration, and starts mpv once to prove the
+          file parses. It never asks for administrator rights, and it never writes outside your own profile.
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-14 grid gap-x-8 gap-y-6 lg:grid-cols-12" x-data="tabSet" data-tabs>
+      <div class="lg:col-span-6">
+        <div class="flex gap-6" role="tablist" aria-label="Install targets">
+          <button type="button" class="tab-rail flex-1 text-center sm:text-left" data-tab="0" x-on:click="select(0)" :class="{ 'is-active': active === 0 }" role="tab" aria-selected="true" aria-controls="install-0">Windows</button>
+          <button type="button" class="tab-rail flex-1 text-center sm:text-left" data-tab="1" x-on:click="select(1)" :class="{ 'is-active': active === 1 }" role="tab" aria-selected="false" aria-controls="install-1">Linux</button>
+        </div>
+
+        <div class="min-h-[26rem]">
+        <div class="glass mt-6 p-6" id="install-0" data-tab-panel="0" x-show="active === 0" x-transition.opacity.duration.300ms x-cloak>
+          <div class="flex items-center justify-between gap-3">
+            <span class="label">windows 10 or 11 &middot; powershell</span>
+            <button type="button" class="copy-btn" data-copy="irm https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.ps1 | iex"><span data-copy-label>copy</span>
+            </button>
+          </div>
+          <pre class="shell-cmd mt-4">irm https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.ps1 | iex</pre>
+          <p class="mt-4 text-xs leading-relaxed text-white/52">
+            Run it from Windows PowerShell 5.1 or PowerShell 7, not from cmd. A preview that changes nothing is
+            one switch away.
+          </p>
+          <ol class="mt-5 flex flex-col gap-3 text-sm text-white/68">
+            <li class="flex gap-3"><span class="mono shrink-0 text-brand-300">01</span>The repository archive is downloaded and unpacked to a temporary folder.</li>
+            <li class="flex gap-3"><span class="mono shrink-0 text-brand-300">02</span>If mpv is missing and scoop is not installed, mpv is unpacked locally and the user path is extended.</li>
+            <li class="flex gap-3"><span class="mono shrink-0 text-brand-300">03</span>yt-dlp is downloaded into the configuration so the network hook finds it first.</li>
+            <li class="flex gap-3"><span class="mono shrink-0 text-brand-300">04</span>An existing configuration is moved to a timestamped backup, and the watch history comes along.</li>
+            <li class="flex gap-3"><span class="mono shrink-0 text-brand-300">05</span>mpv is started once to confirm the configuration parses.</li>
+          </ol>
+        </div>
+
+        <div class="glass mt-6 p-6" id="install-1" data-tab-panel="1" x-show="active === 1" x-transition.opacity.duration.300ms x-cloak>
+          <div class="flex items-center justify-between gap-3">
+            <span class="label">linux &middot; bash</span>
+            <button type="button" class="copy-btn" data-copy="curl -fsSL https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.sh | bash"><span data-copy-label>copy</span>
+            </button>
+          </div>
+          <pre class="shell-cmd mt-4">curl -fsSL https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.sh | bash</pre>
+          <p class="mt-4 text-xs leading-relaxed text-white/52">
+            The bash installer mirrors the PowerShell one: it backs up whatever it finds, deploys the
+            configuration into <code class="mono text-white/68">~/.config/mpv</code>, downloads yt-dlp and
+            checks that the configuration parses.
+          </p>
+          <ol class="mt-5 flex flex-col gap-3 text-sm text-white/68">
+            <li class="flex gap-3"><span class="mono shrink-0 text-neon-cyan">01</span>Install mpv and yt-dlp from the distribution package manager, or let the installer point you at the right command.</li>
+            <li class="flex gap-3"><span class="mono shrink-0 text-neon-cyan">02</span>Run the command above, or clone the repository and run <code class="mono text-white/82">bash install.sh</code> from the clone.</li>
+            <li class="flex gap-3"><span class="mono shrink-0 text-neon-cyan">03</span>Keep the yt-dlp options line in the master file, including the JavaScript runtime hint.</li>
+            <li class="flex gap-3"><span class="mono shrink-0 text-neon-cyan">04</span>Start the player with a file, a link, or a folder to play everything in it.</li>
+          </ol>
+        </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-6">
+        <div class="glass reveal overflow-hidden">
+          <div class="flex items-center justify-between gap-3 border-b border-white/[0.07] px-6 py-4">
+            <span class="mono text-[0.7rem] uppercase tracking-[0.2em] text-white/48">Installer switches</span>
+            <span class="mono text-[0.7rem] text-white/42">install.ps1</span>
+          </div>
+          <div class="overflow-x-auto px-6 py-2">
+            <table class="w-full min-w-[30rem] text-left">
+              <caption class="sr-only">Switches understood by the installer</caption>
+              <thead>
+                <tr class="border-b border-white/10">
+                  <th scope="col" class="py-3 pr-4 mono text-[0.68rem] font-normal uppercase tracking-[0.14em] text-white/52">Flag</th>
+                  <th scope="col" class="py-3 pr-4 mono text-[0.68rem] font-normal uppercase tracking-[0.14em] text-white/52">PowerShell switch</th>
+                  <th scope="col" class="py-3 mono text-[0.68rem] font-normal uppercase tracking-[0.14em] text-white/52">What it does</th>
+                </tr>
+              </thead>
+              <tbody id="install-flags-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="glass-flat reveal mt-4 p-6">
+          <p class="label">Uninstall and rollback</p>
+          <p class="mt-3 text-sm leading-relaxed text-white/68">
+            The uninstaller moves the installed configuration into a timestamped backup folder instead of deleting
+            it, so the rollback path stays open. Add the purge switch to delete it outright, after a
+            confirmation. The player itself is left alone and stays installed.
+          </p>
+          <pre class="shell-cmd mt-4">powershell -ExecutionPolicy Bypass -File .\uninstall.ps1</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

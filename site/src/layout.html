@@ -1,0 +1,213 @@
+﻿<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mpv-redesigned - a tuned mpv you install with one command</title>
+<meta name="description" content="mpv-redesigned is a tuned mpv configuration for Windows: a Liquid Glass control bar, a full-quality video pipeline, a WASAPI audio chain, designed subtitle typography and a YouTube client with a real format picker. Install it with one command.">
+<meta name="author" content="mpv-redesigned contributors">
+<meta name="theme-color" content="#0a0a09">
+<link rel="canonical" href="https://ratuuul.github.io/mpv-redesigned/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="mpv-redesigned">
+<meta property="og:title" content="mpv-redesigned - a tuned mpv you install with one command">
+<meta property="og:description" content="Liquid Glass controls, a full-quality video pipeline, designed subtitle typography and a real YouTube format picker, packaged as one configuration folder.">
+<meta property="og:url" content="https://ratuuul.github.io/mpv-redesigned/">
+<meta property="og:image" content="https://ratuuul.github.io/mpv-redesigned/assets/images/player-controls.png">
+<meta property="og:image:alt" content="The Liquid Glass control bar drawn over a playing video">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="mpv-redesigned - a tuned mpv you install with one command">
+<meta name="twitter:description" content="Liquid Glass controls, a full-quality video pipeline, designed subtitle typography and a real YouTube format picker.">
+<meta name="twitter:image" content="https://ratuuul.github.io/mpv-redesigned/assets/images/player-controls.png">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='6' fill='%230a0a09'/%3E%3Cpath d='M18 44V20h13a9 9 0 0 1 0 18H25' stroke='%23efede6' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='44' cy='22' r='4' fill='%23e8b860'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://cdn.tailwindcss.com">
+<link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+
+<script>document.documentElement.classList.add('js');</script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          /* the room and the paper, so every utility class on the page is
+             already warm before a single rule is written */
+          white: '#efede6',
+          black: '#0a0a09',
+          ink: { 950: '#0a0a09', 900: '#0f0f0e', 800: '#141413', 700: '#1b1b19', 600: '#262522' },
+          /* the lamp */
+          brand: { 200: '#f6ddaa', 300: '#f0ce8e', 400: '#e8b860', 500: '#c99441', 600: '#b8873a' },
+          neon: { fuchsia: '#e8b860', cyan: '#e8b860', mint: '#e8b860' }
+        },
+        fontFamily: {
+          sans: ['Instrument Sans', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
+          serif: ['Instrument Serif', 'Iowan Old Style', 'Times New Roman', 'serif'],
+          mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Consolas', 'monospace']
+        },
+        maxWidth: { shell: '88rem' },
+        letterSpacing: { tightest: '-0.045em' }
+      }
+    }
+  };
+</script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/antd@5.21.6/dist/reset.css">
+<link rel="stylesheet" href="assets/css/main.css">
+</head>
+
+<body class="bg-ink-950 text-white/92 font-sans antialiased">
+
+<div id="playhead" aria-hidden="true"><span id="playhead-fill"></span></div>
+
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-sm focus:bg-ink-800 focus:px-4 focus:py-2 focus:text-sm focus:text-white">Skip to content</a>
+
+<!-- ============================================================ navbar -->
+<header class="nav-shell" x-data="siteNav">
+  <div class="shell flex h-[var(--nav-h)] items-center justify-between gap-6">
+    <a href="#top" class="group flex items-center gap-3" aria-label="mpv-redesigned home">
+      <span class="grid h-9 w-9 place-items-center rounded-sm border border-white/15">
+        <svg class="h-[18px] w-[18px] text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 19V5h7.5a4.5 4.5 0 0 1 0 9H9"></path>
+          <circle cx="18" cy="6.5" r="1.6" fill="var(--lamp)" stroke="none"></circle>
+        </svg>
+      </span>
+      <span class="flex flex-col leading-none">
+        <span class="text-[0.95rem] font-semibold tracking-tight text-white">mpv-redesigned</span>
+        <span class="mono mt-1.5 text-[0.62rem] tracking-[0.08em] text-white/52">a tuned mpv</span>
+      </span>
+    </a>
+
+    <nav class="hidden items-center gap-7 lg:flex" aria-label="Primary">
+      <a class="nav-link" data-spy="features" href="#features">What you get</a>
+      <a class="nav-link" data-spy="inside" href="#inside">Inside</a>
+      <a class="nav-link" data-spy="showcase" href="#showcase">Showcase</a>
+      <a class="nav-link" data-spy="deep" href="#deep">Deep dive</a>
+      <a class="nav-link" data-spy="keys" href="#keys">Key bindings</a>
+      <a class="nav-link" data-spy="install" href="#install">Install</a>
+      <a class="nav-link" data-spy="faq" href="#faq">FAQ</a>
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <p class="timecode hidden lg:block" aria-hidden="true">
+        <b id="tc-readout">00:00:00:00</b>
+        <span class="text-white/42">/ 12:00:00:00</span>
+      </p>
+      <a class="btn-ghost hidden sm:inline-flex" href="https://github.com/ratuuul/mpv-redesigned" target="_blank" rel="noopener noreferrer">
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.2c-3.34.73-4.04-1.42-4.04-1.42-.55-1.4-1.34-1.77-1.34-1.77-1.1-.75.08-.74.08-.74 1.21.09 1.85 1.24 1.85 1.24 1.08 1.85 2.83 1.31 3.52 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.01 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.21.7.82.58A12 12 0 0 0 12 .5Z"></path>
+        </svg>
+        GitHub
+      </a>
+      <button type="button" class="grid h-10 w-10 place-items-center rounded-sm border border-white/15 text-white/85 lg:hidden" data-drawer-toggle x-on:click="toggle()" :aria-expanded="open ? 'true' : 'false'" aria-controls="mobile-drawer" aria-label="Open the menu">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="drawer-scrim fixed inset-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden" data-drawer-scrim x-on:click="close()" :class="{ 'is-open': open }" aria-hidden="true"></div>
+  <div id="mobile-drawer" class="drawer fixed right-0 top-0 z-50 h-full w-[min(21rem,86vw)] border-l border-white/10 bg-ink-900/95 px-6 py-7 backdrop-blur-xl lg:hidden" data-drawer :class="{ 'is-open': open }">
+    <p class="label mb-6">Navigate</p>
+    <nav class="flex flex-col gap-1" aria-label="Mobile">
+      <a class="nav-link py-2" data-spy="features" href="#features">What you get</a>
+      <a class="nav-link py-2" data-spy="inside" href="#inside">Inside the configuration</a>
+      <a class="nav-link py-2" data-spy="showcase" href="#showcase">Showcase</a>
+      <a class="nav-link py-2" data-spy="deep" href="#deep">Feature deep dive</a>
+      <a class="nav-link py-2" data-spy="keys" href="#keys">Key bindings</a>
+      <a class="nav-link py-2" data-spy="install" href="#install">Install</a>
+      <a class="nav-link py-2" data-spy="faq" href="#faq">FAQ</a>
+    </nav>
+    <div class="mt-8 border-t border-white/10 pt-6">
+      <a class="btn-primary w-full justify-center" href="https://github.com/ratuuul/mpv-redesigned" target="_blank" rel="noopener noreferrer">Open the repository</a>
+    </div>
+  </div>
+</header>
+
+<!--SECTIONS-->
+
+  </main>
+
+
+<!-- =========================================================== footer -->
+<footer class="relative z-10 border-t border-white/[0.07] pb-12 pt-16">
+  <div class="shell">
+    <div class="grid gap-10 lg:grid-cols-12">
+      <div class="lg:col-span-5">
+        <div class="flex items-center gap-3">
+          <span class="grid h-9 w-9 place-items-center rounded-sm border border-white/15">
+            <svg class="h-[18px] w-[18px] text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 19V5h7.5a4.5 4.5 0 0 1 0 9H9"></path>
+              <circle cx="18" cy="6.5" r="1.6" fill="currentColor" stroke="none"></circle>
+            </svg>
+          </span>
+          <span class="text-[0.95rem] font-semibold tracking-tight text-white">mpv-redesigned</span>
+        </div>
+        <p class="mt-5 max-w-sm text-sm leading-relaxed text-white/56">
+          A tuned mpv configuration, its installer and its documentation. The original work is MIT licensed;
+          the redistributed skins, scripts, shaders and fonts keep their own licences.
+        </p>
+        <a class="btn-ghost mt-6" href="https://github.com/ratuuul/mpv-redesigned" target="_blank" rel="noopener noreferrer">
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.2c-3.34.73-4.04-1.42-4.04-1.42-.55-1.4-1.34-1.77-1.34-1.77-1.1-.75.08-.74.08-.74 1.21.09 1.85 1.24 1.85 1.24 1.08 1.85 2.83 1.31 3.52 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.01 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.21.7.82.58A12 12 0 0 0 12 .5Z"></path>
+          </svg>
+          Open on GitHub
+        </a>
+      </div>
+
+      <div class="lg:col-span-4">
+        <p class="label">Documentation</p>
+        <ul class="mt-5 flex flex-col gap-3 text-sm">
+          <li><a class="text-white/68 transition-colors hover:text-white" href="https://github.com/ratuuul/mpv-redesigned/blob/main/docs/INSTALL.md" target="_blank" rel="noopener noreferrer">docs/INSTALL.md</a></li>
+          <li><a class="text-white/68 transition-colors hover:text-white" href="https://github.com/ratuuul/mpv-redesigned/blob/main/docs/FEATURES.md" target="_blank" rel="noopener noreferrer">docs/FEATURES.md</a></li>
+          <li><a class="text-white/68 transition-colors hover:text-white" href="https://github.com/ratuuul/mpv-redesigned/blob/main/docs/KEYBINDINGS.md" target="_blank" rel="noopener noreferrer">docs/KEYBINDINGS.md</a></li>
+          <li><a class="text-white/68 transition-colors hover:text-white" href="https://github.com/ratuuul/mpv-redesigned/blob/main/docs/SKINS.md" target="_blank" rel="noopener noreferrer">docs/SKINS.md</a></li>
+          <li><a class="text-white/68 transition-colors hover:text-white" href="https://github.com/ratuuul/mpv-redesigned/blob/main/docs/ARCHITECTURE.md" target="_blank" rel="noopener noreferrer">docs/ARCHITECTURE.md</a></li>
+          <li><a class="text-white/68 transition-colors hover:text-white" href="https://github.com/ratuuul/mpv-redesigned/blob/main/docs/TROUBLESHOOTING.md" target="_blank" rel="noopener noreferrer">docs/TROUBLESHOOTING.md</a></li>
+        </ul>
+      </div>
+
+      <div class="lg:col-span-3">
+        <p class="label">Licence</p>
+        <p class="mt-5 text-sm leading-relaxed text-white/56">
+          The configuration, the installers and the documentation are MIT licensed. The redistributed skin,
+          scripts, shaders and fonts are LGPL, GPL, MPL, MIT, OFL and Apache licensed, each under its own terms.
+        </p>
+        <a id="back-to-top" class="back-to-top btn-ghost mt-6" href="#top">
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 19V6M6 11l6-6 6 6"></path>
+          </svg>
+          Back to top
+        </a>
+      </div>
+    </div>
+
+    <div class="mt-12 flex flex-col gap-3 border-t border-white/[0.07] pt-6 text-xs text-white/45 sm:flex-row sm:items-center sm:justify-between">
+      <p class="mono">mpv-redesigned &middot; MIT licensed &middot; mpv and yt-dlp are not redistributed</p>
+      <p class="mono">Built for mpv 0.41-dev with libplacebo 7.358</p>
+    </div>
+  </div>
+</footer>
+
+<script defer src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/dayjs@1.11.13/dayjs.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/antd@5.21.6/dist/antd.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script defer src="assets/js/config-data.js"></script>
+<script defer src="assets/js/three-scene.js"></script>
+<script defer src="assets/js/main.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+
+</body>
+</html>

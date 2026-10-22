@@ -1,0 +1,66 @@
+<!-- ================================================== key bindings -->
+<section id="keys" class="section">
+  <div class="shell">
+    <div class="section-head">
+      <div class="section-head-line">
+        <span class="stamp reveal">00:07:44:08</span>
+        <span class="section-head-rule reveal"></span>
+      </div>
+      <div class="mt-8 grid gap-x-8 gap-y-6 lg:grid-cols-12">
+        <h2 class="display-md reveal lg:col-span-6 text-white">One keymap, both skins.</h2>
+        <p class="lede reveal lg:col-span-6">
+          Every binding below is real: a line in <code class="mono text-white/82">input.conf</code>, a binding
+          registered by one of the shipped scripts, or a player default the configuration deliberately keeps.
+          Search by key, action or group, and sort by any column.
+        </p>
+      </div>
+    </div>
+
+    <div class="glass reveal mt-12 p-4 sm:p-7" x-data="bindingsPanel" x-init="mountAnt()">
+      <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+          <p class="text-sm text-white/78">
+            <span class="mono text-white" x-text="visible">0</span>
+            <span class="text-white/52">of</span>
+            <span class="mono text-white" x-text="total">0</span>
+            <span class="text-white/52">bindings</span>
+          </p>
+          <p class="mt-1 text-xs text-white/45">Generated from the shipped configuration.</p>
+        </div>
+        <div class="relative w-full md:w-80">
+          <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-white/45" aria-hidden="true">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path>
+            </svg>
+          </span>
+          <label class="sr-only" for="bindings-search">Search the key bindings</label>
+          <input id="bindings-search" type="search" autocomplete="off" placeholder="Search keys, actions, groups"
+                 class="w-full rounded-xl border border-white/10 bg-black/40 py-2.5 pl-10 pr-4 text-sm text-white placeholder-white/30 outline-none transition-colors focus:border-brand-400/70"
+                 x-model="query" x-on:input="setQuery($event.target.value)">
+        </div>
+      </div>
+
+      <div id="bindings-antd" class="mt-6 hidden"></div>
+
+      <div id="bindings-plain" class="mt-6 overflow-x-auto">
+        <table class="w-full min-w-[34rem] text-left">
+          <caption class="sr-only">Every key binding shipped with mpv-redesigned</caption>
+          <thead>
+            <tr class="border-b border-white/10">
+              <th scope="col" class="cursor-pointer select-none py-3 pr-4 mono text-[0.68rem] font-normal uppercase tracking-[0.14em] text-white/52 transition-colors hover:text-white" data-sort="keys">Key</th>
+              <th scope="col" class="cursor-pointer select-none py-3 pr-4 mono text-[0.68rem] font-normal uppercase tracking-[0.14em] text-white/52 transition-colors hover:text-white" data-sort="action">Action</th>
+              <th scope="col" class="hidden cursor-pointer select-none py-3 pr-4 mono text-[0.68rem] font-normal uppercase tracking-[0.14em] text-white/52 transition-colors hover:text-white md:table-cell" data-sort="group">Group</th>
+              <th scope="col" class="hidden cursor-pointer select-none py-3 mono text-[0.68rem] font-normal uppercase tracking-[0.14em] text-white/52 transition-colors hover:text-white lg:table-cell" data-sort="source">Source</th>
+            </tr>
+          </thead>
+          <tbody id="bindings-plain-body"></tbody>
+        </table>
+        <p id="bindings-empty" class="hidden py-10 text-center text-sm text-white/52">No binding matches that search.</p>
+      </div>
+    </div>
+
+    <p class="mono mt-6 text-[0.7rem] uppercase tracking-[0.18em] text-white/42">
+      The complete list is regenerated from input.conf by the tooling in the repository.
+    </p>
+  </div>
+</section>

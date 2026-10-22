@@ -1,0 +1,63 @@
+<!-- ========================================================== hero -->
+<section id="top" class="relative z-10 overflow-hidden">
+  <div id="hero-canvas" class="pointer-events-none absolute inset-0" aria-hidden="true"></div>
+
+  <div class="shell relative pb-20 pt-32 md:pb-28 md:pt-40">
+    <div class="grid items-center gap-14 lg:grid-cols-12">
+      <div class="lg:col-span-6">
+        <p class="stamp hero-enter" style="animation-delay:.05s">mpv 0.41-dev &middot; libplacebo 7.358</p>
+
+        <h1 class="display hero-enter mt-7 text-white" style="animation-delay:.13s">
+          A tuned mpv that finally looks designed.
+        </h1>
+
+        <p class="lede hero-enter mt-7" style="animation-delay:.21s">
+          A Liquid Glass control bar that stays on screen, a video pipeline that does not soften the picture,
+          a WASAPI audio chain, subtitles set on purpose, and a YouTube client that lists the formats the
+          server actually offers. One configuration folder, one command to install it.
+        </p>
+
+        <div class="hero-enter mt-9 flex flex-wrap items-center gap-3" style="animation-delay:.29s">
+          <a class="btn-primary" href="#install">
+            Install in one command
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h13M13 6l6 6-6 6"></path>
+            </svg>
+          </a>
+          <a class="btn-ghost" href="#keys">Browse the key bindings</a>
+        </div>
+
+        <div class="hero-enter mt-12" style="animation-delay:.37s">
+          <div class="terminal">
+            <div class="terminal-row">
+              <div class="terminal-bar">
+                <span>windows &middot; powershell</span>
+                <button type="button" class="copy-btn" data-copy="irm https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.ps1 | iex"><span data-copy-label>copy</span></button>
+              </div>
+              <div class="terminal-body">irm https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.ps1 | iex</div>
+            </div>
+            <div class="terminal-row">
+              <div class="terminal-bar">
+                <span>linux &middot; bash</span>
+                <button type="button" class="copy-btn" data-copy="curl -fsSL https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.sh | bash"><span data-copy-label>copy</span></button>
+              </div>
+              <div class="terminal-body">curl -fsSL https://raw.githubusercontent.com/ratuuul/mpv-redesigned/main/install.sh | bash</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-6">
+        <figure class="frame hero-enter" style="animation-delay:.45s">
+          <img src="assets/images/hero-idle.png" alt="The mpv idle screen showing a background photograph with the welcome prompt and key hints on top" width="1920" height="1200" loading="eager" decoding="async">
+        </figure>
+        <p class="caption mt-4 text-center">The idle screen, with a fetched photograph behind the prompt</p>
+      </div>
+    </div>
+
+    <div class="mt-24">
+      <div id="stats-fallback" class="stat-strip"></div>
+      <div id="stats-antd" class="hidden"></div>
+    </div>
+  </div>
+</section>
