@@ -14,13 +14,13 @@
 <meta property="og:title" content="mpv-redesigned - a tuned mpv you install with one command">
 <meta property="og:description" content="Liquid Glass controls, a full-quality video pipeline, designed subtitle typography and a YouTube format picker, packaged as one configuration folder.">
 <meta property="og:url" content="https://ratuuul.github.io/mpv-redesigned/">
-<meta property="og:image" content="https://ratuuul.github.io/mpv-redesigned/assets/images/player-controls.png">
-<meta property="og:image:alt" content="The Liquid Glass control bar drawn over a playing video">
+<meta property="og:image" content="https://ratuuul.github.io/mpv-redesigned/assets/images/control-bar.png">
+<meta property="og:image:alt" content="The Liquid Glass control bar drawn over a playing frame">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="mpv-redesigned - a tuned mpv you install with one command">
 <meta name="twitter:description" content="Liquid Glass controls, a full-quality video pipeline, designed subtitle typography and a YouTube format picker.">
-<meta name="twitter:image" content="https://ratuuul.github.io/mpv-redesigned/assets/images/player-controls.png">
+<meta name="twitter:image" content="https://ratuuul.github.io/mpv-redesigned/assets/images/control-bar.png">
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='2' fill='%23e7e8e4'/%3E%3Cpath d='M18 44V20h13a9 9 0 0 1 0 18H25' stroke='%2316171a' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='44' cy='22' r='4' fill='%23bc3a1e'/%3E%3C/svg%3E">
 
@@ -87,9 +87,9 @@
 
     <div class="flex items-center gap-4">
       <p class="timecode hidden xl:block" aria-hidden="true">
-        <b id="tc-readout">00:00:00:00</b><span class="text-ink-faint"> / 12:00:00:00</span>
+        <b id="tc-readout">00:00:00:00</b>
       </p>
-      <a class="btn btn-quiet hidden sm:inline-flex" href="https://github.com/ratuuul/mpv-redesigned" target="_blank" rel="noopener noreferrer">
+      <a class="btn btn-quiet inline-flex hidden sm:inline-flex" href="https://github.com/ratuuul/mpv-redesigned" target="_blank" rel="noopener noreferrer">
         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.2c-3.34.73-4.04-1.42-4.04-1.42-.55-1.4-1.34-1.77-1.34-1.77-1.1-.75.08-.74.08-.74 1.21.09 1.85 1.24 1.85 1.24 1.08 1.85 2.83 1.31 3.52 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.01 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.21.7.82.58A12 12 0 0 0 12 .5Z"></path>
         </svg>
@@ -116,7 +116,7 @@
       <a class="nav-link py-2" data-spy="faq" href="#faq">FAQ</a>
     </nav>
     <div class="mt-8 border-t border-rule pt-6">
-      <a class="btn btn-signal w-full justify-center" href="https://github.com/ratuuul/mpv-redesigned" target="_blank" rel="noopener noreferrer">Open the repository</a>
+      <a class="btn btn-signal inline-flex w-full justify-center" href="https://github.com/ratuuul/mpv-redesigned" target="_blank" rel="noopener noreferrer">Open the repository</a>
     </div>
   </div>
 </header>
@@ -130,7 +130,7 @@
 
       <!-- the column of words -->
       <div class="lg:col-span-6">
-        <p class="kicker hero-enter" style="animation-delay:.05s">mpv 0.41-dev &middot; libplacebo 7.358.0 &middot; Windows + Linux</p>
+        <p class="kicker hero-enter" style="animation-delay:.05s">a tuned mpv configuration for windows and linux</p>
 
         <h1 class="masthead hero-enter mt-6" style="animation-delay:.13s">A tuned mpv that finally looks designed.</h1>
 
@@ -141,15 +141,15 @@
         </p>
 
         <div class="hero-enter mt-8 flex flex-wrap items-center gap-3" style="animation-delay:.29s">
-          <a class="btn btn-signal" href="#install">Install in one command</a>
-          <a class="btn btn-quiet" href="#keys">See the key bindings</a>
+          <a class="btn btn-signal inline-flex" href="#install">Install in one command</a>
+          <a class="btn btn-quiet inline-flex" href="#keys">See the key bindings</a>
         </div>
       </div>
 
       <!-- the picture -->
       <div class="lg:col-span-6">
         <figure class="plate hero-enter" style="animation-delay:.37s">
-          <img src="assets/images/hero-idle.jpg" alt="The mpv idle screen, with a fetched photograph behind the prompt and the key hints" width="1920" height="1200" loading="eager" decoding="async">
+          <img src="assets/images/hero-idle.jpg" alt="The mpv idle screen, with a fetched photograph behind the prompt and the key hints" width="1650" height="962" loading="eager" decoding="async">
           <figcaption class="plate-cap"><b>PLATE 01</b> <span>the idle screen &mdash; a fetched photograph behind the prompt</span></figcaption>
         </figure>
       </div>
@@ -198,7 +198,7 @@
       <div class="rule-strong"></div>
 
       <div class="mt-8 grid gap-x-8 gap-y-6 lg:grid-cols-12">
-        <h2 class="h-section lg:col-span-6">Four stills, and a skin that stays out of the way.</h2>
+        <h2 class="h-section lg:col-span-6">Three stills, and a skin that stays out of the way.</h2>
         <p class="deck lg:col-span-6">
           The skin is best seen moving, but the stills say a lot: a control bar that does not black out the picture,
           overlays that follow the pointer, and panels that belong to the same design.
@@ -213,7 +213,7 @@
       <div class="rule"></div>
       <p class="kicker mt-6">the frames, on a light table</p>
       <div id="plate-canvas" class="plate-canvas mt-6"></div>
-      <p class="note mt-6 text-plate-dim">
+      <p class="note note-plate mt-6">
         The four frames turn slowly on the light table. Drag the sheet to move through them by hand, or leave it
         alone and it keeps turning.
       </p>
@@ -221,39 +221,34 @@
   </div>
 
   <div class="shell">
-    <!-- the four printed figures -->
+    <!-- the printed figures -->
     <div class="mt-14 grid gap-x-8 gap-y-10 lg:grid-cols-12">
-      <figure class="plate lg:col-span-6 reveal">
-        <img src="assets/images/control-bar.png" alt="The Liquid Glass control bar drawn over a playing frame, with a hairline timeline along the bottom" width="1500" height="900" loading="lazy" decoding="async">
-        <figcaption class="plate-cap"><b>PLATE 02</b> <span>the Liquid Glass control bar, drawn over the frame</span></figcaption>
+      <figure class="plate reveal lg:col-span-4">
+        <img src="assets/images/control-bar.png" alt="The Liquid Glass control bar along the bottom of a playing frame, with a hairline timeline, the resolution, the elapsed time and a volume slider" width="1350" height="785" loading="lazy" decoding="async">
+        <figcaption class="plate-cap"><b>PLATE 02</b> <span>the Liquid Glass control bar</span></figcaption>
       </figure>
 
-      <figure class="plate lg:col-span-6 reveal">
-        <img src="assets/images/format-picker.png" alt="The YouTube format picker, listing the formats the server offers for the video" width="1500" height="900" loading="lazy" decoding="async">
-        <figcaption class="plate-cap"><b>PLATE 03</b> <span>the format picker: the formats the server actually offers</span></figcaption>
+      <figure class="plate reveal lg:col-span-4">
+        <img src="assets/images/format-picker.png" alt="The YouTube format picker, listing the formats the server offers for the video" width="1350" height="785" loading="lazy" decoding="async">
+        <figcaption class="plate-cap"><b>PLATE 03</b> <span>the format picker</span></figcaption>
       </figure>
 
-      <figure class="plate lg:col-span-6 reveal">
-        <img src="assets/images/load-media-menu.png" alt="The load-media browser, a search field and a result list, set in the player type scale" width="1500" height="900" loading="lazy" decoding="async">
-        <figcaption class="plate-cap"><b>PLATE 04</b> <span>the load-media browser, in the player's own type scale</span></figcaption>
-      </figure>
-
-      <figure class="plate lg:col-span-6 reveal">
-        <img src="assets/images/hero-idle.jpg" alt="The mpv idle screen with a fetched photograph behind the prompt and the key hints" width="1920" height="1200" loading="lazy" decoding="async">
-        <figcaption class="plate-cap"><b>PLATE 01</b> <span>the idle screen</span></figcaption>
+      <figure class="plate reveal lg:col-span-4">
+        <img src="assets/images/load-media-menu.png" alt="The load-media browser: a search field, a result row and a hint to press Enter" width="1350" height="785" loading="lazy" decoding="async">
+        <figcaption class="plate-cap"><b>PLATE 04</b> <span>the load-media browser</span></figcaption>
       </figure>
     </div>
 
     <!-- the reading copy, and the claim in the margin band -->
     <div class="band mt-12">
       <p class="body-copy">
-        All four frames are captures from the same machine and the same configuration, not drawings made for this
-        page. The control bar is the uosc Liquid Glass theme, the format picker lists what the server actually
-        offers, and the load-media browser is set in the player's own type scale.
+        Three frames, all captured from the same machine and the same configuration, none of them drawn for
+        this page. The control bar is the uosc Liquid Glass theme. The format picker lists what the server
+        actually offers. The load-media browser is set in the player's own type scale.
       </p>
 
       <div class="band-notes">
-        <p class="measured"><b>4 stills</b>captured from the reference machine</p>
+        <p class="measured"><b>3 stills</b>captured from the reference machine</p>
       </div>
     </div>
   </div>
@@ -277,14 +272,6 @@
     </div>
 
     <div class="band mt-12">
-      <div class="grid gap-x-8 gap-y-8 lg:grid-cols-12">
-      <p class="body-copy lg:col-span-8">
-        The configuration is split by domain rather than by length, so a renderer option lives with the renderer
-        options and a subtitle option lives with the subtitle options. The master file only includes the rest.
-        Read one domain end to end and you have read everything that domain is able to do.
-      </p>
-      </div>
-
       <div class="band-notes">
         <p class="measured reveal"><b>13 scripts</b>and 5 GLSL shaders, all shipped</p>
         <p class="measured reveal"><b>10 profiles</b>Alt+0 to Alt+9, applied on the fly</p>
@@ -369,15 +356,15 @@
           <p class="body-copy mt-4">When there is nothing to play, mpv shows a black rectangle and waits. This configuration fetches a photograph instead, caches it locally and puts the prompt on top of it. The image is blurred and darkened enough that the text stays readable over it, and the next photograph is one key away.</p>
           <ul class="list-none grid gap-3 mt-6">
             <li class="flex items-start gap-3 text-sm text-ink-dim">
-              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-ink-faint inline-block" aria-hidden="true"></span>
               <span>Cached on disk, so the idle screen never waits on the network twice.</span>
             </li>
             <li class="flex items-start gap-3 text-sm text-ink-dim">
-              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-ink-faint inline-block" aria-hidden="true"></span>
               <span>Keyword driven, and switched off completely with a single option.</span>
             </li>
             <li class="flex items-start gap-3 text-sm text-ink-dim">
-              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-ink-faint inline-block" aria-hidden="true"></span>
               <span>The next photograph is fetched with <kbd>Ctrl+Shift+K</kbd>.</span>
             </li>
           </ul>
@@ -404,15 +391,15 @@
           <p class="body-copy mt-4">Closing mpv and coming back later should not mean finding the file again. A double click on the window reopens the last media and resumes it at the exact position it was left at. The saved position deliberately ignores stray volume and mute changes, so a film never comes back at the wrong level.</p>
           <ul class="list-none grid gap-3 mt-6">
             <li class="flex items-start gap-3 text-sm text-ink-dim">
-              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-ink-faint inline-block" aria-hidden="true"></span>
               <span>A deliberately narrow list of what is restored: start, speed, pitch, tracks, delay and scale.</span>
             </li>
             <li class="flex items-start gap-3 text-sm text-ink-dim">
-              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-ink-faint inline-block" aria-hidden="true"></span>
               <span>No modification time check, so remote files keep the position they were saved with.</span>
             </li>
             <li class="flex items-start gap-3 text-sm text-ink-dim">
-              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-ink-faint inline-block" aria-hidden="true"></span>
               <span>Fullscreen moved to <kbd>f</kbd>, which leaves the double click free.</span>
             </li>
           </ul>
@@ -439,15 +426,15 @@
           <p class="body-copy mt-4">A URL is not a file, and the default player treats it like one. Here the format menu lists the formats the server actually offers and switches between them without reloading the video. The subtitle menu lists every language the video carries, creator uploaded and auto generated, with a separate track for the secondary language.</p>
           <ul class="list-none grid gap-3 mt-6">
             <li class="flex items-start gap-3 text-sm text-ink-dim">
-              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-ink-faint inline-block" aria-hidden="true"></span>
               <span>Creator subtitles are pre-loaded as normal tracks, so the usual <kbd>v</kbd> key still works.</span>
             </li>
             <li class="flex items-start gap-3 text-sm text-ink-dim">
-              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-ink-faint inline-block" aria-hidden="true"></span>
               <span>Sponsor segments are skipped with <kbd>b</kbd>, and the category list is configurable.</span>
             </li>
             <li class="flex items-start gap-3 text-sm text-ink-dim">
-              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-ink-faint inline-block" aria-hidden="true"></span>
               <span>The stream you are watching can be downloaded at the quality mpv negotiated.</span>
             </li>
           </ul>
@@ -470,15 +457,15 @@
           <p class="body-copy mt-4">Subtitles are set in Geist Medium at 40, in a warm off-white, with a hairline outline and a soft shadow so they survive any background. Margins are forced, so a 2.35 to 1 film keeps its captions inside the letterbox instead of floating over the image. The result reads as part of the picture rather than as a layer on top of it.</p>
           <ul class="list-none grid gap-3 mt-6">
             <li class="flex items-start gap-3 text-sm text-ink-dim">
-              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-ink-faint inline-block" aria-hidden="true"></span>
               <span>Fansub ASS files get a gentle restyle so they match plain text subtitles.</span>
             </li>
             <li class="flex items-start gap-3 text-sm text-ink-dim">
-              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-ink-faint inline-block" aria-hidden="true"></span>
               <span>Two opt-in looks: a translucent panel, and shadow-only cinema subtitles.</span>
             </li>
             <li class="flex items-start gap-3 text-sm text-ink-dim">
-              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-ink-faint inline-block" aria-hidden="true"></span>
               <span>Bitmap subtitles are softened rather than restyled.</span>
             </li>
           </ul>
@@ -509,15 +496,15 @@
           <p class="body-copy mt-4">On an integrated GPU with shared memory the expensive part is the copy out of system memory, so the decode path is kept on the device. On top of that sits the full quality stack: EWA Lanczos for luma, spline36 for chroma, mitchell for downscaling, and anti-ringing so the sharpening does not ring. Every line here was measured on this machine before it was kept.</p>
           <ul class="list-none grid gap-3 mt-6">
             <li class="flex items-start gap-3 text-sm text-ink-dim">
-              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-ink-faint inline-block" aria-hidden="true"></span>
               <span>Anime4K line-art restoration applies itself to files whose path contains <span class="mono">anime</span>.</span>
             </li>
             <li class="flex items-start gap-3 text-sm text-ink-dim">
-              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-ink-faint inline-block" aria-hidden="true"></span>
               <span>The shader cache is built ahead of time, so the first play does not stutter.</span>
             </li>
             <li class="flex items-start gap-3 text-sm text-ink-dim">
-              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-ink-faint inline-block" aria-hidden="true"></span>
               <span>Vulkan output is one key away, with <kbd>Alt+0</kbd>, for an A and B comparison.</span>
             </li>
           </ul>
@@ -553,15 +540,15 @@
           <p class="body-copy mt-4">The control bar and the timeline are translucent, and they stay on screen while the picture plays. The overlays are pointer driven: they appear where the mouse is and fade away when it leaves. The window stays interactive after a file ends, so the next one can be dragged straight in.</p>
           <ul class="list-none grid gap-3 mt-6">
             <li class="flex items-start gap-3 text-sm text-ink-dim">
-              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-ink-faint inline-block" aria-hidden="true"></span>
               <span>Centred seek, volume and speed overlays, drawn by the skin rather than by the player.</span>
             </li>
             <li class="flex items-start gap-3 text-sm text-ink-dim">
-              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-ink-faint inline-block" aria-hidden="true"></span>
               <span>Seekbar thumbnails are pre-fetched while the pointer moves.</span>
             </li>
             <li class="flex items-start gap-3 text-sm text-ink-dim">
-              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-signal inline-block" aria-hidden="true"></span>
+              <span class="mt-[0.55rem] h-[3px] w-[3px] shrink-0 bg-ink-faint inline-block" aria-hidden="true"></span>
               <span>An info button opens the player statistics: codec, frames per second, bitrate, dropped frames.</span>
             </li>
           </ul>
@@ -581,10 +568,6 @@
     <div class="rule mt-16"></div>
 
     <div class="band mt-8">
-      <div class="grid gap-x-8 gap-y-6 lg:grid-cols-12">
-      <p class="body-copy lg:col-span-7">None of this is a plugin you have to trust; it is configuration you can read, comment out and replace. Every line above comes from a file in the repository, and every file says why it exists.</p>
-      </div>
-
       <div class="band-notes">
         <p class="measured reveal"><b>PSNR ≥ 66.5 dB</b>the d3d11 path is pixel identical to software</p>
       </div>
@@ -654,10 +637,6 @@
 
       </div>
 
-      <div class="lg:col-span-12">
-        <p class="note">The complete list is regenerated from input.conf by the tooling in the repository.</p>
-      </div>
-
       </div>
 
       <div class="band-notes">
@@ -706,10 +685,10 @@
 
     <div class="mt-14 grid gap-x-8 gap-y-10 lg:grid-cols-12" x-data="tabSet" data-tabs>
 
-      <div class="lg:col-span-5">
+      <div class="lg:col-span-6">
         <div class="flex gap-4" role="tablist" aria-label="Install targets">
-          <button type="button" class="tab-rail flex-1 text-center sm:text-left border-b border-rule px-3 py-2 text-sm text-ink-dim hover:text-ink [&.is-active]:border-signal [&.is-active]:text-ink" data-tab="0" x-on:click="select(0)" :class="{ 'is-active': active === 0 }" role="tab" aria-selected="true" aria-controls="install-0">Windows</button>
-          <button type="button" class="tab-rail flex-1 text-center sm:text-left border-b border-rule px-3 py-2 text-sm text-ink-dim hover:text-ink [&.is-active]:border-signal [&.is-active]:text-ink" data-tab="1" x-on:click="select(1)" :class="{ 'is-active': active === 1 }" role="tab" aria-selected="false" aria-controls="install-1">Linux</button>
+          <button type="button" class="tab-rail flex-1 text-center sm:text-left border-b border-rule px-3 py-2 text-sm text-ink-dim hover:text-ink [&.is-active]:border-signal [&.is-active]:text-ink" data-tab="0" x-on:click="select(0)" :class="{ 'is-active': active === 0 }" role="tab" :aria-selected="active === 0 ? 'true' : 'false'" aria-controls="install-0">Windows</button>
+          <button type="button" class="tab-rail flex-1 text-center sm:text-left border-b border-rule px-3 py-2 text-sm text-ink-dim hover:text-ink [&.is-active]:border-signal [&.is-active]:text-ink" data-tab="1" x-on:click="select(1)" :class="{ 'is-active': active === 1 }" role="tab" :aria-selected="active === 1 ? 'true' : 'false'" aria-controls="install-1">Linux</button>
         </div>
 
         <div id="install-0" data-tab-panel="0" x-show="active === 0" x-transition.opacity.duration.200ms x-cloak>
@@ -719,23 +698,23 @@
           </p>
           <ol class="mt-6 flex list-none flex-col gap-4">
             <li class="flex gap-4">
-              <span class="mono text-signal">01</span>
+              <span class="mono text-ink">01</span>
               <span class="text-sm text-ink-dim">The repository archive is downloaded and unpacked to a temporary folder.</span>
             </li>
             <li class="flex gap-4">
-              <span class="mono text-signal">02</span>
+              <span class="mono text-ink">02</span>
               <span class="text-sm text-ink-dim">If mpv is missing and scoop is not installed, mpv is unpacked locally and the user path is extended.</span>
             </li>
             <li class="flex gap-4">
-              <span class="mono text-signal">03</span>
+              <span class="mono text-ink">03</span>
               <span class="text-sm text-ink-dim">yt-dlp is downloaded into the configuration so the network hook finds it first.</span>
             </li>
             <li class="flex gap-4">
-              <span class="mono text-signal">04</span>
+              <span class="mono text-ink">04</span>
               <span class="text-sm text-ink-dim">An existing configuration is moved to a timestamped backup and the watch history comes along.</span>
             </li>
             <li class="flex gap-4">
-              <span class="mono text-signal">05</span>
+              <span class="mono text-ink">05</span>
               <span class="text-sm text-ink-dim">mpv is started once to confirm the configuration parses.</span>
             </li>
           </ol>
@@ -748,26 +727,26 @@
           </p>
           <ol class="mt-6 flex list-none flex-col gap-4">
             <li class="flex gap-4">
-              <span class="mono text-signal">01</span>
+              <span class="mono text-ink">01</span>
               <span class="text-sm text-ink-dim">Install mpv and yt-dlp from the distribution package manager, or let the installer point you at the right command.</span>
             </li>
             <li class="flex gap-4">
-              <span class="mono text-signal">02</span>
+              <span class="mono text-ink">02</span>
               <span class="text-sm text-ink-dim">Run the command above, or clone the repository and run <code class="mono">bash install.sh</code> from the clone.</span>
             </li>
             <li class="flex gap-4">
-              <span class="mono text-signal">03</span>
+              <span class="mono text-ink">03</span>
               <span class="text-sm text-ink-dim">Keep the yt-dlp options line in the master file, including the JavaScript runtime hint.</span>
             </li>
             <li class="flex gap-4">
-              <span class="mono text-signal">04</span>
+              <span class="mono text-ink">04</span>
               <span class="text-sm text-ink-dim">Start the player with a file, a link, or a folder to play everything in it.</span>
             </li>
           </ol>
         </div>
       </div>
 
-      <div class="lg:col-span-7">
+      <div class="lg:col-span-6">
         <div class="overflow-x-auto">
           <table class="tbl">
             <caption class="sr-only">Switches understood by the installer</caption>
@@ -785,9 +764,8 @@
         <div class="mt-10">
           <p class="kicker">uninstall and rollback</p>
           <p class="body-copy mt-3">
-            The uninstaller moves the installed configuration into a timestamped backup folder instead of deleting
-            it, so the rollback path stays open. The purge switch deletes it outright, after a confirmation. The
-            player itself is left alone and stays installed.
+            The uninstaller moves the configuration into a timestamped backup instead of deleting it, so the
+            rollback path stays open. The player itself is left alone.
           </p>
           <div class="cmd mt-4">powershell -ExecutionPolicy Bypass -File .\uninstall.ps1</div>
         </div>
@@ -812,24 +790,18 @@
     <div class="section-head">
       <p class="folio"><span class="folio-num">07</span> FAQ</p>
       <div class="rule-strong"></div>
-    </div>
 
-    <div class="band mt-10">
-      <div class="grid gap-x-8 gap-y-10 lg:grid-cols-12">
-
-      <div class="lg:col-span-5">
-        <h2 class="h-section">The questions people actually ask.</h2>
-        <p class="deck mt-5">
+      <div class="mt-8 grid gap-x-8 gap-y-6 lg:grid-cols-12">
+        <h2 class="h-section lg:col-span-6">The questions people actually ask.</h2>
+        <p class="deck lg:col-span-6">
           Where the files live, what gets downloaded, what leaves the machine, and how to walk it all back.
         </p>
       </div>
+    </div>
 
-      <div class="lg:col-span-7">
-        <div id="faq-fallback"></div>
-        <div id="faq-antd" class="hidden"></div>
-      </div>
-
-      </div>
+    <div class="band mt-10">
+      <div id="faq-fallback"></div>
+      <div id="faq-antd" class="hidden"></div>
 
       <div class="band-notes">
         <p class="measured reveal"><b>verified</b>on mpv 0.41-dev with libplacebo 7.358.0</p>

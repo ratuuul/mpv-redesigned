@@ -159,9 +159,9 @@
     body.innerHTML = DATA.installFlags.map(function (row, index) {
       return (
         '<tr class="install-row">' +
-          '<td class="py-3 pr-4"><code class="mono text-[0.78rem] text-ink">' + escapeHtml(row.flag) + '</code></td>' +
-          '<td class="py-3 pr-4"><code class="mono text-[0.74rem] text-signal">' + escapeHtml(row.switch) + '</code></td>' +
-          '<td class="py-3 text-sm leading-relaxed text-ink-dim">' + escapeHtml(row.body) + '</td>' +
+          '<td class="cell"><code class="cell-mono cell-flag">' + escapeHtml(row.flag) + '</code></td>' +
+          '<td class="cell"><code class="cell-mono cell-accent">' + escapeHtml(row.switch) + '</code></td>' +
+          '<td class="cell cell-note">' + escapeHtml(row.body) + '</td>' +
         '</tr>'
       );
     }).join('');
@@ -207,10 +207,10 @@
     body.innerHTML = rows.map(function (row) {
       return (
         '<tr class="binding-row">' +
-          '<td class="py-3 pr-4"><kbd>' + escapeHtml(row.keys) + '</kbd></td>' +
-          '<td class="py-3 pr-4 text-sm leading-relaxed text-ink-dim">' + escapeHtml(row.action) + '</td>' +
-          '<td class="py-3 pr-4 text-xs text-ink-faint">' + escapeHtml(row.group) + '</td>' +
-          '<td class="mono py-3 text-xs text-ink-faint">' + escapeHtml(row.source) + '</td>' +
+          '<td class="cell"><kbd>' + escapeHtml(row.keys) + '</kbd></td>' +
+          '<td class="cell cell-note">' + escapeHtml(row.action) + '</td>' +
+          '<td class="cell cell-faint">' + escapeHtml(row.group) + '</td>' +
+          '<td class="cell cell-mono cell-faint">' + escapeHtml(row.source) + '</td>' +
         '</tr>'
       );
     }).join('');

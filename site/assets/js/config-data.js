@@ -79,7 +79,7 @@
       {
         value: 13,
         title: 'Lua scripts',
-        detail: 'Every key binding on the page is one of them'
+        detail: 'Each one a file you can read in the repository'
       },
       {
         value: 10,
@@ -280,7 +280,7 @@
       { tree: '    subtitles.conf', note: 'Font, colours, borders, margins, ASS overrides.' },
       { tree: '    interface.conf', note: 'Window chrome, OSD, screenshots, input defaults.' },
       { tree: '    profiles.conf', note: 'Conditional profiles plus the ten on-demand ones.' },
-      { tree: '  scripts/', note: 'The active skin and the twelve Lua scripts that extend the player.' },
+      { tree: '  scripts/', note: 'The active skin and the thirteen Lua scripts that extend the player.' },
       { tree: '    uosc/', note: 'Liquid Glass, a uosc fork. The active skin.' },
       { tree: '    nav_shim.lua', note: 'One keymap, both skins: it detects which skin is running.' },
       { tree: '    quality-menu.lua', note: 'The real format picker, driven by the F and Alt+f keys.' },

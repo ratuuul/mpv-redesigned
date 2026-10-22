@@ -47,25 +47,29 @@ page.
 | token | hex | role |
 |---|---|---|
 | `--paper` | `#E7E8E4` | the page |
-| `--paper-2` | `#DFE0DA` | inset panels, table banding |
-| `--paper-3` | `#D5D6D0` | pressed states |
+| `--paper-soft` | `#DFE0DA` | inset panels, table banding |
+| `--paper-deep` | `#D5D6D0` | pressed states |
 | `--ink` | `#16171A` | body text, headings, dark plate ground |
 | `--ink-2` | `#33363B` | secondary text |
 | `--ink-3` | `#5A5E63` | muted text, marginalia |
 | `--rule` | `#C3C4BD` | hairlines (decorative only) |
-| `--signal` | `#BC3A1E` | the one accent: folios, the scrubber, the current item |
-| `--signal-deep` | `#942C15` | accent pressed / accent on paper for large type |
+| `--rule-soft` | `#D3D4CE` | the lighter hairline, table rows |
+| `--signal` | `#BC3A1E` | the one accent: the scrubber, the primary button, the folio |
+| `--signal-deep` | `#942C15` | the accent as small text, where `--signal` has no headroom |
 | `--plate` | `#131416` | the dark plate |
 | `--plate-2` | `#1E2023` | the dark plate, one step up |
 
 Measured contrast on `--paper`: ink **14.1:1**, ink-2 **9.5:1**,
-ink-3 **5.3:1**, signal **5.2:1**. Paper on `--plate` **14.7:1**, paper on
-`--signal` **5.6:1**. Nothing on this page may be set in signal on the dark
-plate — it would be 2.7:1.
+ink-3 **5.3:1**, signal **4.5:1**, signal-deep **6.5:1**. Paper on `--plate`
+**14.7:1**. Signal is never used as small text: on `--paper-soft` it is only
+4.2:1, so anything the reader has to read is set in `--signal-deep`. Nothing
+on this page may be set in signal on the dark plate — it would be 2.7:1.
 
-**Signal does exactly four things:** the folio number, the scrubber at the
-top of the window, the current item in the key binding table, and the one
-primary button. It is never a background wash and never a gradient.
+**Signal does four things:** the folio, the scrubber at the top of the
+window, the one primary button, and the numbers that count things — the
+twelve-item index and the figure numbers. It is never a background wash,
+never a gradient, and never a bullet. A marker repeated eighteen times is
+decoration, not an accent.
 
 ---
 
@@ -85,7 +89,7 @@ https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&fami
 
 | role | family | size | line-height | measure |
 |---|---|---|---|---|
-| masthead | Bodoni Moda | `clamp(3.1rem, 8.6vw, 7.4rem)` | 0.92 | 13ch |
+| masthead | Bodoni Moda | `clamp(3rem, 6.4vw, 6.1rem)` | 0.94 | — |
 | section headline | Bodoni Moda | `clamp(1.9rem, 4vw, 3.25rem)` | 1.04 | 20ch |
 | subhead | Bodoni Moda | `clamp(1.3rem, 1.9vw, 1.75rem)` | 1.18 | 24ch |
 | standfirst | Archivo 400 | `clamp(1.05rem, 1.25vw, 1.22rem)` | 1.5 | 46ch |
@@ -93,7 +97,8 @@ https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&fami
 | folio / label | Plex Mono 500 | 0.72rem, `letter-spacing .14em`, uppercase | 1.4 | — |
 | data / code | Plex Mono 400 | 0.84rem | 1.55 | — |
 
-Headings are left aligned with a ragged right. Never centred.
+Headings are left aligned with a ragged right. Never centred. A heading is
+never set below 24px, and the serif is never used inside a table.
 
 ---
 
@@ -102,11 +107,12 @@ Headings are left aligned with a ragged right. Never centred.
 One grid for the whole page.
 
 - 12 columns, 2rem gutters, max width 90rem, side padding 1.25 / 2 / 3rem.
-- At ≥1200px there is a **margin band**: 8.5rem of column to the left of the
+- At ≥1200px there is a **margin band**: 9rem of column to the left of the
   12-column field, carrying the folio. The field's left edge and the band's
   right edge are the same line on every section.
 - Standard section head: **headline in columns 1–6, standfirst in 7–12**,
-  both starting on the same line.
+  both starting on the same line. The FAQ follows the same head and puts
+  its answers in a full width band below it.
 - Three figure widths only: **12** (full bleed), **8** (the configuration
   tree, with 4 columns of marginalia), and **6/6**.
 
@@ -171,3 +177,35 @@ Figures are `PLATE 01`–`PLATE 04`. Deep dive snippets are `FIG. 04.1`–
    depend on a Tailwind utility.
 7. No `text-white/` or `bg-white/` anywhere: on paper, white is invisible.
    The build fails if one appears.
+
+---
+
+## 8. Assets
+
+Four stills live in `site/assets/images/`. Each one is a capture of the
+shipped configuration, and the name says what the frame shows.
+
+| file | what it shows |
+|---|---|
+| `hero-idle.png` | the idle screen: a fetched photograph behind the "Welcome / Drop a file or link to play" prompt |
+| `control-bar.png` | the Liquid Glass control bar drawn over a playing frame |
+| `format-picker.png` | the format picker: the formats the server actually offers |
+| `load-media-menu.png` | the load-media browser: a search field and a result list, in the player's own type scale |
+
+**The rule.** A published screenshot may never contain a local path, a
+terminal window or a chat window — it is a picture of the product and
+nothing else. A grep cannot read pixels, so the rule is enforced by
+hand, at publish time, as the first item of this checklist.
+
+**Publishing checklist.** Before a still goes on the page:
+
+1. The frame shows the player and nothing else — no terminal window, no
+   chat window, no file manager, no desktop.
+2. No local path, user name or home directory is legible anywhere in the
+   frame.
+3. The caption says what is on screen, in the same words the section
+   around it uses.
+4. The file name says what the frame shows; the four names above are the
+   four that exist, and an old name is never left behind in the markup.
+5. The still is a capture of the shipped configuration, not a drawing.
+

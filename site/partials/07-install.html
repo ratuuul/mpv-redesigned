@@ -36,10 +36,10 @@
 
     <div class="mt-14 grid gap-x-8 gap-y-10 lg:grid-cols-12" x-data="tabSet" data-tabs>
 
-      <div class="lg:col-span-5">
+      <div class="lg:col-span-6">
         <div class="flex gap-4" role="tablist" aria-label="Install targets">
-          <button type="button" class="tab-rail flex-1 text-center sm:text-left border-b border-rule px-3 py-2 text-sm text-ink-dim hover:text-ink [&.is-active]:border-signal [&.is-active]:text-ink" data-tab="0" x-on:click="select(0)" :class="{ 'is-active': active === 0 }" role="tab" aria-selected="true" aria-controls="install-0">Windows</button>
-          <button type="button" class="tab-rail flex-1 text-center sm:text-left border-b border-rule px-3 py-2 text-sm text-ink-dim hover:text-ink [&.is-active]:border-signal [&.is-active]:text-ink" data-tab="1" x-on:click="select(1)" :class="{ 'is-active': active === 1 }" role="tab" aria-selected="false" aria-controls="install-1">Linux</button>
+          <button type="button" class="tab-rail flex-1 text-center sm:text-left border-b border-rule px-3 py-2 text-sm text-ink-dim hover:text-ink [&.is-active]:border-signal [&.is-active]:text-ink" data-tab="0" x-on:click="select(0)" :class="{ 'is-active': active === 0 }" role="tab" :aria-selected="active === 0 ? 'true' : 'false'" aria-controls="install-0">Windows</button>
+          <button type="button" class="tab-rail flex-1 text-center sm:text-left border-b border-rule px-3 py-2 text-sm text-ink-dim hover:text-ink [&.is-active]:border-signal [&.is-active]:text-ink" data-tab="1" x-on:click="select(1)" :class="{ 'is-active': active === 1 }" role="tab" :aria-selected="active === 1 ? 'true' : 'false'" aria-controls="install-1">Linux</button>
         </div>
 
         <div id="install-0" data-tab-panel="0" x-show="active === 0" x-transition.opacity.duration.200ms x-cloak>
@@ -49,23 +49,23 @@
           </p>
           <ol class="mt-6 flex list-none flex-col gap-4">
             <li class="flex gap-4">
-              <span class="mono text-signal">01</span>
+              <span class="mono text-ink">01</span>
               <span class="text-sm text-ink-dim">The repository archive is downloaded and unpacked to a temporary folder.</span>
             </li>
             <li class="flex gap-4">
-              <span class="mono text-signal">02</span>
+              <span class="mono text-ink">02</span>
               <span class="text-sm text-ink-dim">If mpv is missing and scoop is not installed, mpv is unpacked locally and the user path is extended.</span>
             </li>
             <li class="flex gap-4">
-              <span class="mono text-signal">03</span>
+              <span class="mono text-ink">03</span>
               <span class="text-sm text-ink-dim">yt-dlp is downloaded into the configuration so the network hook finds it first.</span>
             </li>
             <li class="flex gap-4">
-              <span class="mono text-signal">04</span>
+              <span class="mono text-ink">04</span>
               <span class="text-sm text-ink-dim">An existing configuration is moved to a timestamped backup and the watch history comes along.</span>
             </li>
             <li class="flex gap-4">
-              <span class="mono text-signal">05</span>
+              <span class="mono text-ink">05</span>
               <span class="text-sm text-ink-dim">mpv is started once to confirm the configuration parses.</span>
             </li>
           </ol>
@@ -78,26 +78,26 @@
           </p>
           <ol class="mt-6 flex list-none flex-col gap-4">
             <li class="flex gap-4">
-              <span class="mono text-signal">01</span>
+              <span class="mono text-ink">01</span>
               <span class="text-sm text-ink-dim">Install mpv and yt-dlp from the distribution package manager, or let the installer point you at the right command.</span>
             </li>
             <li class="flex gap-4">
-              <span class="mono text-signal">02</span>
+              <span class="mono text-ink">02</span>
               <span class="text-sm text-ink-dim">Run the command above, or clone the repository and run <code class="mono">bash install.sh</code> from the clone.</span>
             </li>
             <li class="flex gap-4">
-              <span class="mono text-signal">03</span>
+              <span class="mono text-ink">03</span>
               <span class="text-sm text-ink-dim">Keep the yt-dlp options line in the master file, including the JavaScript runtime hint.</span>
             </li>
             <li class="flex gap-4">
-              <span class="mono text-signal">04</span>
+              <span class="mono text-ink">04</span>
               <span class="text-sm text-ink-dim">Start the player with a file, a link, or a folder to play everything in it.</span>
             </li>
           </ol>
         </div>
       </div>
 
-      <div class="lg:col-span-7">
+      <div class="lg:col-span-6">
         <div class="overflow-x-auto">
           <table class="tbl">
             <caption class="sr-only">Switches understood by the installer</caption>
@@ -115,9 +115,8 @@
         <div class="mt-10">
           <p class="kicker">uninstall and rollback</p>
           <p class="body-copy mt-3">
-            The uninstaller moves the installed configuration into a timestamped backup folder instead of deleting
-            it, so the rollback path stays open. The purge switch deletes it outright, after a confirmation. The
-            player itself is left alone and stays installed.
+            The uninstaller moves the configuration into a timestamped backup instead of deleting it, so the
+            rollback path stays open. The player itself is left alone.
           </p>
           <div class="cmd mt-4">powershell -ExecutionPolicy Bypass -File .\uninstall.ps1</div>
         </div>

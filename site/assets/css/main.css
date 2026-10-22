@@ -106,14 +106,37 @@ body {
   background: #9b9c95;
 }
 
+/* The responsive display utilities, declared here as well, so that the
+   page keeps its navigation and its tables when the utility framework is
+   blocked. They are the same rules the framework emits. */
+@media (min-width: 640px) {
+  .sm\:inline-flex { display: inline-flex; }
+}
+@media (min-width: 768px) {
+  .md\:table-cell { display: table-cell; }
+  .md\:flex-row { flex-direction: row; }
+  .md\:block { display: block; }
+}
+@media (min-width: 1024px) {
+  .lg\:flex { display: flex; }
+  .lg\:grid { display: grid; }
+  .lg\:block { display: block; }
+  .lg\:table-cell { display: table-cell; }
+  .lg\:hidden { display: none; }
+}
+@media (min-width: 1280px) {
+  .xl\:block { display: block; }
+  .xl\:flex { display: flex; }
+}
+
 /* --------------------------------------------------------------- type -- */
 
 .masthead {
   font-family: var(--font-display);
   font-variation-settings: 'opsz' 96;
   font-weight: 400;
-  font-size: clamp(2.7rem, 5.4vw, 4.9rem);
-  line-height: 0.98;
+  font-size: clamp(3rem, 6.4vw, 6.1rem);
+  line-height: 0.94;
   letter-spacing: -0.018em;
   text-wrap: balance;
 }
@@ -180,6 +203,7 @@ body {
   line-height: 1.55;
   color: var(--ink-faint);
 }
+.note-plate { color: var(--plate-dim); }
 
 /* A measured claim, set in the margin. The number is the point. */
 .measured {
@@ -191,9 +215,14 @@ body {
 }
 .measured b {
   display: block;
-  color: var(--signal);
-  font-weight: 500;
-  font-size: 0.78rem;
+  color: var(--signal-deep);
+  font-family: var(--font-display);
+  font-variation-settings: 'opsz' 24;
+  font-weight: 400;
+  font-size: 1.15rem;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.2rem;
 }
 
 /* --------------------------------------------------------------- grid -- */
@@ -237,7 +266,7 @@ body {
   font-weight: 500;
   font-size: 0.72rem;
   letter-spacing: 0.12em;
-  color: var(--signal);
+  color: var(--signal-deep);
 }
 
 @media (min-width: 1200px) {
@@ -270,7 +299,6 @@ body {
 
 /* Buttons: flat, square, no shadow. */
 .btn {
-  display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.72rem 1.25rem;
@@ -354,7 +382,7 @@ body {
 /* A figure. The image, a hairline, and a printed caption. */
 .plate {
   border: 1px solid var(--rule);
-  background: var(--paper-soft);
+  background: var(--paper);
   border-radius: 2px;
   overflow: hidden;
 }
@@ -376,7 +404,7 @@ body {
   color: var(--ink-faint);
 }
 .plate-cap b {
-  color: var(--signal);
+  color: var(--signal-deep);
   font-weight: 500;
   letter-spacing: 0.12em;
 }
@@ -457,13 +485,13 @@ kbd {
   font-family: var(--font-mono);
   font-size: 0.78rem;
   letter-spacing: 0.1em;
-  color: var(--signal);
-  padding-top: 0.35rem;
+  color: var(--signal-deep);
+  padding-top: 0.4rem;
 }
 .index-title {
   font-family: var(--font-display);
   font-variation-settings: 'opsz' 24;
-  font-size: 1.35rem;
+  font-size: 1.5rem;
   line-height: 1.15;
   letter-spacing: -0.008em;
   color: var(--ink);
@@ -513,6 +541,21 @@ kbd {
   color: var(--ink-faint);
   max-width: 30ch;
 }
+
+/* The cells the script fills in. They carry their own styling so the
+   fallback layers do not depend on the utility framework being there. */
+.cell {
+  padding: 0.7rem 1.5rem 0.7rem 0;
+  vertical-align: top;
+}
+.cell-mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+.cell-flag { font-size: 0.8rem; color: var(--ink); }
+.cell-accent { font-size: 0.76rem; color: var(--signal-deep); }
+.cell-note { font-size: 0.9rem; line-height: 1.6; color: var(--ink-dim); }
+.cell-faint { font-size: 0.82rem; color: var(--ink-faint); }
 
 .install-row,
 .binding-row {
@@ -655,9 +698,9 @@ kbd {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
-.code-block .cmt { color: #8f9498; }
-.code-block .opt { color: var(--paper); }
-.code-block .val { color: #e8b07a; }
+.code-block .cmt { color: #7e8489; }
+.code-block .opt { color: #9aa0a5; }
+.code-block .val { color: var(--paper); }
 
 .code-line {
   display: grid;
@@ -691,7 +734,7 @@ kbd {
 
 .js .reveal {
   opacity: 0;
-  transition: opacity 0.7s var(--ease);
+  transition: opacity 0.45s var(--ease);
   transition-delay: var(--reveal-delay, 0ms);
 }
 .js .reveal.is-visible { opacity: 1; }

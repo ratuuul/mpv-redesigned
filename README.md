@@ -1,8 +1,8 @@
 # mpv-redesigned
 
-A tuned, single-command [mpv](https://mpv.io) configuration. Liquid Glass control bar, a full-quality `gpu-next` video pipeline, WASAPI audio, designed subtitle typography, and YouTube tooling — a real format picker, subtitles in every language, SponsorBlock, clip cutting, downloads and picture-in-picture. Installs with one command and backs up your existing config first.
+A tuned, single-command [mpv](https://mpv.io) configuration. Liquid Glass control bar, a full-quality `gpu-next` video pipeline, WASAPI audio, designed subtitle typography, and YouTube tooling — a real format picker, subtitles in every language, SponsorBlock, clip cutting, downloads and picture-in-picture. Installs with one command and backs up your existing config first. The site is written as the printed front matter of a service manual for the configuration: the measured claims in the margin band, the four stills, the configuration tree, the install procedure.
 
-**Landing page: https://ratuuul.github.io/mpv-redesigned/**
+**Landing page:** [ratuuul.github.io/mpv-redesigned](https://ratuuul.github.io/mpv-redesigned/) — the printed service manual for this configuration.
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="License: MIT"></a>
@@ -15,7 +15,7 @@ A tuned, single-command [mpv](https://mpv.io) configuration. Liquid Glass contro
 
 <p align="center">
   <picture>
-    <img src="site/assets/images/hero-idle.png" alt="mpv-redesigned idle screen — welcome overlay on a photo background" style="border-radius:12px;border:1px solid rgba(255,255,255,0.10);box-shadow:0 10px 30px rgba(0,0,0,0.45);max-width:100%;height:auto;display:block;margin:0 auto;">
+    <img src="site/assets/images/hero-idle.png" alt="The mpv idle screen: a fetched photograph behind the welcome prompt" style="border:1px solid #C3C4BD;border-radius:2px;max-width:100%;height:auto;display:block;margin:0 auto;">
   </picture>
 </p>
 
@@ -175,16 +175,20 @@ Fetched photograph with "Welcome / Drop a file or link to play" overlay while mp
 
 ## Screenshots gallery
 
+Four stills, captured from the reference machine with this configuration installed. They are the same frames the landing page prints as plates, and they are captures of the player, not pictures made for a page.
+
 <p align="center">
 
 | | |
 |---|---|
-| <img src="site/assets/images/hero-idle.png" alt="Idle screen" style="border-radius:8px;border:1px solid rgba(255,255,255,0.10);max-width:100%;height:auto;display:block;margin:0 auto;"> | <img src="site/assets/images/player-controls.png" alt="Player controls" style="border-radius:8px;border:1px solid rgba(255,255,255,0.10);max-width:100%;height:auto;display:block;margin:0 auto;"> |
-| Idle welcome screen — random photo background + "Welcome / Drop a file or link to play" overlay. | Video playing with the Liquid Glass control bar. |
-| <img src="site/assets/images/volume-hover.png" alt="Volume hover" style="border-radius:8px;border:1px solid rgba(255,255,255,0.10);max-width:100%;height:auto;display:block;margin:0 auto;"> | <img src="site/assets/images/menu-autosubs.png" alt="Autosubs menu" style="border-radius:8px;border:1px solid rgba(255,255,255,0.10);max-width:100%;height:auto;display:block;margin:0 auto;"> |
-| Volume slider / mute button in its Liquid Glass hover state. | Autosubs subtitle-search menu panel. |
+| <img src="site/assets/images/hero-idle.png" alt="The idle screen: a fetched photograph behind the welcome prompt" style="border:1px solid #C3C4BD;border-radius:2px;max-width:100%;height:auto;display:block;margin:0 auto;"> | <img src="site/assets/images/control-bar.png" alt="The Liquid Glass control bar drawn over a playing frame" style="border:1px solid #C3C4BD;border-radius:2px;max-width:100%;height:auto;display:block;margin:0 auto;"> |
+| **PLATE 01** — the idle screen: a fetched photograph behind the "Welcome / Drop a file or link to play" prompt. | **PLATE 02** — the Liquid Glass control bar, drawn over a playing frame. |
+| <img src="site/assets/images/format-picker.png" alt="The YouTube format picker" style="border:1px solid #C3C4BD;border-radius:2px;max-width:100%;height:auto;display:block;margin:0 auto;"> | <img src="site/assets/images/load-media-menu.png" alt="The load-media browser: a search field and a result list" style="border:1px solid #C3C4BD;border-radius:2px;max-width:100%;height:auto;display:block;margin:0 auto;"> |
+| **PLATE 03** — the format picker: the formats the server actually offers. | **PLATE 04** — the load-media browser: a search field and a result list, set in the player's own type scale. |
 
 </p>
+
+No frame in the set contains a local path, a terminal window or a chat window. Each one is the player and nothing else.
 
 ## What's in the box — repository layout
 
@@ -402,7 +406,7 @@ Everything else — other GPUs, other mpv builds, Wayland, non-Windows — is be
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute |
 | [SECURITY.md](SECURITY.md) | Security policy and disclosure |
 
-The landing page for this project lives at **https://ratuuul.github.io/mpv-redesigned/** and is built from `site/` by the `pages` workflow on every push to `main`.
+The landing page for this project lives at **https://ratuuul.github.io/mpv-redesigned/** — the printed front matter of a service manual for the configuration — and is built from `site/` by the `pages` workflow on every push to `main`.
 
 ## Privacy & safety
 
