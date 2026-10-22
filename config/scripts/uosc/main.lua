@@ -1108,6 +1108,10 @@ bind_command('menu-blurred', function() toggle_menu_with_items({mouse_nav = true
 -- fires with no menu on screen.
 do
 	local function lg_enter_handler(info)
+		-- The key-up event carries no action of its own. Without this guard
+		-- the down event turns fullscreen on and the up event turns it
+		-- straight back off again, so the key looks like it does nothing.
+		if info and info.event == 'up' then return end
 		local menu = Menu:is_open()
 		if menu then
 			menu:handle_shortcut(create_shortcut('enter', nil), info or {event = 'down', is_mouse = false})

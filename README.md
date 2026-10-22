@@ -194,6 +194,19 @@ Shipped scripts and what each does:
 
 ## Where the picture sits
 
+The window takes the shape of the video (`keepaspect-window=yes`), so the
+picture fills it and there is no band of black underneath it.
+
+That matters for the subtitles, because mpv measures the subtitle margin from
+the bottom of the **window**, not the bottom of the picture. In a window that
+means the caption lands on the frame, just above its bottom edge. In
+fullscreen the window is the screen, and a 2.35:1 film gets a band above and
+below, so the caption sits in the lower one, which is where it belongs.
+
+If you resize the window to a shape that does not match the video, the
+picture is letterboxed inside it and the caption follows the window's bottom
+edge. That is mpv's own rule, not something the configuration changes.
+
 mpv measures the subtitle margin from the bottom of the **window**, not the
 bottom of the picture. A centred picture in a letterboxed window therefore
 puts the caption down in the black band, where the edge of the frame cuts it
@@ -301,7 +314,7 @@ Format picker (`F` video, `Alt+f` audio, `Ctrl+r` reload) lists the real formats
 ### Subtitles
 
 - Geist Medium at 40, warm off-white (`#F5F2EF`), hairline outline (`1.15`) plus soft shadow (`blur=0.3`), centred near the bottom.
-- `sub-ass-force-margins=yes` - the caption keeps a fixed distance from the bottom edge of the window, and the picture is placed so that the caption lands on the frame rather than down in the black band.
+- `sub-ass-force-margins=yes` - the caption keeps a fixed distance from the bottom edge of the window. Because the window takes the shape of the video, that puts the caption on the frame rather than down in a black band.
 - Gentle restyle of the `Default` style of fansub ASS files so they match plain-text subtitles (signs and italics keep their identity).
 - PGS/VobSub bitmap subs are softened (`sub-gauss=0.6`, `sub-gray`), not restyled — they are pre-rendered images.
 - Two opt-in looks: Netflix-style translucent panel (`Alt+6`, `subs-panel`) and shadow-only cinema subtitles (`Alt+7`, `subs-cinema`).
