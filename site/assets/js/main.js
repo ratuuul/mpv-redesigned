@@ -530,14 +530,27 @@
     });
     if (!sections.length) return;
 
+    /* The sections are watched as a set, so that the running head falls
+       back to nothing when the reader is above the first one rather than
+       keeping whatever was last lit. */
+    var visible = {};
+
+    function paint() {
+      var current = null;
+      sections.forEach(function (section) {
+        if (visible[section.id]) current = section.id;
+      });
+      links.forEach(function (link) {
+        link.classList.toggle('is-active', link.getAttribute('data-spy') === current);
+      });
+    }
+
     var observer = new global.IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          links.forEach(function (link) {
-            link.classList.toggle('is-active', link.getAttribute('data-spy') === entry.target.id);
-          });
+          visible[entry.target.id] = entry.isIntersecting;
         });
+        paint();
       },
       { rootMargin: '-45% 0px -50% 0px', threshold: 0 }
     );

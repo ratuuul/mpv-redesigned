@@ -15,7 +15,7 @@ A tuned, single-command [mpv](https://mpv.io) configuration. Liquid Glass contro
 
 <p align="center">
   <picture>
-    <img src="site/assets/images/hero-idle.png" alt="The mpv idle screen: a fetched photograph behind the welcome prompt" style="border:1px solid #C3C4BD;border-radius:2px;max-width:100%;height:auto;display:block;margin:0 auto;">
+    <img src="site/assets/images/hero-idle.jpg" alt="The mpv idle screen: a fetched photograph behind the welcome prompt" style="border:1px solid #C3C4BD;border-radius:2px;max-width:100%;height:auto;display:block;margin:0 auto;">
   </picture>
 </p>
 
@@ -181,7 +181,7 @@ Four stills, captured from the reference machine with this configuration install
 
 | | |
 |---|---|
-| <img src="site/assets/images/hero-idle.png" alt="The idle screen: a fetched photograph behind the welcome prompt" style="border:1px solid #C3C4BD;border-radius:2px;max-width:100%;height:auto;display:block;margin:0 auto;"> | <img src="site/assets/images/control-bar.png" alt="The Liquid Glass control bar drawn over a playing frame" style="border:1px solid #C3C4BD;border-radius:2px;max-width:100%;height:auto;display:block;margin:0 auto;"> |
+| <img src="site/assets/images/hero-idle.jpg" alt="The idle screen: a fetched photograph behind the welcome prompt" style="border:1px solid #C3C4BD;border-radius:2px;max-width:100%;height:auto;display:block;margin:0 auto;"> | <img src="site/assets/images/control-bar.png" alt="The Liquid Glass control bar drawn over an SMPTE test signal" style="border:1px solid #C3C4BD;border-radius:2px;max-width:100%;height:auto;display:block;margin:0 auto;"> |
 | **PLATE 01** — the idle screen: a fetched photograph behind the "Welcome / Drop a file or link to play" prompt. | **PLATE 02** — the Liquid Glass control bar, drawn over a playing frame. |
 | <img src="site/assets/images/format-picker.png" alt="The YouTube format picker" style="border:1px solid #C3C4BD;border-radius:2px;max-width:100%;height:auto;display:block;margin:0 auto;"> | <img src="site/assets/images/load-media-menu.png" alt="The load-media browser: a search field and a result list" style="border:1px solid #C3C4BD;border-radius:2px;max-width:100%;height:auto;display:block;margin:0 auto;"> |
 | **PLATE 03** — the format picker: the formats the server actually offers. | **PLATE 04** — the load-media browser: a search field and a result list, set in the player's own type scale. |
