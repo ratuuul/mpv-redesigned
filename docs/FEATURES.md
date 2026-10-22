@@ -275,7 +275,7 @@ sub-scale-signs=no
 ```
 
 Only the `Default` style is touched, so fansub signs and italics keep their
-identity. `sub-ass-force-margins` lets subtitles sit inside the letterbox bars
+identity. `sub-ass-force-margins` keeps the caption a fixed distance from the
 of 2.35:1 films instead of floating over the picture.
 
 **Tune:** `conf/subtitles.conf`, `---- gentle restyle of ASS subs ----`. Format

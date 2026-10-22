@@ -147,7 +147,7 @@
         title: 'Designed subtitles',
         tag: 'Text',
         body:
-          'Geist Medium at 40, warm off-white, hairline outline and a soft shadow, with margins that keep captions inside the letterbox of a 2.35:1 film.'
+          'Geist Medium at 40, warm off-white, hairline outline and a soft shadow, with a forced margin so the caption never moves of a 2.35:1 film.'
       },
       {
         icon: ICONS.list,

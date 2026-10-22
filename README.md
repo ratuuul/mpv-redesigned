@@ -98,7 +98,7 @@ Full install details (manual, offline, age-restricted videos) are in [docs/INSTA
 | 03 | **Full-quality scalers** | EWA Lanczos luma, spline36 chroma, mitchell downscale, antiring 0.6, debanding with grain, fruit dither. | [docs/FEATURES.md](docs/FEATURES.md) |
 | 04 | **24p judder removal** | `video-sync=display-resample` + interpolation retimes 23.976/24 fps to a 60 Hz panel. | [docs/FEATURES.md](docs/FEATURES.md) |
 | 05 | **WASAPI audio + ReplayGain** | Shared-mode WASAPI (`mpv` in the volume mixer), track-mode ReplayGain, `volume-max=130`, gapless audio. | [docs/FEATURES.md](docs/FEATURES.md) |
-| 06 | **Designed subtitles** | Geist Medium 40, warm off-white, hairline outline + soft shadow, letterbox margins, gentle ASS restyle. | [docs/FEATURES.md](docs/FEATURES.md) |
+| 06 | **Designed subtitles** | Geist Medium 40, warm off-white, hairline outline + soft shadow, fixed bottom margin, gentle ASS restyle. | [docs/FEATURES.md](docs/FEATURES.md) |
 | 07 | **YouTube format picker** | Lists the real formats the server offers and switches without reloading (`F` video, `Alt+f` audio). | [docs/FEATURES.md](docs/FEATURES.md) |
 | 08 | **YouTube subtitle picker** | Every creator-uploaded and auto-generated track, every language, cached after first fetch (`Alt+s`). | [docs/FEATURES.md](docs/FEATURES.md) |
 | 09 | **SponsorBlock** | Skip sponsor/intro/outro/self-promo segments per video (`b`). | [docs/FEATURES.md](docs/FEATURES.md) |
@@ -249,7 +249,7 @@ Format picker (`F` video, `Alt+f` audio, `Ctrl+r` reload) lists the real formats
 ### Subtitles
 
 - Geist Medium at 40, warm off-white (`#F5F2EF`), hairline outline (`1.15`) plus soft shadow (`blur=0.3`), centred near the bottom.
-- `sub-ass-force-margins=yes` — subtitles sit inside the letterbox bars of 2.35:1 films instead of floating over them.
+- `sub-ass-force-margins=yes` - the caption keeps a fixed distance from the bottom edge of the window, so it does not move around with the letterbox of whatever is playing.
 - Gentle restyle of the `Default` style of fansub ASS files so they match plain-text subtitles (signs and italics keep their identity).
 - PGS/VobSub bitmap subs are softened (`sub-gauss=0.6`, `sub-gray`), not restyled — they are pre-rendered images.
 - Two opt-in looks: Netflix-style translucent panel (`Alt+6`, `subs-panel`) and shadow-only cinema subtitles (`Alt+7`, `subs-cinema`).
