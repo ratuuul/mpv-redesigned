@@ -192,6 +192,24 @@ Shipped scripts and what each does:
 | `webm.lua` | Clip cutter — H.264/AAC range encoder (`W`) |
 | `lasthit.lua` | Double-click the window to reopen and resume the last media |
 
+## Where the picture sits
+
+mpv measures the subtitle margin from the bottom of the **window**, not the
+bottom of the picture. A centred picture in a letterboxed window therefore
+puts the caption down in the black band, where the edge of the frame cuts it
+in half. Two rules fix that, and they are the same rule seen from two sides:
+
+- **In a window**, the `align-bottom` profile puts the picture on the bottom
+  edge of the window. There is no band of black under the picture, and the
+  caption lands on the frame.
+- **In fullscreen** the window is the screen, and a 2.35:1 film belongs with
+  a band above and below rather than with all of it on one side, so the
+  picture is centred there and the caption sits in the lower band.
+
+The profile is conditional (`profile-cond=not fullscreen`), so mpv
+re-evaluates it whenever the fullscreen state changes and moves the picture
+as you switch. Nothing needs to be pressed.
+
 ## Buffering and network streams
 
 mpv ships with a small rolling buffer. The demuxer may queue 150 MiB of
@@ -283,7 +301,7 @@ Format picker (`F` video, `Alt+f` audio, `Ctrl+r` reload) lists the real formats
 ### Subtitles
 
 - Geist Medium at 40, warm off-white (`#F5F2EF`), hairline outline (`1.15`) plus soft shadow (`blur=0.3`), centred near the bottom.
-- `sub-ass-force-margins=yes` - the caption keeps a fixed distance from the bottom edge of the window, so it does not move around with the letterbox of whatever is playing.
+- `sub-ass-force-margins=yes` - the caption keeps a fixed distance from the bottom edge of the window, and the picture is placed so that the caption lands on the frame rather than down in the black band.
 - Gentle restyle of the `Default` style of fansub ASS files so they match plain-text subtitles (signs and italics keep their identity).
 - PGS/VobSub bitmap subs are softened (`sub-gauss=0.6`, `sub-gray`), not restyled — they are pre-rendered images.
 - Two opt-in looks: Netflix-style translucent panel (`Alt+6`, `subs-panel`) and shadow-only cinema subtitles (`Alt+7`, `subs-cinema`).

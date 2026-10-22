@@ -276,8 +276,11 @@ sub-scale-signs=no
 
 Only the `Default` style is touched, so fansub signs and italics keep their
 identity. `sub-ass-force-margins` keeps the caption a fixed distance from the
-bottom edge of the window, so it lands in the lower letterbox band of a
-2.35:1 film instead of floating over the picture.
+bottom edge of the window. Because the `align-bottom` profile puts the
+picture on that edge, the caption lands on the frame instead of down in the
+black band where the edge of the frame would cut it in half. In fullscreen
+the picture is centred instead, and the caption sits in the lower band, which
+is where it belongs.
 
 **Tune:** `conf/subtitles.conf`, `---- gentle restyle of ASS subs ----`. Format
 is `[Style.]Field=Value`; ASS colours are `&HAABBGGRR`. Set
