@@ -25,15 +25,15 @@
   }
 
   var FRAMES = [
-    { src: 'assets/images/player-controls.png', title: 'Liquid Glass controls' },
-    { src: 'assets/images/volume-hover.png', title: 'Hover overlays' },
-    { src: 'assets/images/menu-autosubs.png', title: 'Menu panels' },
-    { src: 'assets/images/hero-idle.png', title: 'The idle screen' }
+    { src: 'assets/images/control-bar.png', title: 'The Liquid Glass control bar' },
+    { src: 'assets/images/format-picker.png', title: 'The format picker' },
+    { src: 'assets/images/load-media-menu.png', title: 'The load-media browser' },
+    { src: 'assets/images/hero-idle.jpg', title: 'The idle screen' }
   ];
 
-  var WIDTH = 5.0;
-  var HEIGHT = 3.0;
-  var RADIUS = 9.4;
+  var WIDTH = 4.2;
+  var HEIGHT = 2.52;
+  var RADIUS = 7;
   var SPREAD = 0.42;
 
   function mount(container, options) {
@@ -44,9 +44,8 @@
     var count = opts.frames || FRAMES.length;
 
     var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-    camera.position.set(0, 0.2, 11.4);
-    camera.lookAt(0, 0, 0);
+    var camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
+    camera.position.set(0, 0.1, 9.2);
 
     var renderer;
     try {
@@ -119,6 +118,9 @@
             loaded += 1;
             faceMaterial.opacity = 1;
             backMaterial.opacity = 1;
+            /* with reduced motion the loop never runs, so the one still
+               frame has to be redrawn now that the picture is there */
+            if (!running) render(0);
           },
           undefined,
           function () {
@@ -168,13 +170,20 @@
       var width = Math.max(1, Math.round(rect.width || container.offsetWidth || 1));
       var height = Math.max(1, Math.round(rect.height || container.offsetHeight || 1));
       camera.aspect = width / height;
+
+      /* Frame the arc whatever shape the plate is: the widest frame sits
+         half a width outside the outer edge of the arc. */
+      var maxAngle = ((count - 1) / 2) * SPREAD;
+      var halfSpan = Math.sin(maxAngle) * RADIUS + WIDTH / 2;
+      var halfHeight = HEIGHT / 2;
+      var vFov = (camera.fov * Math.PI) / 180;
+      var forWidth = halfSpan / (Math.tan(vFov / 2) * camera.aspect);
+      var forHeight = halfHeight / Math.tan(vFov / 2);
+
+      camera.position.set(0, 0.05, Math.max(forWidth, forHeight) + 1.1);
+      camera.lookAt(0, 0, 0);
       camera.updateProjectionMatrix();
       renderer.setSize(width, height, false);
-
-      /* keep the arc in frame whatever the plate is shaped like */
-      var fit = Math.min(1, width / 1180);
-      camera.position.z = 11.4 / Math.max(fit, 0.42);
-      camera.updateProjectionMatrix();
     }
 
     function render(timestamp) {

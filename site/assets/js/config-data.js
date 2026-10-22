@@ -77,7 +77,7 @@
     /* ---------------------------------------------------------- numbers -- */
     stats: [
       {
-        value: 12,
+        value: 13,
         title: 'Lua scripts',
         detail: 'Every key binding on the page is one of them'
       },
