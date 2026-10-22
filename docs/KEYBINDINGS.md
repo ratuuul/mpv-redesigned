@@ -126,6 +126,13 @@ draws its own feedback. The keymap does not change when you switch skins.
 | `Alt+s` | Lists every subtitle of the current YouTube video: the creator-uploaded | `script-binding ytsubs/menu` |
 | `Alt+Shift+s` | runs the `ytsubs/menu-secondary` command | `script-binding ytsubs/menu-secondary` |
 
+## Fetching
+
+| Key | Action | mpv command |
+|---|---|---|
+| `Alt+Shift+b` | Fetch the whole file into the on-disk cache, then play it from there. | `apply-profile fetch-all; loadfile "${path}" replace` |
+| `Alt+Shift+n` | Back to normal streaming: a rolling buffer ahead of the picture. | `apply-profile fetch-all restore; loadfile "${path}" replace` |
+
 ## Profiles
 
 | Key | Action | mpv command |

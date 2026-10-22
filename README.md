@@ -25,6 +25,7 @@ A tuned, single-command [mpv](https://mpv.io) configuration. Liquid Glass contro
 - [Feature grid](#feature-grid)
 - [Screenshots gallery](#screenshots-gallery)
 - [What's in the box — repository layout](#whats-in-the-box-repository-layout)
+- [Buffering and network streams](#buffering-and-network-streams)
 - [Configuration tour](#configuration-tour)
 - [Platforms & requirements](#platforms-requirements)
 - [Documentation links](#documentation-links)
@@ -190,6 +191,39 @@ Shipped scripts and what each does:
 | `recentmenu.lua` | Recent files menu (`Ctrl+Shift+r`) |
 | `webm.lua` | Clip cutter — H.264/AAC range encoder (`W`) |
 | `lasthit.lua` | Double-click the window to reopen and resume the last media |
+
+## Buffering and network streams
+
+mpv ships with a small rolling buffer. The demuxer may queue 150 MiB of
+packets and reads one second ahead of that, and then it stops pulling and
+waits for the player to catch up. On a network stream that is what makes
+the download stop after a couple of minutes and then trickle on as the
+buffer is consumed.
+
+This configuration widens it and moves the packets to disk:
+
+| Option | Value | What it does |
+|---|---|---|
+| `cache` | `yes` | the demuxer cache is on |
+| `cache-on-disk` | `yes` | packets are written to a file in the cache directory instead of being held in memory, so a long download does not sit in RAM |
+| `demuxer-cache-dir` | `~~/cache/stream` | where that file goes |
+| `demuxer-max-bytes` | `2GiB` | the cap on the queued packets |
+| `demuxer-readahead-secs` | `60` | how far ahead of the picture the demuxer reads |
+| `cache-pause` | `yes` | the player pauses rather than stuttering if the connection dries up |
+
+Only the packet metadata stays in memory, which runs about 50 MB per hour of
+media.
+
+To go further and behave the way PotPlayer does, fetch the whole file before
+playing it:
+
+| Key | What it does |
+|---|---|
+| `Alt+Shift+b` | reloads the current media with the `fetch-all` profile, so the demuxer reads to the end of the file into the on-disk cache before the picture starts |
+| `Alt+Shift+n` | puts the buffering back to normal |
+
+That one is a profile and not the default on purpose: a live stream never
+ends, so waiting for the whole file would mean never starting.
 
 ## Configuration tour
 

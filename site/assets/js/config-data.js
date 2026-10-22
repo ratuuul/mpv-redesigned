@@ -248,6 +248,8 @@
       { id: 'yt-download', keys: 'Ctrl+d', action: 'Download the stream you are watching at the negotiated quality', group: 'YouTube', source: 'download.lua' },
       { id: 'yt-download-cancel', keys: 'Ctrl+Shift+d', action: 'Cancel a running download', group: 'YouTube', source: 'download.lua' },
 
+      { id: 'fetch-all', keys: 'Alt+Shift+b', action: 'Fetch the whole file into the cache, then play it from there', group: 'Buffering', source: 'input.conf' },
+      { id: 'fetch-normal', keys: 'Alt+Shift+n', action: 'Back to normal streaming', group: 'Buffering', source: 'input.conf' },
       { id: 'prof-fast', keys: 'Alt+1', action: 'Profile: fast', group: 'Profiles', source: 'input.conf' },
       { id: 'prof-max', keys: 'Alt+2', action: 'Profile: max-quality', group: 'Profiles', source: 'input.conf' },
       { id: 'prof-cine', keys: 'Alt+3', action: 'Profile: cine', group: 'Profiles', source: 'input.conf' },

@@ -445,6 +445,43 @@ doubles bandwidth and often stalls.
 
 ---
 
+## Buffering
+
+mpv's default is a small rolling buffer: the demuxer may queue 150 MiB of
+packets and reads one second ahead of it, then stops pulling and waits for
+the player to catch up. On a network stream that is what makes the download
+stop after a couple of minutes and trickle on as the buffer is consumed.
+
+This configuration widens the buffer and moves it off the heap:
+
+- `cache=yes` - the demuxer cache is on.
+- `cache-on-disk=yes` - packets are appended to a file in the cache
+  directory instead of being kept in memory, so a long download does not sit
+  in RAM. Only the packet metadata is in memory, about 50 MB per hour of
+  media.
+- `demuxer-cache-dir=~~/cache/stream` - where that file goes. It is removed
+  when the player closes it.
+- `demuxer-max-bytes=2GiB` and `demuxer-max-back-bytes=2GiB` - the cap on
+  the queued packets, and on the packets kept for backward playback.
+- `demuxer-readahead-secs=60` - how far ahead of the picture the demuxer
+  reads.
+- `cache-pause=yes` - the player pauses rather than stuttering if the
+  connection dries up. `cache-pause-initial=no` means it does not sit on
+  the first frame waiting for a buffer.
+
+**Fetch the whole file.** The `fetch-all` profile is the PotPlayer
+behaviour: the demuxer is told to read to the end of the file instead of
+stopping at the readahead limit, and the packets are appended to the cache
+file, so by the time the picture starts the file really is on disk.
+
+| Key | Action |
+|---|---|
+| `Alt+Shift+b` | Reloads the current media with the `fetch-all` profile. |
+| `Alt+Shift+n` | Puts the buffering back to normal. |
+
+It is a profile and not the default on purpose: a live stream never ends,
+so waiting for the whole file would mean never starting.
+
 ## UI and skin
 
 ### Liquid Glass
